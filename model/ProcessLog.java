@@ -1,45 +1,83 @@
 package model;
 
-public class ProcessLog extends Comparable {
-    private Date startTime;
-    private Date endTime;
-    private Process process;
-    private StoringSpace storingSpace;
-    private IntermediateProduct intermediateProduct;
+import java.sql.Date;
 
-    public void ProcessLog(Process process, StoringSpace storingSpace, IntermediateProduct intermediateProduct){
-    }
+public class ProcessLog{
+	private Date startTime;
+	private Date endTime;
+	private Process process;
+	private StoringSpace storingSpace;
+	private IntermediateProduct intermediateProduct;
 
-    public Date getStartTime(){
-        return null;
-    }
+	public ProcessLog(Process process, StoringSpace storingSpace, IntermediateProduct intermediateProduct) throws RuntimeException{
+		if (intermediateProduct==null){
+			throw new RuntimeException("intermediateProduct can't be set to null");
+		} else {
+			this.setProcess(process);
+			this.setStoringSpace(storingSpace);
+			this.intermediateProduct=intermediateProduct;
+			this.startTime = new Date(System.currentTimeMillis());
+		}
+	}
 
-    public Date getEndTime(){
-        return null;
-    }
+	public Date getStartTime(){
+		return this.startTime;
+	}
 
-    public void endProcess(){
-    }
+	public Date getEndTime(){
+		return this.endTime;
+	}
 
-    public void isActive(){
-    }
+	public void endProcess(){
+		this.endTime = new Date(System.currentTimeMillis());
+	}
 
-    public Process getProcess(){
-        return null;
-    }
+	public boolean isActive(){
+		return this.endTime==null;
+	}
 
-    public void setProcess(Process process){
-    }
+	public Process getProcess(){
+		return this.process;
+	}
 
-    public StoringSpace getStoringSpace(){
-        return null;
-    }
+	public void setProcess(Process process) throws RuntimeException{
+		if (process==null){
+			throw new RuntimeException("process can't be null");
+		} else {
+			if (this.process != null){
+				this.process.removeProcessLog(this);
+			}
+			this.process=process;
+			if (!process.getProcessLogs().contains(this)){
+				process.addProcessLog(this);
+			}
+		}
+	}
 
-    public void setStoringSpace(StoringSpace storingSpace){
-    }
+	public StoringSpace getStoringSpace(){
+		return this.storingSpace;
+	}
 
-    public IntermediateProduct getIntermediateProduct(){
-        return null;
-    }
+	public void setStoringSpace(StoringSpace storingSpace){
+		if (this.storingSpace != null){
+			this.storingSpace.removeProcessLog(this);
+		}
+		this.storingSpace=storingSpace;
+		if (!storingSpace.getProcessLogs().contains(this)){
+			storingSpace.addProcessLog(this);
+		}
+	}
+
+	public void unsetStoringSpace(){
+		StoringSpace oldStoringSpace = this.storingSpace;
+		this.storingSpace = null;
+		if (oldStoringSpace.getProcessLogs().contains(this)){
+			oldStoringSpace.removeProcessLog(this);
+		}
+	}
+
+	public IntermediateProduct getIntermediateProduct(){
+		return this.intermediateProduct;
+	}
 
 }

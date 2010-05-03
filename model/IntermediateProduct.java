@@ -1,48 +1,98 @@
 package model;
 
+import java.util.ArrayList;
+
 public class IntermediateProduct {
-    private boolean finished;
-    private String id;
-    private double quantity;
-    private ProduktType produktType;
-    private ArrayList<ProcessLog> processLogs;
+	private boolean finished = false;
+	private String id;
+	private double quantity;
+	private ProductType productType;
+	private ArrayList<ProcessLog> processLogs;
+	private StoringSpace storingSpace;
 
-    public void IntermediateProduct(String id, ProduktType produktType, double quantity){
-    }
+	public IntermediateProduct(String id, ProductType productType, double quantity) throws RuntimeException{
+		this.setId(id);
+		this.setProductType(productType);
+		this.setQuantity(quantity);
+	}
 
-    public boolean isFinished(){
-        return false;
-    }
+	public boolean isFinished(){
+		return this.finished;
+	}
 
-    public String getId(){
-        return null;
-    }
+	public void setFinished(){
+		this.finished=true;
+	}
 
-    public void setId(String id){
-    }
+	public String getId(){
+		return this.id;
+	}
 
-    public double getQuantity(){
-        return 0;
-    }
+	public void setId(String id){
+		this.id=id;
+	}
 
-    public void setQuantity(double quantity){
-    }
+	public double getQuantity(){
+		return this.quantity;
+	}
 
-    public ProduktType getProduktType(){
-        return null;
-    }
+	public void setQuantity(double quantity) throws RuntimeException{
+		if (quantity<0){
+			throw new RuntimeException("quantity can't be a negative number");
+		} else {
+			this.quantity=quantity;
+		}
+	}
 
-    public void setProduktType(ProduktType produktType){
-    }
+	public ProductType getProductType(){
+		return this.productType;
+	}
 
-    public ArrayList<ProcessLog> getProcessLogs(){
-        return null;
-    }
+	public void setProductType(ProductType productType) throws RuntimeException{
+		if (productType==null){
+			throw new RuntimeException("productType can't be null");
+		} else {
+			if (this.productType != null){
+				this.productType.removeIntermediateProduct(this);
+			}
+			this.productType=productType;
+			if (!productType.getIntermediateProducts().contains(this)){
+				productType.addIntermediateProduct(this);
+			}
+		}
+	}
 
-    public void createProcessLog(Process process, StoringSpace storingSpace){
-    }
+	public ArrayList<ProcessLog> getProcessLogs(){
+		return this.processLogs;
+	}
 
-    public void deleteProcessLog(ProcessLog processLog){
-    }
+	public void createProcessLog(Process process, StoringSpace storingSpace){
+		this.processLogs.add(new ProcessLog(process,storingSpace,this));
+	}
 
+	public void deleteProcessLog(ProcessLog processLog){
+		this.processLogs.remove(processLog);
+	}
+
+	public StoringSpace getStoringSpace(){
+		return this.storingSpace;
+	}
+
+	public void setStoringSpace(StoringSpace storingSpace){
+		if (this.storingSpace != null){
+			this.storingSpace.unsetIntermediateProduct();
+		}
+		this.storingSpace=storingSpace;
+		if (storingSpace.getIntermediateProduct()!=this){
+			storingSpace.setIntermediateProduct(this);
+		}
+	}
+
+	public void unsetStoringSpace(){
+		StoringSpace oldStoringSpace = this.storingSpace;
+		this.storingSpace = null;
+		if (oldStoringSpace.getIntermediateProduct()!=null){
+			oldStoringSpace.unsetIntermediateProduct();
+		}
+	}
 }

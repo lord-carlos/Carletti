@@ -1,8 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+
 public abstract class Process {
 	private int ProcessStep;
 	private ProcessLine processLine;
+	private ArrayList<ProcessLog> processLogs;
 
 	public Process(int processStep, ProcessLine processLine) throws RuntimeException{
 		if (processLine==null){
@@ -27,6 +30,21 @@ public abstract class Process {
 
 	public ProcessLine getProcessLine(){
 		return this.processLine;
+	}
+	
+	public ArrayList<ProcessLog> getProcessLogs(){
+		return this.processLogs;
+	}
+
+	public void addProcessLog(ProcessLog processLog){
+		this.processLogs.add(processLog);
+		if (processLog.getProcess()!=this){
+			processLog.setProcess(this);
+		}
+	}
+
+	public void removeProcessLog(ProcessLog processLog) throws RuntimeException{
+		this.processLogs.remove(processLog);
 	}
 
 }

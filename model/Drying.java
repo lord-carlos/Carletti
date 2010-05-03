@@ -6,7 +6,7 @@ public class Drying extends model.Process {
 	private long minTime;
 	private long idealTime;
 	private long maxTime;
-	private ArrayList<Depot> Depots;
+	private ArrayList<Depot> depots;
 
 	public Drying(long minTime, long idealTime, long maxTime, int processStep, ProcessLine processLine) throws RuntimeException{
 		super(processStep, processLine);
@@ -28,27 +28,45 @@ public class Drying extends model.Process {
 	}
 
 	public long getIdealTime(){
-		return 0;
+		return this.idealTime;
 	}
 
 	public void setIdealTime(long idealTime) throws RuntimeException{
+		if (idealTime<=0){
+			throw new RuntimeException("idealTime can't be a negative number");
+		} else {
+			this.idealTime=idealTime;
+		}
 	}
 
 	public long getMaxTime(){
-		return 0;
+		return this.maxTime;
 	}
 
 	public void setMaxTime(long maxTime) throws RuntimeException{
+		if (maxTime<=0){
+			throw new RuntimeException("maxTime can't be a negative number");
+		} else {
+			this.maxTime=maxTime;
+		}
 	}
 
 	public ArrayList<Depot> getDepots(){
-		return null;
+		return this.depots;
 	}
 
 	public void addDepot(Depot depot){
+		this.depots.add(depot);
+		if(!depot.getDryings().contains(this)){
+			depot.addDrying(this);
+		}
 	}
 
 	public void removeDepot(Depot depot){
+		this.depots.remove(depot);
+		if(depot.getDryings().contains(this)){
+			depot.removeDrying(this);
+		}
 	}
 
 }

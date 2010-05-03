@@ -34,11 +34,7 @@ public class Depot {
 	}
 
 	public void createStoringSpace(int positionX, int positionY) throws RuntimeException{
-		if (positionX>=0 && positionY>=0){
-			this.storingspaces.add(new StoringSpace(positionX,positionY,this));
-		} else {
-			throw new RuntimeException("X and Y position can't be a negative number");
-		}
+		this.storingspaces.add(new StoringSpace(positionX,positionY,this));
 	}
 
 	public void deleteStoringSpace(StoringSpace storingSpace){
@@ -51,10 +47,16 @@ public class Depot {
 
 	public void addDrying(Drying drying){
 		this.dryings.add(drying);
+		if(!drying.getDepots().contains(this)){
+			drying.addDepot(this);
+		}
 	}
 
 	public void removeDrying(Drying drying){
 		this.dryings.remove(drying);
+		if(drying.getDepots().contains(this)){
+			drying.removeDepot(this);
+		}
 	}
 
 }

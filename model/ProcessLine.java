@@ -1,46 +1,58 @@
 package model;
 
+import java.util.ArrayList;
+
 public class ProcessLine {
-    private String name;
-    private String description;
-    private ProduktType produktType;
-    private ArrayList<Process> processes;
+	private String name;
+	private String description;
+	private ProductType productType;
+	private ArrayList<Process> processes;
 
-    public void ProcessLine(String name, String description, ProduktType produktType){
-    }
+	public ProcessLine(String name, String description, ProductType productType) throws RuntimeException{
+		if ( productType==null){
+			throw new RuntimeException("produktType can't be null");
+		} else {
+			this.setName(name);
+			this.setDescription(description);
+			this.productType=productType;
+			productType.setProcessLine(this);
+		}
+	}
 
-    public String getName(){
-        return null;
-    }
+	public String getName(){
+		return this.name;
+	}
 
-    public void setName(String name){
-    }
+	public void setName(String name){
+		this.name=name;
+	}
 
-    public String getDescription(){
-        return null;
-    }
+	public String getDescription(){
+		return this.description;
+	}
 
-    public void setDescription(String description){
-    }
+	public void setDescription(String description){
+		this.description=description;
+	}
 
-    public ProduktType getProduktType(){
-        return null;
-    }
+	public ProductType getProductType(){
+		return this.productType;
+	}
 
-    public void setProduktType(ProduktType produktType){
-    }
+	public ArrayList<Process> getProcesses(){
+		return this.getProcesses();
+	}
 
-    public ArrayList<Process> getProcesses(){
-        return null;
-    }
+	public void createSubProcess(int processStep, String name, String desciption, long treatmentTime, double temperature){
+		this.processes.add(new SubProcess(name, desciption, treatmentTime, temperature, processStep, this));
+	}
 
-    public void createSubProcess(int processStep, String name, String desciption, long treatmentTime, double temperature){
-    }
+	public void createDrying(int processStep, long minTime, long idealTime, long maxTime) throws RuntimeException{
+		this.processes.add(new Drying(minTime, idealTime, maxTime, processStep, this));
+	}
 
-    public void createDrying(int preocessStep, long minTime, long idealTime, long maxTime){
-    }
-
-    public void deleteProcess(Process process){
-    }
+	public void deleteProcess(Process process){
+		this.processes.remove(process);
+	}
 
 }
