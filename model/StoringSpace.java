@@ -7,7 +7,7 @@ public class StoringSpace {
     private Depot depot;
     private ArrayList<ProcessLog> processLogs;
 
-    public void StoringSpace(int positionX, int positionY, Depot depot){
+    public StoringSpace(int positionX, int positionY, Depot depot){
     }
 
     public int getPositionX(){
