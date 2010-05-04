@@ -1,5 +1,7 @@
 package gui;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -10,7 +12,7 @@ import javax.swing.JScrollPane;
 * This code was edited or generated using CloudGarden's Jigloo
 * SWT/Swing GUI Builder, which is free for non-commercial
 * use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
+* cdompany or business for any purpose whatever) then you
 * should purchase a license for each developer using Jigloo.
 * Please visit www.cloudgarden.com for details.
 * Use of Jigloo implies acceptance of these licensing terms.
@@ -30,10 +32,11 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("hifi v0.8");
+		this.setTitle("Carletti v0.0");
 		BorderLayout thisLayout = new BorderLayout();
 		getContentPane().setLayout(thisLayout);
 		this.setResizable(true);
+		this.setPreferredSize(new Dimension(400,400));
 		{
 			jPanel1 = new JPanel();
 			getContentPane().add(jPanel1, BorderLayout.WEST);
