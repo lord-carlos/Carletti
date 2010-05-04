@@ -3,13 +3,8 @@ package dao;
 
 import java.util.List;
 
-import model.Depot;
-import model.Drying;
-import model.IntermediateProduct;
-import model.ProcessLine;
-import model.ProcessLog;
-import model.StoringSpace;
-import model.SubProcess;
+import model.*;
+import model.Process;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;

@@ -2,13 +2,8 @@ package service;
 
 import java.util.List;
 
-import model.Depot;
-import model.Drying;
-import model.IntermediateProduct;
-import model.ProcessLine;
-import model.ProcessLog;
-import model.StoringSpace;
-import model.SubProcess;
+import model.*;
+import model.Process;
 
 import dao.Dao;
 import dao.DaoList;
@@ -63,7 +58,7 @@ public class Service {
 		return dao.getAllIntermediateProducts();
 	}
 	
-	public Drying createIntermediateProduct(String id, ProductType productType double quantity) {
+	public IntermediateProduct createIntermediateProduct(String id, ProductType productType, double quantity) {
 		IntermediateProduct intermediateProduct = new IntermediateProduct(id, productType, quantity);
 		dao.store(intermediateProduct);
 		return intermediateProduct;
@@ -76,12 +71,6 @@ public class Service {
 	//Process
 	public List<Process> getAllProcesses() {
 		return dao.getAllProcesses();
-	}
-	
-	public Drying createProcess(int processStep, ProcessLine processLine) {
-		Process process = new Process(processStep, processLine);
-		dao.store(process);
-		return process;
 	}
 	
 	public void deleteProcess(Process process) {
@@ -150,11 +139,11 @@ public class Service {
 	
 	//SubProcess
 	public List<SubProcess> getAllSubProcesses() {
-		return dao.getAllSubProcesses();
+		return dao.getAllSubProcesss();
 	}
 	
-	public SubProcess createSubProcess(String name, String description, long treatmentTime, double temperature) {
-		SubProcess subProcess = new SubProcess(name, description, treatmentTime, temperature);
+	public SubProcess createSubProcess(String name, String description, long treatmentTime, double temperature, int processStep, ProcessLine processLine) {
+		SubProcess subProcess = new SubProcess(name, description, treatmentTime, temperature, processStep, processLine);
 		dao.store(subProcess);
 		return subProcess;
 	}

@@ -8,6 +8,7 @@ import model.IntermediateProduct;
 import model.Process;
 import model.ProcessLine;
 import model.ProcessLog;
+import model.ProductType;
 import model.StoringSpace;
 import model.SubProcess;
 
