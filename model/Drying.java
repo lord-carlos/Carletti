@@ -6,7 +6,7 @@ public class Drying extends model.Process {
 	private long minTime;
 	private long idealTime;
 	private long maxTime;
-	private ArrayList<Depot> depots;
+	private ArrayList<Depot> depots  = new ArrayList<Depot>();
 
 	public Drying(long minTime, long idealTime, long maxTime, int processStep, ProcessLine processLine) throws RuntimeException{
 		super(processStep, processLine);

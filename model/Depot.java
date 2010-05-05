@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Depot {
 	private String name;
 	private String description;
-	private ArrayList<StoringSpace> storingspaces;
-	private ArrayList<Drying> dryings;
+	private ArrayList<StoringSpace> storingspaces = new ArrayList<StoringSpace>();
+	private ArrayList<Drying> dryings = new ArrayList<Drying>();
 
 	public Depot(String name, String desciption){
 		this.setName(name);
@@ -33,8 +33,10 @@ public class Depot {
 		return this.storingspaces;
 	}
 
-	public void createStoringSpace(int positionX, int positionY) throws RuntimeException{
-		this.storingspaces.add(new StoringSpace(positionX,positionY,this));
+	public StoringSpace createStoringSpace(int positionX, int positionY) throws RuntimeException{
+		StoringSpace ss =new StoringSpace(positionX,positionY,this);
+		this.storingspaces.add(ss);
+		return ss;
 	}
 
 	public void deleteStoringSpace(StoringSpace storingSpace){

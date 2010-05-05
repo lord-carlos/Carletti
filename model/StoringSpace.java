@@ -7,7 +7,7 @@ public class StoringSpace {
 	private int positionY;
 	private IntermediateProduct intermediateProduct;
 	private Depot depot;
-	private ArrayList<ProcessLog> processLogs;
+	private ArrayList<ProcessLog> processLogs  = new ArrayList<ProcessLog>();
 
 	public StoringSpace(int positionX, int positionY, Depot depot) throws RuntimeException{
 		if (depot==null){

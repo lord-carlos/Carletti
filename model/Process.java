@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public abstract class Process {
 	private int ProcessStep;
 	private ProcessLine processLine;
-	private ArrayList<ProcessLog> processLogs;
+	private ArrayList<ProcessLog> processLogs  = new ArrayList<ProcessLog>();
 
 	public Process(int processStep, ProcessLine processLine) throws RuntimeException{
 		if (processLine==null){
@@ -43,6 +43,10 @@ public abstract class Process {
 		}
 	}
 
+	/**
+     * always call this method trougth setProcess method in ProcessLog
+     * @param intermediateProduct
+     */
 	public void removeProcessLog(ProcessLog processLog) throws RuntimeException{
 		this.processLogs.remove(processLog);
 	}
