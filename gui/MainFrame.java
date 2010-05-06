@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -38,10 +40,16 @@ public class MainFrame extends JFrame {
 	private JMenu jMenu2;
 	private JMenu jMenu1;
 	private JPanel pnlIntermediateProductMap;
+<<<<<<< HEAD
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
 	private Depot selectedDepot = null;
 	private GridLayout IntermediateProductMapLayout = new GridLayout();
 
+=======
+	private ArrayList<IntermediateProductPanel> pnlIntermediateProductPanels = new ArrayList<IntermediateProductPanel>();
+	private MouseAdapter mouseAdapter = null;
+	
+>>>>>>> b19ee23a357cd8dab799243fc2cb733c094945a8
 	public MainFrame() {
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,6 +58,15 @@ public class MainFrame extends JFrame {
 		getContentPane().setLayout(thisLayout);
 		this.setResizable(true);
 		this.setPreferredSize(new Dimension(600,600));
+		
+		mouseAdapter = new MouseAdapter() {
+	        public void mouseClicked(MouseEvent me){
+	        	System.out.println("foo!");
+	        	System.out.println(me.getSource());
+	        }
+		};
+		
+		
 		{
 			pnlWest = new JPanel();
 			getContentPane().add(pnlWest, BorderLayout.WEST);
@@ -67,6 +84,18 @@ public class MainFrame extends JFrame {
 			IntermediateProductMapLayout.setHgap(5);
 			IntermediateProductMapLayout.setVgap(5);
 			pnlIntermediateProductMap.setLayout(IntermediateProductMapLayout);
+<<<<<<< HEAD
+=======
+			{
+				for (int i = 0; i < 42; i++) {
+					IntermediateProductPanel ippTemp = new IntermediateProductPanel();
+					ippTemp.addMouseListener(mouseAdapter);
+					pnlIntermediateProductPanels.add(ippTemp);
+					pnlIntermediateProductMap.add(pnlIntermediateProductPanels.get(pnlIntermediateProductPanels.size()-1));
+				}
+				
+			}
+>>>>>>> b19ee23a357cd8dab799243fc2cb733c094945a8
 		}
 		{
 			jMenuBar1 = new JMenuBar();
@@ -87,7 +116,7 @@ public class MainFrame extends JFrame {
 				jMenu3.setText("jMenu3");
 			}
 		}
-
+		
 		pack();
 	}
 	
