@@ -42,7 +42,7 @@ public class MainFrame extends JFrame {
 		BorderLayout thisLayout = new BorderLayout();
 		getContentPane().setLayout(thisLayout);
 		this.setResizable(true);
-		this.setPreferredSize(new Dimension(400,400));
+		this.setPreferredSize(new Dimension(600,600));
 		{
 			pnlWest = new JPanel();
 			getContentPane().add(pnlWest, BorderLayout.WEST);
@@ -58,9 +58,11 @@ public class MainFrame extends JFrame {
 			pnlIntermediateProductMap = new JPanel();
 			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
 			pnlIntermediateProductMap.setPreferredSize(new Dimension(200,200));
-			pnlIntermediateProductMap.setLayout(new GridLayout(6, 6, 5, 5));
+			GridLayout IntermediateProductMapLayout = new GridLayout(8, 8, 5, 5);
+			IntermediateProductMapLayout.setColumns(8);
+			pnlIntermediateProductMap.setLayout(IntermediateProductMapLayout);
 			{
-				for (int i = 0; i < 25; i++) {
+				for (int i = 0; i < 64; i++) {
 					pnlIntermediateProductPanels.add(new IntermediateProductPanel());
 					pnlIntermediateProductMap.add(pnlIntermediateProductPanels.get(pnlIntermediateProductPanels.size()-1));
 				}
