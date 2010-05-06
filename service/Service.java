@@ -1,6 +1,9 @@
 package service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import model.*;
 import model.Process;
@@ -83,14 +86,35 @@ public class Service {
 		dao.delete(productType);
 	}
 	
-	public void CreateCalletiDepots(){
+	public void createCalletiDepots() {
 		Depot dp1 = createDepot("depot1","depot som ligger langt mellemgangen",5,8);
-		Depot dp2 = createDepot("depot2","depot som ligger i hjørnet",3,5);
+		Depot dp2 = createDepot("depot2","depot som ligger i hjï¿½rnet",3,5);
 		
 		
 		
 		
 		
+	}
+	
+	public void createTestData() {
+
+		Depot depot1 = createDepot("depot1","depot som ligger langt mellemgangen",5,8);
+		ProductType productType1 = createProductType("Tomater");
+		ArrayList<IntermediateProduct> temporaryProducts = new ArrayList<IntermediateProduct>();
+		for (int i = 0; i < 8; i++) {
+			temporaryProducts.add(createIntermediateProduct(Integer.toString(i), productType1, 120));
+		}
+		
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 8; y++) {
+				StoringSpace storingSpace = new StoringSpace(x,y,depot1);
+				if(x==0)
+					storingSpace.setIntermediateProduct(temporaryProducts.get(y));
+					System.out.println(storingSpace.getIntermediateProduct());
+			}
+		}
+		
+		Depot depot2 = createDepot("depot2","lager til lort",3,5);
 	}
 
 }

@@ -42,9 +42,11 @@ public class MainFrame extends JFrame {
 	private Controller controller = new Controller();
 
 	public MainFrame() {
-
+		//Test Data
+		Service.getService().createTestData();
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Carletti v0.0");
+		this.setTitle("Carletti v0.1");
 		BorderLayout thisLayout = new BorderLayout();
 		getContentPane().setLayout(thisLayout);
 		this.setResizable(true);
@@ -75,6 +77,7 @@ public class MainFrame extends JFrame {
 				pnlWest.add(Box.createRigidArea(new Dimension(5,10)));
 				
 				cbxDepot = new JComboBox();
+				cbxDepot.addActionListener(controller);
 				pnlWest.add(cbxDepot);
 			}
 		}
@@ -111,14 +114,17 @@ public class MainFrame extends JFrame {
 	
 	// Denne metode kræver at arraylisten med StoringSpaces i depot er efter læse systemet
 	public void setDepot(Depot depot) {
+		System.out.println("SetDepot method was called with "+depot);
 		intermediateProductPanels.clear();
 		pnlIntermediateProductMap.removeAll();
 		IntermediateProductMapLayout.setColumns(depot.getMaxX());
 		IntermediateProductMapLayout.setRows(depot.getMaxY());
+		System.out.println(depot.getStoringSpaces());
 		for (StoringSpace storingSpace : depot.getStoringSpaces()) {
 			IntermediateProductPanel intermediateProductPanel = new IntermediateProductPanel(storingSpace);
 			intermediateProductPanels.add(intermediateProductPanel);
 			pnlIntermediateProductMap.add(intermediateProductPanel);
+			intermediateProductPanel.setVisible(true);
 		} 
 	}
 	private class Controller implements ActionListener, ListSelectionListener {

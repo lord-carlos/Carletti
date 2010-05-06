@@ -25,6 +25,7 @@ public class IntermediateProductPanel extends JPanel{
 	
 	public IntermediateProductPanel(StoringSpace storingSpace) {
 		this.storingSpace = storingSpace;
+		System.out.println(storingSpace);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(lblName);
@@ -38,6 +39,7 @@ public class IntermediateProductPanel extends JPanel{
 		idealTimeLine.setPreferredSize(new Dimension(4,30));
 		idealTimeLine.setLocation(0,0);		
 		
+		System.out.println(storingSpace.getIntermediateProduct());
 		if(storingSpace.getIntermediateProduct() != null) {
 			lblName.setText(storingSpace.getIntermediateProduct().getProductType().getName());
 			lblIcon.setIcon(storingSpace.getIntermediateProduct().getProductType().getPicture());
