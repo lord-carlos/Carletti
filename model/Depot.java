@@ -60,5 +60,9 @@ public class Depot {
 			drying.removeDepot(this);
 		}
 	}
+	
+	public String toString(){
+		return name;
+	}
 
 }

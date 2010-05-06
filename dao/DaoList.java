@@ -16,27 +16,19 @@ import model.SubProcess;
 
 public class DaoList implements Dao {
 	private List<Depot> depots;
-	private List<Drying> dryings;
 	private List<IntermediateProduct> intermediateProducts;
 	private List<Process> processes;
 	private List<ProcessLine> processLines;
-	private List<ProcessLog> processLogs;
 	private List<ProductType> productTypes;
-	private List<StoringSpace> storingSpaces;
-	private List<SubProcess> subProcesses;
 	
 	private static DaoList dao = null;
 	
 	private DaoList() {
 		depots = new ArrayList<Depot>();
-		dryings = new ArrayList<Drying>();
 		intermediateProducts = new ArrayList<IntermediateProduct>();
 		processes = new ArrayList<Process>();
 		processLines = new ArrayList<ProcessLine>();
-		processLogs = new ArrayList<ProcessLog>();
 		productTypes = new ArrayList<ProductType>();
-		storingSpaces = new ArrayList<StoringSpace>();
-		subProcesses = new ArrayList<SubProcess>();
 	}
 	
 	public static Dao getDao() {
@@ -59,20 +51,6 @@ public class DaoList implements Dao {
 		depots.remove(depot);
 	}
 	
-	//Drying
-	public List<Drying> getAllDryings() {
-		return dryings;
-	}
-	
-	public void store(Drying drying) {
-		if (!dryings.contains(drying))
-			dryings.add(drying);
-	}
-	
-	public void delete(Drying drying) {
-		dryings.remove(drying);
-	}
-	
 	//IntermediateProduct
 	public List<IntermediateProduct> getAllIntermediateProducts() {
 		return intermediateProducts;
@@ -87,19 +65,6 @@ public class DaoList implements Dao {
 		intermediateProducts.remove(interMediateProduct);
 	}
 	
-	//Process
-	public List<Process> getAllProcesses() {
-		return processes;
-	}
-	
-	public void store(Process process) {
-		if (!processes.contains(process))
-			processes.add(process);
-	}
-	
-	public void delete(Process process) {
-		processes.remove(process);
-	}
 	
 	//ProcessLine
 	public List<ProcessLine> getAllProcessLines() {
@@ -115,20 +80,6 @@ public class DaoList implements Dao {
 		processLines.remove(processLine);
 	}
 	
-	//ProcessLog
-	public List<ProcessLog> getAllProcessLogs() {
-		return processLogs;
-	}
-	
-	public void store(ProcessLog processLog) {
-		if (!processLogs.contains(processLog))
-			processLogs.add(processLog);
-	}
-	
-	public void delete(ProcessLog processLog) {
-		processLogs.remove(processLog);
-	}
-	
 	//ProductType
 	public List<ProductType> getAllProductTypes() {
 		return productTypes;
@@ -142,37 +93,11 @@ public class DaoList implements Dao {
 	public void delete(ProductType productType) {
 		productTypes.remove(productType);
 	}
-	
-	//StoringSpace
-	public List<StoringSpace> getAllStoringSpaces() {
-		return storingSpaces;
-	}
-	
-	public void store(StoringSpace storingSpace) {
-		if (!storingSpaces.contains(storingSpace))
-			storingSpaces.add(storingSpace);
-	}
-	
-	public void delete(StoringSpace storingSpace) {
-		storingSpaces.remove(storingSpace);
-	}
-	
-	//SubProcess
-	public List<SubProcess> getAllSubProcesss() {
-		return subProcesses;
-	}
-	
-	public void store(SubProcess subProcess) {
-		if (!subProcesses.contains(subProcess))
-			subProcesses.add(subProcess);
-	}
-	
-	public void delete(SubProcess subProcess) {
-		subProcesses.remove(subProcess);
-	}
-	
+
+	@Override
 	public void close() {
 		// do nothing here
 	}
+	
 
 }

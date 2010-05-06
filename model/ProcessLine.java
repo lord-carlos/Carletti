@@ -40,7 +40,7 @@ public class ProcessLine {
 	}
 
 	public ArrayList<Process> getProcesses(){
-		return this.getProcesses();
+		return this.processes;
 	}
 
 	public SubProcess createSubProcess(int processStep, String name, String desciption, long treatmentTime, double temperature){

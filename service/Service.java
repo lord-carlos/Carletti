@@ -37,21 +37,6 @@ public class Service {
 	public void deleteDepot(Depot depot) {
 		dao.delete(depot);
 	}
-
-	//Drying
-	public List<Drying> getAllDryings() {
-		return dao.getAllDryings();
-	}
-	
-	public Drying createDrying(long minTime, long idealTime, long maxTime, int processStep, ProcessLine processLine) {
-		Drying drying = new Drying(minTime, idealTime, maxTime, processStep, processLine);
-		dao.store(drying);
-		return drying;
-	}
-	
-	public void deleteDrying(Drying drying) {
-		dao.delete(drying);
-	}
 	
 	//IntermediateProduct
 	public List<IntermediateProduct> getAllIntermediateProducts() {
@@ -66,15 +51,6 @@ public class Service {
 	
 	public void deleteIntermediateProduct(IntermediateProduct intermediateProduct) {
 		dao.delete(intermediateProduct);
-	}
-
-	//Process
-	public List<Process> getAllProcesses() {
-		return dao.getAllProcesses();
-	}
-	
-	public void deleteProcess(Process process) {
-		dao.delete(process);
 	}
 
 	//ProcessLine
@@ -92,21 +68,6 @@ public class Service {
 		dao.delete(processLine);
 	}
 	
-	//ProcessLog
-	public List<ProcessLog> getAllProcessLogs() {
-		return dao.getAllProcessLogs();
-	}
-	
-	public ProcessLog createProcessLog(Process process, StoringSpace storingSpace, IntermediateProduct intermediateProduct) {
-		ProcessLog processLog = new ProcessLog(process, storingSpace, intermediateProduct);
-		dao.store(processLog);
-		return processLog;
-	}
-	
-	public void deleteProcessLog(ProcessLog processLog) {
-		dao.delete(processLog);
-	}
-	
 	//ProductType
 	public List<ProductType> getAllProductTypes() {
 		return dao.getAllProductTypes();
@@ -122,33 +83,4 @@ public class Service {
 		dao.delete(productType);
 	}
 
-	//StoringSpace
-	public List<StoringSpace> getAllStoringSpaces() {
-		return dao.getAllStoringSpaces();
-	}
-	
-	public StoringSpace createStoringSpace(int positionX, int positionY, Depot depot) {
-		StoringSpace storingSpace = new StoringSpace(positionX, positionY, depot);
-		dao.store(storingSpace);
-		return storingSpace;
-	}
-	
-	public void deleteStoringSpace(StoringSpace storingSpace) {
-		dao.delete(storingSpace);
-	}
-	
-	//SubProcess
-	public List<SubProcess> getAllSubProcesses() {
-		return dao.getAllSubProcesss();
-	}
-	
-	public SubProcess createSubProcess(String name, String description, long treatmentTime, double temperature, int processStep, ProcessLine processLine) {
-		SubProcess subProcess = new SubProcess(name, description, treatmentTime, temperature, processStep, processLine);
-		dao.store(subProcess);
-		return subProcess;
-	}
-	
-	public void deleteSubProcess(SubProcess subProcess) {
-		dao.delete(subProcess);
-	}
 }

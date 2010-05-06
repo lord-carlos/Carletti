@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -110,7 +111,7 @@ public class CreateSubProcess extends JDialog {
 
 	private JTextField getTxfTime() {
 		if (txfTime == null) {
-			txfTime = new JTextField();
+			txfTime = new JTextField("24");
 		}
 		return txfTime;
 	}
@@ -125,7 +126,7 @@ public class CreateSubProcess extends JDialog {
 
 	private JTextField getTxfTemp() {
 		if (txfTemp == null) {
-			txfTemp = new JTextField();
+			txfTemp = new JTextField("15");
 		}
 		return txfTemp;
 	}
@@ -152,26 +153,51 @@ public class CreateSubProcess extends JDialog {
 		}
 		return lblName;
 	}
-	
+
 	public SubProcess getSubProcess(){
 		return thisSubProcess;
 	}
-	
+
 	private class BtnController implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 			if (e.getSource().equals(btnChancel)){
 				CreateSubProcess.this.setVisible(false);
 			} else if (e.getSource().equals(btnCreate)){
-				//TODO lave advarsler hvis felter ikke er udfyldt korrekt
-				
-				thisSubProcess = pl.createSubProcess(1, getTxfName().getText(), getTxaDescr().getText(),Long.valueOf(getTxfTime().getText())*60*60*1000 , Integer.valueOf(getTxfTemp().getText()));
-				
-				CreateSubProcess.this.setVisible(false);
-			}
 			
+				if (getTxfName().getText().isEmpty()){
+					JOptionPane.showMessageDialog(null,"Behandlingen skal have et navn!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
+
+				} else {
+					long time;
+
+					try {
+						time = Long.valueOf(getTxfTime().getText())*60*60*1000;
+					}
+					catch (NumberFormatException exception){
+						time = 24*60*60*1000;
+					}
+
+					double temp;
+
+					try {
+						temp = Double.valueOf(getTxfTemp().getText());
+					}
+					catch (NumberFormatException exception){
+						temp = 15.0;
+					}
+
+
+					thisSubProcess = pl.createSubProcess(0, getTxfName().getText(), getTxaDescr().getText(),time , temp);
+
+					CreateSubProcess.this.setVisible(false);
+				}
+			}
+
 		}
 	}
+	
+	
 }
