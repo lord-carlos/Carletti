@@ -18,10 +18,13 @@ import model.StoringSpace;
 public class IntermediateProductPanel extends JPanel{
 	private JProgressBar progressBar = new JProgressBar(0,100);
 	private JLabel lblName = new JLabel();
-	private IntermediateProduct intermediateProduct;
+	private JLabel lblIcon = new JLabel();
 	private JLabel idealTimeLine = new JLabel();
+	private StoringSpace storingSpace;
+	
 	
 	public IntermediateProductPanel(StoringSpace storingSpace) {
+		this.storingSpace = storingSpace;
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(lblName);
@@ -37,28 +40,21 @@ public class IntermediateProductPanel extends JPanel{
 		
 		if(storingSpace.getIntermediateProduct() != null) {
 			lblName.setText(storingSpace.getIntermediateProduct().getProductType().getName());
+			lblIcon.setIcon(storingSpace.getIntermediateProduct().getProductType().getPicture());
 		}
 		else {
 			this.setVisible(false);
 		}
 	}
 	
-	public IntermediateProduct getIntermediateProduct() {
-		return intermediateProduct;
-	}
-
-	public void setIntermediateProduct(IntermediateProduct intermediateProduct) {
-		this.intermediateProduct = intermediateProduct;
-		lblName.setText(intermediateProduct.getProductType().getName());
-		
-	}
-	
 	public void updateTime() {
-		Drying drying = (Drying) intermediateProduct.getProcessLogs().get(intermediateProduct.getProcessLogs().size()-1).getProcess();		
+		if(storingSpace.getIntermediateProduct() != null) {
+		Drying drying = (Drying) storingSpace.getIntermediateProduct().getProcessLogs().get(storingSpace.getIntermediateProduct().getProcessLogs().size()-1).getProcess();		
 		progressBar.setMinimum(0);
 		progressBar.setMaximum((int) drying.getMaxTime()/1000);
-		long currentTime = System.currentTimeMillis()-intermediateProduct.getProcessLogs().get(intermediateProduct.getProcessLogs().size()-1).getStartTime().getTime();
+		long currentTime = System.currentTimeMillis()-storingSpace.getIntermediateProduct().getProcessLogs().get(storingSpace.getIntermediateProduct().getProcessLogs().size()-1).getStartTime().getTime();
 		progressBar.setValue((int) currentTime/1000);
+		}
 	}
 	
 	

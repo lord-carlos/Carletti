@@ -1,36 +1,45 @@
 package gui;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+import javax.swing.ListModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import model.Depot;
 import model.StoringSpace;
+import service.Service;
 
 public class MainFrame extends JFrame {
 	private JMenuBar jMenuBar1;
 	private JPanel pnlWest;
-	private JScrollPane jScrollPane1;
+	private JScrollPane scpIntermediateProducts;
 	private JMenu jMenu3;
 	private JMenu jMenu2;
 	private JMenu jMenu1;
 	private JPanel pnlIntermediateProductMap;
-
+	private JComboBox cbxDepot;
+	private JList lstIntermediateProducts;
+	private JButton btnNewIntermediateProduct;
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
 	private GridLayout IntermediateProductMapLayout = new GridLayout();
 
-
+	private Controller controller = new Controller();
 
 	public MainFrame() {
 
@@ -43,12 +52,30 @@ public class MainFrame extends JFrame {
 		{
 			pnlWest = new JPanel();
 			getContentPane().add(pnlWest, BorderLayout.WEST);
-			pnlWest.setPreferredSize(new Dimension(99, 253));
-			pnlWest.setLayout(null);
-			{
-				jScrollPane1 = new JScrollPane();
-				pnlWest.add(jScrollPane1);
-				jScrollPane1.setBounds(12, 12, 69, 89);
+			BoxLayout pnlWestLayout = new BoxLayout(pnlWest, BoxLayout.Y_AXIS);
+			pnlWest.setLayout(pnlWestLayout);
+			{					
+				scpIntermediateProducts = new JScrollPane();
+				pnlWest.add(scpIntermediateProducts);
+				{
+					ListModel lstIntermediateProductsModel = new DefaultComboBoxModel();
+					lstIntermediateProducts = new JList();
+					scpIntermediateProducts.setViewportView(lstIntermediateProducts);
+					lstIntermediateProducts.setModel(lstIntermediateProductsModel);
+				}
+
+				//filler
+				pnlWest.add(Box.createRigidArea(new Dimension(5,10)));
+				
+				btnNewIntermediateProduct = new JButton();
+				btnNewIntermediateProduct.setText("Ny Mellemvare");
+				pnlWest.add(btnNewIntermediateProduct);
+				
+				//filler
+				pnlWest.add(Box.createRigidArea(new Dimension(5,10)));
+				
+				cbxDepot = new JComboBox();
+				pnlWest.add(cbxDepot);
 			}
 		}
 		{
@@ -77,10 +104,12 @@ public class MainFrame extends JFrame {
 				jMenu3.setText("jMenu3");
 			}
 		}
-
 		pack();
+		controller.fillCbxDepot();
+		controller.fillLstIntermediateProducts();
 	}
-
+	
+	// Denne metode kræver at arraylisten med StoringSpaces i depot er efter læse systemet
 	public void setDepot(Depot depot) {
 		intermediateProductPanels.clear();
 		pnlIntermediateProductMap.removeAll();
@@ -91,6 +120,40 @@ public class MainFrame extends JFrame {
 			intermediateProductPanels.add(intermediateProductPanel);
 			pnlIntermediateProductMap.add(intermediateProductPanel);
 		} 
-
 	}
+	private class Controller implements ActionListener, ListSelectionListener {
+		
+		public void fillLstIntermediateProducts() {
+			lstIntermediateProducts.setListData(Service.getService().getAllIntermediateProducts().toArray());
+		}
+		
+		public void fillCbxDepot() {
+			DefaultComboBoxModel cbxDepotModel = new DefaultComboBoxModel(Service.getService().getAllDepots().toArray());
+			cbxDepot.setModel(cbxDepotModel);
+			if(cbxDepot.getItemCount()>0)
+				cbxDepot.setSelectedIndex(0);
+		}
+		
+		
+		public void updateView() {
+			// TODO venstre menu info opdateres og der laves markering på panel i map
+			
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == cbxDepot) {
+				setDepot((Depot) cbxDepot.getSelectedItem());
+			}
+		}
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			if (e.getSource() == lstIntermediateProducts) {
+				if (!e.getValueIsAdjusting()) {
+					this.updateView();
+				}
+			}
+
+		}
+	}
+
 }
