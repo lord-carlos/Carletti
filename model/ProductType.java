@@ -2,9 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
+import javax.swing.Icon;
+
 public class ProductType {
     private String name;
     private ProcessLine processLine = null;
+    private Icon picture = null;
     private ArrayList<IntermediateProduct> intermediateProducts  = new ArrayList<IntermediateProduct>();
 
     public ProductType(String name){
@@ -22,6 +25,10 @@ public class ProductType {
     public ProcessLine getProcessLine(){
         return this.processLine;
     }
+    
+    public Icon getPicture() {
+		return picture;
+	}
 
     /**
      * newer call this method
@@ -39,6 +46,10 @@ public class ProductType {
     public ArrayList<IntermediateProduct> getIntermediateProducts(){
         return this.intermediateProducts;
     }
+    
+    public void setPicture(Icon picture) {
+		this.picture = picture;
+	}
 
     public void addIntermediateProduct(IntermediateProduct intermediateProduct){
     	this.intermediateProducts.add(intermediateProduct);
