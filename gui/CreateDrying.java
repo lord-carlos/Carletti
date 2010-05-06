@@ -85,13 +85,7 @@ public class CreateDrying extends JDialog {
 			msl = new MultiSelectebleList("Lagre");
 			msl.setSize(184, 127);
 			
-		//	List<Depot> depoter= Service.getService().getAllDepots();
-			//TODO fjern test depoter
-			List<Depot> depoter= new ArrayList<Depot>();
-			depoter.add(new Depot("asdf1", ""));
-			depoter.add(new Depot("asdf2", ""));
-			depoter.add(new Depot("asdf3", ""));
-			depoter.add(new Depot("asdf4", ""));
+			List<Depot> depoter= Service.getService().getAllDepots();
 			
 			for (int i = 0; i < depoter.size(); i++) {
 				msl.add(depoter.get(i), false);

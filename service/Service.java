@@ -28,8 +28,8 @@ public class Service {
 		return dao.getAllDepots();
 	}
 	
-	public Depot createDepot(String name, String description) {
-		Depot depot = new Depot(name, description);
+	public Depot createDepot(String name, String description,int maxX, int maxY) {
+		Depot depot = new Depot(name, description,maxX,maxY);
 		dao.store(depot);
 		return depot;
 	}
@@ -81,6 +81,16 @@ public class Service {
 	
 	public void deleteProductType(ProductType productType) {
 		dao.delete(productType);
+	}
+	
+	public void CreateCalletiDepots(){
+		Depot dp1 = createDepot("depot1","depot som ligger langt mellemgangen",5,8);
+		Depot dp2 = createDepot("depot2","depot som ligger i hjørnet",3,5);
+		
+		
+		
+		
+		
 	}
 
 }
