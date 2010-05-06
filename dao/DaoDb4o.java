@@ -48,21 +48,6 @@ public class DaoDb4o implements Dao {
 		db.commit();
 	}
 	
-	//Drying
-	public List<Drying> getAllDryings() {
-		return db.query(Drying.class);
-	}
-
-	public void store(Drying drying) {
-		db.store(drying);
-		db.commit();
-	}
-
-	public void delete(Drying drying) {
-		db.delete(drying);
-		db.commit();
-	}
-	
 	//IntermediateProduct
 	public List<IntermediateProduct> getAllIntermediateProducts() {
 		return db.query(IntermediateProduct.class);
@@ -75,21 +60,6 @@ public class DaoDb4o implements Dao {
 
 	public void delete(IntermediateProduct intermediateProduct) {
 		db.delete(intermediateProduct);
-		db.commit();
-	}
-	
-	//Process
-	public List<Process> getAllProcesses() {
-		return db.query(Process.class);
-	}
-
-	public void store(Process process) {
-		db.store(process);
-		db.commit();
-	}
-
-	public void delete(Process process) {
-		db.delete(process);
 		db.commit();
 	}
 	
@@ -107,21 +77,7 @@ public class DaoDb4o implements Dao {
 		db.delete(processLine);
 		db.commit();
 	}
-	
-	//ProcessLog
-	public List<ProcessLog> getAllProcessLogs() {
-		return db.query(ProcessLog.class);
-	}
 
-	public void store(ProcessLog processLog) {
-		db.store(processLog);
-		db.commit();
-	}
-
-	public void delete(ProcessLog processLog) {
-		db.delete(processLog);
-		db.commit();
-	}
 	
 	//ProductType
 	public List<ProductType> getAllProductTypes() {
@@ -137,36 +93,7 @@ public class DaoDb4o implements Dao {
 		db.delete(productType);
 		db.commit();
 	}
-	
-	//StoringSpace
-	public List<StoringSpace> getAllStoringSpaces() {
-		return db.query(StoringSpace.class);
-	}
 
-	public void store(StoringSpace storingSpace) {
-		db.store(storingSpace);
-		db.commit();
-	}
-
-	public void delete(StoringSpace storingSpace) {
-		db.delete(storingSpace);
-		db.commit();
-	}
-	
-	//SubProcess
-	public List<SubProcess> getAllSubProcesss() {
-		return db.query(SubProcess.class);
-	}
-
-	public void store(SubProcess subProcess) {
-		db.store(subProcess);
-		db.commit();
-	}
-
-	public void delete(SubProcess subProcess) {
-		db.delete(subProcess);
-		db.commit();
-	}
 	
 	public void close(){
 		db.close();
