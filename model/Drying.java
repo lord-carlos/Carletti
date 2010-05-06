@@ -69,4 +69,8 @@ public class Drying extends model.Process {
 		}
 	}
 
+	public String toString(){
+		return "Tørring";
+	}
+	
 }
