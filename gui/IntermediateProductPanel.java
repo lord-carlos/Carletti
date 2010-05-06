@@ -27,19 +27,19 @@ public class IntermediateProductPanel extends JPanel{
 		this.add(lblName);
 		this.add(progressBar);
 		progressBar.setValue(0);
-		progressBar.setForeground(Color.black);
-		progressBar.setBackground(Color.black);
+		progressBar.setForeground(Color.green);
 		progressBar.setBorder(BorderFactory.createLineBorder(Color.black));
-		this.setFocusable(true);
-		lblName.setText("Tom");	
+				
 		this.add(idealTimeLine);
-		
 		idealTimeLine.setBorder(BorderFactory.createLineBorder(Color.orange));
 		idealTimeLine.setPreferredSize(new Dimension(4,30));
 		idealTimeLine.setLocation(0,0);		
 		
 		if(storingSpace.getIntermediateProduct() != null) {
-			
+			lblName.setText(storingSpace.getIntermediateProduct().getProductType().getName());
+		}
+		else {
+			this.setVisible(false);
 		}
 	}
 	

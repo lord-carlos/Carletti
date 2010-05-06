@@ -13,18 +13,23 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
+import model.Depot;
+import model.StoringSpace;
+
+import service.Service;
+
 /**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* cdompany or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
+ * This code was edited or generated using CloudGarden's Jigloo
+ * SWT/Swing GUI Builder, which is free for non-commercial
+ * use. If Jigloo is being used commercially (ie, by a corporation,
+ * cdompany or business for any purpose whatever) then you
+ * should purchase a license for each developer using Jigloo.
+ * Please visit www.cloudgarden.com for details.
+ * Use of Jigloo implies acceptance of these licensing terms.
+ * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+ * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+ * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+ */
 public class MainFrame extends JFrame {
 	private JMenuBar jMenuBar1;
 	private JPanel pnlWest;
@@ -33,8 +38,10 @@ public class MainFrame extends JFrame {
 	private JMenu jMenu2;
 	private JMenu jMenu1;
 	private JPanel pnlIntermediateProductMap;
-	private ArrayList<IntermediateProductPanel> pnlIntermediateProductPanels = new ArrayList<IntermediateProductPanel>();
-	
+	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
+	private Depot selectedDepot = null;
+	private GridLayout IntermediateProductMapLayout = new GridLayout();
+
 	public MainFrame() {
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,17 +64,9 @@ public class MainFrame extends JFrame {
 		{
 			pnlIntermediateProductMap = new JPanel();
 			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
-			pnlIntermediateProductMap.setPreferredSize(new Dimension(200,200));
-			GridLayout IntermediateProductMapLayout = new GridLayout(8, 8, 5, 5);
-			IntermediateProductMapLayout.setColumns(8);
+			IntermediateProductMapLayout.setHgap(5);
+			IntermediateProductMapLayout.setVgap(5);
 			pnlIntermediateProductMap.setLayout(IntermediateProductMapLayout);
-			{
-				for (int i = 0; i < 64; i++) {
-					pnlIntermediateProductPanels.add(new IntermediateProductPanel());
-					pnlIntermediateProductMap.add(pnlIntermediateProductPanels.get(pnlIntermediateProductPanels.size()-1));
-				}
-				
-			}
 		}
 		{
 			jMenuBar1 = new JMenuBar();
@@ -90,5 +89,18 @@ public class MainFrame extends JFrame {
 		}
 
 		pack();
+	}
+	
+	public void setDepot(Depot depot) {
+		intermediateProductPanels.clear();
+		pnlIntermediateProductMap.removeAll();
+		IntermediateProductMapLayout.setColumns(depot.getMaxX());
+		IntermediateProductMapLayout.setRows(depot.getMaxY());
+		for (StoringSpace storingSpace : depot.getStoringSpaces()) {
+			IntermediateProductPanel intermediateProductPanel = new IntermediateProductPanel(storingSpace);
+			intermediateProductPanels.add(intermediateProductPanel);
+			pnlIntermediateProductMap.add(intermediateProductPanel);
+		} 
+		
 	}
 }
