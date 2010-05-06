@@ -35,7 +35,7 @@ public class SubProcess extends model.Process {
 	}
 
 	public void setTreatmentTime(long treatmentTime) throws RuntimeException{
-		if (treatmentTime<=0){
+		if (treatmentTime<0){
 			throw new RuntimeException("treatmentTime can't be a negativ number");
 		} else {
 			this.treatmentTime=treatmentTime;
@@ -48,6 +48,10 @@ public class SubProcess extends model.Process {
 
 	public void setTemperature(double temperature){
 		this.temperature=temperature;
+	}
+	
+	public String toString(){
+		return this.name;
 	}
 
 }

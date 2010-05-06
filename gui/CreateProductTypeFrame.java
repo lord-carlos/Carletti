@@ -1,24 +1,28 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 
+import model.Process;
 import model.ProcessLine;
 import model.ProductType;
 
@@ -51,6 +55,7 @@ public class CreateProductTypeFrame extends JDialog {
 	private ProductType thisProductType = null;
 	private ProductType productTypeToReturn;
 	private DefaultListModel listProcessesModel = new DefaultListModel();
+	private JButton btnPicture;
 	private static final String PREFERRED_LOOK_AND_FEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
 	public CreateProductTypeFrame() {
 		initComponents();
@@ -72,12 +77,12 @@ public class CreateProductTypeFrame extends JDialog {
 		setTitle("Opret produkttype");
 		setFont(new Font("Dialog", Font.PLAIN, 12));
 		setBackground(new Color(240, 240, 240));
+		setModal(true);
 		setForeground(Color.black);
 		setLayout(new GroupLayout());
 		add(getLblName(), new Constraints(new Leading(12, 12, 12), new Leading(12, 12, 12)));
 		add(getLblDescription(), new Constraints(new Leading(12, 12, 12), new Leading(66, 50, 50)));
 		add(getBtnChancel(), new Constraints(new Trailing(12, 246, 161, 234), new Trailing(12, 174, 283)));
-		add(getScpDescription(), new Constraints(new Bilateral(12, 274, 22), new Bilateral(88, 50, 22)));
 		add(getTxfName(), new Constraints(new Bilateral(12, 274, 4), new Leading(34, 12, 12)));
 		add(getBtnCreateDrying(), new Constraints(new Trailing(12, 246, 302, 283), new Trailing(50, 40, 40)));
 		add(getBtnCreateSubProcess(), new Constraints(new Trailing(13, 244, 302, 283), new Trailing(82, 40, 40)));
@@ -87,7 +92,18 @@ public class CreateProductTypeFrame extends JDialog {
 		add(getScpProcesses(), new Constraints(new Trailing(109, 147, 302, 284), new Bilateral(34, 146, 22)));
 		add(getLblProcesses(), new Constraints(new Leading(304, 219, 10, 10), new Leading(12, 174, 283)));
 		add(getBtnCreateProductType(), new Constraints(new Bilateral(12, 274, 137), new Trailing(12, 66, 66)));
+		add(getBtnPicture(), new Constraints(new Bilateral(12, 274, 81), new Trailing(50, 122, 192)));
+		add(getScpDescription(), new Constraints(new Bilateral(12, 274, 22), new Bilateral(88, 82, 22)));
 		setSize(560, 286);
+	}
+
+	private JButton getBtnPicture() {
+		if (btnPicture == null) {
+			btnPicture = new JButton();
+			btnPicture.setText("Tilknyt et billede");
+			btnPicture.addActionListener(btnController);
+		}
+		return btnPicture;
 	}
 
 	private JScrollPane getScpProcesses() {
@@ -236,26 +252,99 @@ public class CreateProductTypeFrame extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 
 			if (e.getSource().equals(btnCreateDrying)){
-				//TODO lave tørringsknap
+				CreateDrying cd = new CreateDrying(thisProductType.getProcessLine());
+				if (cd.getDrying()!=null){
+					listProcessesModel.addElement(cd.getDrying());
+					CreateProductTypeFrame.this.setProcessBtns(true);
+				}
 			} else if (e.getSource().equals(btnCreateSubProcess)){
-				//TODO lave en delbehandling
 				CreateSubProcess csp = new CreateSubProcess(thisProductType.getProcessLine());
 				if (csp.getSubProcess()!=null){
 					listProcessesModel.addElement(csp.getSubProcess());
 					CreateProductTypeFrame.this.setProcessBtns(true);
 				}
+			} else if (e.getSource().equals(btnPicture)){
+				
+				File activeFile;
+				
+				EditorFileHandler choosenfil = new EditorFileHandler(EditorFileHandler.LOAD_FUNCTION, new File(System.getProperty("user.dir")));
+				if (choosenfil.getIsOkPressed()){
+					activeFile = choosenfil.getSelectedFile();
+					
+					thisProductType.setPicture(new ImageIcon(activeFile.getPath()));
+					btnPicture.setText("Tilknyt et billede ("+activeFile.getPath()+")");
+				}
+				
+				
 			} else if (e.getSource().equals(btnDeleteProcess)){
-				//TODO slette en process
+				
+				int index = listProcesses.getSelectedIndex();
+				
+				if (index>=0){
+					
+					
+					listProcessesModel.remove(index);
+					thisProductType.getProcessLine().getProcesses().remove(index);
+					
+					if (listProcessesModel.size()<1){
+						CreateProductTypeFrame.this.setProcessBtns(false);
+					}
+					
+				}
+				
+				
+				
 			} else if (e.getSource().equals(btnMoveDown)){
-				//TODO rykke en process ned på listen
+				int index = listProcesses.getSelectedIndex();
+
+				if (index>=0 && index<listProcessesModel.size()-1){
+					Process elementTop = thisProductType.getProcessLine().getProcesses().get(index);
+					Process elementBottom = thisProductType.getProcessLine().getProcesses().get(index+1);
+
+					thisProductType.getProcessLine().getProcesses().set(index+1, elementTop);
+					listProcessesModel.set(index+1, elementTop);
+
+					thisProductType.getProcessLine().getProcesses().set(index, elementBottom);
+					listProcessesModel.set(index, elementBottom);
+				}
+				
 			} else if (e.getSource().equals(btnMoveUp)){
-				//TODO rykke en process op på listen
+
+				int index = listProcesses.getSelectedIndex();
+
+				if (index>0){
+					Process elementTop = thisProductType.getProcessLine().getProcesses().get(index-1);
+					Process elementBottom = thisProductType.getProcessLine().getProcesses().get(index);
+
+					thisProductType.getProcessLine().getProcesses().set(index, elementTop);
+					listProcessesModel.set(index, elementTop);
+
+					thisProductType.getProcessLine().getProcesses().set(index-1, elementBottom);
+					listProcessesModel.set(index-1, elementBottom);
+				}
+
 			} else if (e.getSource().equals(btnCreateProductType)){
-				//TODO oprette produkttypen
+
+				if (getTxfName().getText().isEmpty()){
+					JOptionPane.showMessageDialog(null,"Produkttypen skal have et navn!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
+
+				} else {
 
 
-				productTypeToReturn=thisProductType;
-				CreateProductTypeFrame.this.setVisible(false);
+					for (int i=0; listProcessesModel.size()>i;i++){
+						Process p = (Process)listProcessesModel.get(0);
+						p.setProcessStep(i+1);
+					}
+
+					thisProductType.setName(txfName.getText());
+					ProcessLine pl = thisProductType.getProcessLine();
+					pl.setName(txfName.getText());
+					pl.setDescription(txaDescription.getText());
+
+					productTypeToReturn=thisProductType;
+
+					CreateProductTypeFrame.this.setVisible(false);
+				}
 			} else if (e.getSource().equals(btnChancel)){
 				CreateProductTypeFrame.this.setVisible(false);
 			}
