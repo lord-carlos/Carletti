@@ -7,7 +7,7 @@ public class IntermediateProduct {
 	private String id;
 	private double quantity;
 	private ProductType productType;
-	private ArrayList<ProcessLog> processLogs;
+	private ArrayList<ProcessLog> processLogs  = new ArrayList<ProcessLog>();
 	private StoringSpace storingSpace;
 
 	public IntermediateProduct(String id, ProductType productType, double quantity) throws RuntimeException{
@@ -66,8 +66,10 @@ public class IntermediateProduct {
 		return this.processLogs;
 	}
 
-	public void createProcessLog(Process process, StoringSpace storingSpace){
-		this.processLogs.add(new ProcessLog(process,storingSpace,this));
+	public ProcessLog createProcessLog(Process process, StoringSpace storingSpace){
+		ProcessLog p =new ProcessLog(process,storingSpace,this);
+		this.processLogs.add(p);
+		return p;
 	}
 
 	public void deleteProcessLog(ProcessLog processLog){

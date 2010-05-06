@@ -6,7 +6,7 @@ public class ProcessLine {
 	private String name;
 	private String description;
 	private ProductType productType;
-	private ArrayList<Process> processes;
+	private ArrayList<Process> processes  = new ArrayList<Process>();
 
 	public ProcessLine(String name, String description, ProductType productType) throws RuntimeException{
 		if ( productType==null){
@@ -43,12 +43,22 @@ public class ProcessLine {
 		return this.getProcesses();
 	}
 
-	public void createSubProcess(int processStep, String name, String desciption, long treatmentTime, double temperature){
-		this.processes.add(new SubProcess(name, desciption, treatmentTime, temperature, processStep, this));
+	public SubProcess createSubProcess(int processStep, String name, String desciption, long treatmentTime, double temperature){
+		SubProcess sp = new SubProcess(name, desciption, treatmentTime, temperature, processStep, this);	
+
+		this.processes.add(sp);
+		
+
+		return sp;
+
 	}
 
-	public void createDrying(int processStep, long minTime, long idealTime, long maxTime) throws RuntimeException{
-		this.processes.add(new Drying(minTime, idealTime, maxTime, processStep, this));
+	public Drying createDrying(int processStep, long minTime, long idealTime, long maxTime) throws RuntimeException{
+		Drying d = new Drying(minTime, idealTime, maxTime, processStep, this);
+		
+		this.processes.add(d);
+		
+		return d;
 	}
 
 	public void deleteProcess(Process process){

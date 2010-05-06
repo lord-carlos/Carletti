@@ -542,7 +542,7 @@
                                 <net.java.amateras.uml.classdiagram.model.OperationModel>
                                   <visibility class="net.java.amateras.uml.classdiagram.model.Visibility-1" reference="../../net.java.amateras.uml.classdiagram.model.OperationModel/visibility"/>
                                   <name>createSubProcess</name>
-                                  <type>void</type>
+                                  <type>SubProcess</type>
                                   <params>
                                     <net.java.amateras.uml.classdiagram.model.Argument>
                                       <name>processStep</name>
@@ -584,7 +584,7 @@
                                 <net.java.amateras.uml.classdiagram.model.OperationModel>
                                   <visibility class="net.java.amateras.uml.classdiagram.model.Visibility-1" reference="../../net.java.amateras.uml.classdiagram.model.OperationModel/visibility"/>
                                   <name>createDrying</name>
-                                  <type>void</type>
+                                  <type>Drying</type>
                                   <params>
                                     <net.java.amateras.uml.classdiagram.model.Argument>
                                       <name>processStep</name>
@@ -1929,7 +1929,7 @@
                                             <net.java.amateras.uml.classdiagram.model.OperationModel>
                                               <visibility class="net.java.amateras.uml.classdiagram.model.Visibility-1" reference="../../../../../../../../../children/net.java.amateras.uml.classdiagram.model.OperationModel/visibility"/>
                                               <name>deleteStoringSpace</name>
-                                              <type>void</type>
+                                              <type>StoringSpace</type>
                                               <params>
                                                 <net.java.amateras.uml.classdiagram.model.Argument>
                                                   <name>storingSpace</name>
@@ -3577,7 +3577,7 @@
               <net.java.amateras.uml.classdiagram.model.OperationModel>
                 <visibility class="net.java.amateras.uml.classdiagram.model.Visibility-1" reference="../../../targetConnections/net.java.amateras.uml.classdiagram.model.CompositeModel/source/sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.CompositeModel/target/parent/children/net.java.amateras.uml.classdiagram.model.ClassModel[5]/sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/targetConnections/net.java.amateras.uml.classdiagram.model.CompositeModel/source/children/net.java.amateras.uml.classdiagram.model.OperationModel/visibility"/>
                 <name>createProcessLog</name>
-                <type>void</type>
+                <type>ProcessLog</type>
                 <params>
                   <net.java.amateras.uml.classdiagram.model.Argument>
                     <name>process</name>
