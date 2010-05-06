@@ -1,11 +1,16 @@
 package gui;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
 /**
@@ -22,13 +27,14 @@ import javax.swing.JScrollPane;
 */
 public class MainFrame extends JFrame {
 	private JMenuBar jMenuBar1;
-	private JPanel jPanel1;
+	private JPanel pnlWest;
 	private JScrollPane jScrollPane1;
 	private JMenu jMenu3;
 	private JMenu jMenu2;
 	private JMenu jMenu1;
-	private Map pnlMap;
-
+	private JPanel pnlIntermediateProductMap;
+	private ArrayList<IntermediateProductPanel> pnlIntermediateProductPanels = new ArrayList<IntermediateProductPanel>();
+	
 	public MainFrame() {
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,21 +44,28 @@ public class MainFrame extends JFrame {
 		this.setResizable(true);
 		this.setPreferredSize(new Dimension(400,400));
 		{
-			jPanel1 = new JPanel();
-			getContentPane().add(jPanel1, BorderLayout.WEST);
-			jPanel1.setPreferredSize(new java.awt.Dimension(99, 253));
-			jPanel1.setLayout(null);
+			pnlWest = new JPanel();
+			getContentPane().add(pnlWest, BorderLayout.WEST);
+			pnlWest.setPreferredSize(new Dimension(99, 253));
+			pnlWest.setLayout(null);
 			{
 				jScrollPane1 = new JScrollPane();
-				jPanel1.add(jScrollPane1);
+				pnlWest.add(jScrollPane1);
 				jScrollPane1.setBounds(12, 12, 69, 89);
 			}
 		}
 		{
-			pnlMap = new Map();
-			this.add(pnlMap);
-//			pnlTegning.setLocation(5, 5);
-//			pnlTegning.setSize(300,260);
+			pnlIntermediateProductMap = new JPanel();
+			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
+			pnlIntermediateProductMap.setPreferredSize(new Dimension(200,200));
+			pnlIntermediateProductMap.setLayout(new GridLayout(6, 6, 5, 5));
+			{
+				for (int i = 0; i < 25; i++) {
+					pnlIntermediateProductPanels.add(new IntermediateProductPanel());
+					pnlIntermediateProductMap.add(pnlIntermediateProductPanels.get(pnlIntermediateProductPanels.size()-1));
+				}
+				
+			}
 		}
 		{
 			jMenuBar1 = new JMenuBar();
