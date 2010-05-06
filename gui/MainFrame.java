@@ -45,7 +45,7 @@ public class MainFrame extends JFrame {
 		BorderLayout thisLayout = new BorderLayout();
 		getContentPane().setLayout(thisLayout);
 		this.setResizable(true);
-		this.setPreferredSize(new Dimension(400,400));
+		this.setPreferredSize(new Dimension(600,600));
 		
 		mouseAdapter = new MouseAdapter() {
 	        public void mouseClicked(MouseEvent me){
@@ -70,7 +70,9 @@ public class MainFrame extends JFrame {
 			pnlIntermediateProductMap = new JPanel();
 			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
 			pnlIntermediateProductMap.setPreferredSize(new Dimension(200,200));
-			pnlIntermediateProductMap.setLayout(new GridLayout(6, 6, 5, 5));
+			GridLayout IntermediateProductMapLayout = new GridLayout(8, 8, 5, 5);
+			IntermediateProductMapLayout.setColumns(8);
+			pnlIntermediateProductMap.setLayout(IntermediateProductMapLayout);
 			{
 				for (int i = 0; i < 42; i++) {
 					IntermediateProductPanel ippTemp = new IntermediateProductPanel();
