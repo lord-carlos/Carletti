@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -34,6 +36,7 @@ public class MainFrame extends JFrame {
 	private JMenu jMenu1;
 	private JPanel pnlIntermediateProductMap;
 	private ArrayList<IntermediateProductPanel> pnlIntermediateProductPanels = new ArrayList<IntermediateProductPanel>();
+	private MouseAdapter mouseAdapter = null;
 	
 	public MainFrame() {
 
@@ -43,6 +46,15 @@ public class MainFrame extends JFrame {
 		getContentPane().setLayout(thisLayout);
 		this.setResizable(true);
 		this.setPreferredSize(new Dimension(400,400));
+		
+		mouseAdapter = new MouseAdapter() {
+	        public void mouseClicked(MouseEvent me){
+	        	System.out.println("foo!");
+	        	System.out.println(me.getSource());
+	        }
+		};
+		
+		
 		{
 			pnlWest = new JPanel();
 			getContentPane().add(pnlWest, BorderLayout.WEST);
@@ -60,8 +72,10 @@ public class MainFrame extends JFrame {
 			pnlIntermediateProductMap.setPreferredSize(new Dimension(200,200));
 			pnlIntermediateProductMap.setLayout(new GridLayout(6, 6, 5, 5));
 			{
-				for (int i = 0; i < 25; i++) {
-					pnlIntermediateProductPanels.add(new IntermediateProductPanel());
+				for (int i = 0; i < 42; i++) {
+					IntermediateProductPanel ippTemp = new IntermediateProductPanel();
+					ippTemp.addMouseListener(mouseAdapter);
+					pnlIntermediateProductPanels.add(ippTemp);
 					pnlIntermediateProductMap.add(pnlIntermediateProductPanels.get(pnlIntermediateProductPanels.size()-1));
 				}
 				
@@ -86,7 +100,7 @@ public class MainFrame extends JFrame {
 				jMenu3.setText("jMenu3");
 			}
 		}
-
+		
 		pack();
 	}
 }
