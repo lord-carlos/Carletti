@@ -83,7 +83,7 @@ public class Service {
 		dao.delete(productType);
 	}
 	
-	public void CreateCalletiDepots(){
+	public void CreateCalletiTests(){
 		Depot dp1 = createDepot("depot1","depot som ligger langt mellemgangen",5,8);
 		Depot dp2 = createDepot("depot2","depot som ligger i hjørnet",3,5);
 		
