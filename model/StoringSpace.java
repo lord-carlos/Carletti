@@ -85,5 +85,9 @@ public class StoringSpace {
 		preocessLog.unsetStoringSpace();
 		}
 	}
+	
+	public String toString() {
+		return "("+positionX+","+positionY+")";
+	}
 
 }

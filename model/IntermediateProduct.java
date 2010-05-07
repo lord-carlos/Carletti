@@ -97,4 +97,8 @@ public class IntermediateProduct {
 			oldStoringSpace.unsetIntermediateProduct();
 		}
 	}
+	
+	public String toString() {
+		return id+" "+productType.getName();
+	}
 }
