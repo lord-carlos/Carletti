@@ -22,6 +22,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.Depot;
+import model.IntermediateProduct;
 import model.StoringSpace;
 import service.Service;
 
@@ -114,17 +115,15 @@ public class MainFrame extends JFrame {
 	
 	// Denne metode kræver at arraylisten med StoringSpaces i depot er efter læse systemet
 	public void setDepot(Depot depot) {
-		System.out.println("SetDepot method was called with "+depot);
 		intermediateProductPanels.clear();
 		pnlIntermediateProductMap.removeAll();
 		IntermediateProductMapLayout.setColumns(depot.getMaxX());
 		IntermediateProductMapLayout.setRows(depot.getMaxY());
-		System.out.println(depot.getStoringSpaces());
+		IntermediateProductPanel intermediateProductPanel;
 		for (StoringSpace storingSpace : depot.getStoringSpaces()) {
-			IntermediateProductPanel intermediateProductPanel = new IntermediateProductPanel(storingSpace);
+			intermediateProductPanel = new IntermediateProductPanel(storingSpace);
 			intermediateProductPanels.add(intermediateProductPanel);
 			pnlIntermediateProductMap.add(intermediateProductPanel);
-			intermediateProductPanel.setVisible(true);
 		} 
 	}
 	private class Controller implements ActionListener, ListSelectionListener {
