@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
@@ -27,11 +28,11 @@ import model.StoringSpace;
 import service.Service;
 
 public class MainFrame extends JFrame {
-	private JMenuBar jMenuBar1;
+	private JMenuBar mnbBar;
 	private JPanel pnlWest;
 	private JScrollPane scpIntermediateProducts;
 	private JMenu jMenu3;
-	private JMenu jMenu2;
+	private JMenu mnuView;
 	private JMenu jMenu1;
 	private JPanel pnlIntermediateProductMap;
 	private JComboBox cbxDepot;
@@ -39,6 +40,10 @@ public class MainFrame extends JFrame {
 	private JButton btnNewIntermediateProduct;
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
 	private GridLayout IntermediateProductMapLayout = new GridLayout();
+	private JMenuItem mitCreateIntermediateProduct;
+	private JMenuItem mitCreateProductType;
+	
+	private CreateProductTypeFrame createProductTypeFrame;
 
 	private Controller controller = new Controller();
 
@@ -90,41 +95,56 @@ public class MainFrame extends JFrame {
 			pnlIntermediateProductMap.setLayout(IntermediateProductMapLayout);
 		}
 		{
-			jMenuBar1 = new JMenuBar();
-			setJMenuBar(jMenuBar1);
+			mnbBar = new JMenuBar();
+			setJMenuBar(mnbBar);
 			{
 				jMenu1 = new JMenu();
-				jMenuBar1.add(jMenu1);
+				mnbBar.add(jMenu1);
 				jMenu1.setText("jMenu1");
 			}
 			{
-				jMenu2 = new JMenu();
-				jMenuBar1.add(jMenu2);
-				jMenu2.setText("Vis");
+				mnuView = new JMenu();
+				mnbBar.add(mnuView);
+				mnuView.setText("Vis");
+				{
+					mitCreateProductType = new JMenuItem();
+					mnuView.add(mitCreateProductType);
+					mitCreateProductType.setText("Opret Produkttype");
+					mitCreateProductType.addActionListener(controller);
+				}
+				{
+					mitCreateIntermediateProduct = new JMenuItem();
+					mnuView.add(mitCreateIntermediateProduct);
+					mitCreateIntermediateProduct.setText("Opret Mellemvare");
+					mitCreateIntermediateProduct.addActionListener(controller);
+				}
 			}
 			{
 				jMenu3 = new JMenu();
-				jMenuBar1.add(jMenu3);
+				mnbBar.add(jMenu3);
 				jMenu3.setText("jMenu3");
 			}
 		}
 		pack();
+		
+		createProductTypeFrame = new CreateProductTypeFrame();
 		controller.fillCbxDepot();
 		controller.fillLstIntermediateProducts();
 	}
 	
 	// Denne metode kræver at arraylisten med StoringSpaces i depot er efter læse systemet
 	public void setDepot(Depot depot) {
-		intermediateProductPanels.clear();
 		pnlIntermediateProductMap.removeAll();
+		intermediateProductPanels.clear();
+		pnlIntermediateProductMap.updateUI();
 		IntermediateProductMapLayout.setColumns(depot.getMaxX());
 		IntermediateProductMapLayout.setRows(depot.getMaxY());
-		IntermediateProductPanel intermediateProductPanel;
 		for (StoringSpace storingSpace : depot.getStoringSpaces()) {
-			intermediateProductPanel = new IntermediateProductPanel(storingSpace);
+			IntermediateProductPanel intermediateProductPanel = new IntermediateProductPanel(storingSpace);
 			intermediateProductPanels.add(intermediateProductPanel);
 			pnlIntermediateProductMap.add(intermediateProductPanel);
 		} 
+		
 	}
 	private class Controller implements ActionListener, ListSelectionListener {
 		
@@ -146,8 +166,13 @@ public class MainFrame extends JFrame {
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == cbxDepot) {
+			if (e.getSource() == cbxDepot) {
 				setDepot((Depot) cbxDepot.getSelectedItem());
+				System.out.println(cbxDepot.getSelectedItem());
+			}
+			
+			else if (e.getSource() == mitCreateProductType) {
+				createProductTypeFrame.setVisible(true);
 			}
 		}
 		@Override

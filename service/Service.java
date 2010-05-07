@@ -100,26 +100,16 @@ public class Service {
 
 		Depot depot1 = createDepot("depot1","depot som ligger langt mellemgangen",5,8);
 		ProductType productType1 = createProductType("Tomater");
-		ArrayList<IntermediateProduct> temporaryProducts = new ArrayList<IntermediateProduct>();
+		
 		for (int i = 0; i < 8; i++) {
-			temporaryProducts.add(createIntermediateProduct(Integer.toString(i), productType1, 120));
+			createIntermediateProduct(Integer.toString(i), productType1, 120);
 		}
 		
-		ArrayList<StoringSpace> storingSpaces = new ArrayList<StoringSpace>();
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 8; y++) {
-				storingSpaces.add(new StoringSpace(x,y,depot1));
-			}
-		}
+		
 		for (int i = 0; i < 8; i++) {
-			temporaryProducts.get(i).setStoringSpace(storingSpaces.get(i));
+			depot1.getStoringSpaces().get(i).setIntermediateProduct(Service.getService().getAllIntermediateProducts().get(i));
+	
 		}
-		
-		System.out.println("Så begynder listen");
-		for (int i = 0; i < depot1.getStoringSpaces().size(); i++) {
-			System.out.println(depot1.getStoringSpaces().get(i)+" - "+depot1.getStoringSpaces().get(i).getIntermediateProduct());
-		}
-		
 		Depot depot2 = createDepot("depot2","lager til lort",3,5);
 	}
 

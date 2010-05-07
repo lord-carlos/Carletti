@@ -1,16 +1,14 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -21,16 +19,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout.Constraints;
 
 import model.Process;
 import model.ProcessLine;
 import model.ProductType;
-
-import org.dyno.visual.swing.layouts.Bilateral;
-import org.dyno.visual.swing.layouts.Constraints;
-import org.dyno.visual.swing.layouts.GroupLayout;
-import org.dyno.visual.swing.layouts.Leading;
-import org.dyno.visual.swing.layouts.Trailing;
 
 //VS4E -- DO NOT REMOVE THIS LINE!
 public class CreateProductTypeFrame extends JDialog {
@@ -171,7 +164,7 @@ public class CreateProductTypeFrame extends JDialog {
 	private JButton getBtnCreateDrying() {
 		if (btnCreateDrying == null) {
 			btnCreateDrying = new JButton();
-			btnCreateDrying.setText("Opret tørring");
+			btnCreateDrying.setText("Opret tï¿½rring");
 			btnCreateDrying.addActionListener(btnController);
 		}
 		return btnCreateDrying;
