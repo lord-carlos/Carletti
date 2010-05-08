@@ -119,7 +119,7 @@ public class Service {
 		for (int i = 0; i < depot1.getStoringSpaces().size(); i++) {
 			System.out.println(depot1.getStoringSpaces().get(i)+" - "+depot1.getStoringSpaces().get(i).getIntermediateProduct());
 		}
-		
+		System.out.println(temporaryProducts.get(1).getId());
 		Depot depot2 = createDepot("depot2","lager til lort",3,5);
 	}
 
