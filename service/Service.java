@@ -102,7 +102,7 @@ public class Service {
 
 		Depot depot1 = createDepot("depot1","depot som ligger langt væk",5,8);
 		ProductType productType1 = createProductType("Skumbananer");
-		productType1.setPicture(new ImageIcon("gui/icons/p-taerte.jpg"));
+		productType1.setPicture(new ImageIcon("gui/icons/p-taerter.jpg"));
 		
 		ProcessLine processLine0 = createProcessLine("lakrits", "tilfoejer lakritz", productType1);
 		processLine0.createSubProcess(0, "den foerste", "her sker noget", 440, 60);
