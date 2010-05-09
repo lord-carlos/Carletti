@@ -75,6 +75,7 @@ public class MainFrame extends JFrame {
 	private JLabel titleLabel;
 	private JPanel pnlEast;
 	private MouseAdapter mouseAdapter = null;
+	private IntermediateProductPanel intermediateProductPanelSelected = null;
 
 	//private CreateProductTypeFrame createProductTypeFrame;
 
@@ -257,7 +258,11 @@ public class MainFrame extends JFrame {
 	}
 	
 	public void updateInfo(IntermediateProductPanel intermediateProductPanel){
+		if(intermediateProductPanelSelected != null){
+			intermediateProductPanelSelected.setSelected(false);
+		}
 		intermediateProductPanel.setSelected(true);
+		intermediateProductPanelSelected = intermediateProductPanel;
 		StoringSpace storingSpace = intermediateProductPanel.getStoringSpace();
 		idLabelShower.setText(storingSpace.getIntermediateProduct().getId());
 		productTypeLabelShower.setText(storingSpace.getIntermediateProduct().getProductType().getName());
