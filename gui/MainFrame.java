@@ -2,6 +2,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -61,6 +62,14 @@ public class MainFrame extends JFrame {
 	private GridLayout intermediateProductMapLayout = new GridLayout();
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
+	private JLabel productTypeLabelShower;
+	private JLabel positionLabelShower;
+	private JLabel positionLabel;
+	private JLabel depotLabelShower;
+	private JLabel depotLabel;
+	private JLabel productTypeLabel;
+	private JLabel quantityLabelShower;
+	private JLabel quantityLabel;
 	private JLabel idLabelShower;
 	private JLabel idLabel;
 	private JLabel titleLabel;
@@ -120,21 +129,13 @@ public class MainFrame extends JFrame {
 			}
 		}
 		{
-			pnlIntermediateProductMap = new JPanel();
-			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
-			intermediateProductMapLayout.setHgap(5);
-			intermediateProductMapLayout.setVgap(5);
-			
-			pnlIntermediateProductMap.setLayout(intermediateProductMapLayout);
-			pnlIntermediateProductMap.setBorder(BorderFactory.createEtchedBorder());
-			pnlIntermediateProductMap.setPreferredSize(new java.awt.Dimension(452, 539));
-		}
-		{
 			pnlEast = new JPanel();
 			getContentPane().add(pnlEast, BorderLayout.EAST);
-			pnlEast.setPreferredSize(new java.awt.Dimension(114, 545));
+			pnlEast.setPreferredSize(new java.awt.Dimension(141, 545));
 			{
 				titleLabel = new JLabel();
+//				Font font = titleLabel.getFont();
+//				titleLabel.setFont(font.deriveFont(font.getStyle() ^ Font.BOLD));
 				pnlEast.add(titleLabel);
 				titleLabel.setText("Information:");
 			}
@@ -149,6 +150,56 @@ public class MainFrame extends JFrame {
 				pnlEast.add(idLabelShower);
 				idLabelShower.setText("<null>");
 			}
+			{
+				quantityLabel = new JLabel();
+				pnlEast.add(quantityLabel);
+				quantityLabel.setText("Antal:");
+			}
+			{
+				quantityLabelShower = new JLabel();
+				pnlEast.add(quantityLabelShower);
+				quantityLabelShower.setText("<null>");
+			}
+			{
+				productTypeLabel = new JLabel();
+				pnlEast.add(productTypeLabel);
+				productTypeLabel.setText("Produkt type:");
+			}
+			{
+				productTypeLabelShower = new JLabel();
+				pnlEast.add(productTypeLabelShower);
+				productTypeLabelShower.setText("<null>");
+			}
+			{
+				depotLabel = new JLabel();
+				pnlEast.add(depotLabel);
+				depotLabel.setText("Lager:");
+			}
+			{
+				depotLabelShower = new JLabel();
+				pnlEast.add(depotLabelShower);
+				depotLabelShower.setText("<null>");
+			}
+			{
+				positionLabel = new JLabel();
+				pnlEast.add(positionLabel);
+				positionLabel.setText("Position:");
+			}
+			{
+				positionLabelShower = new JLabel();
+				pnlEast.add(positionLabelShower);
+				positionLabelShower.setText("<null>");
+			}
+		}
+		{
+			pnlIntermediateProductMap = new JPanel();
+			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
+			intermediateProductMapLayout.setHgap(5);
+			intermediateProductMapLayout.setVgap(5);
+			
+			pnlIntermediateProductMap.setLayout(intermediateProductMapLayout);
+			pnlIntermediateProductMap.setBorder(BorderFactory.createEtchedBorder());
+			pnlIntermediateProductMap.setPreferredSize(new java.awt.Dimension(452, 539));
 		}
 		{
 			mnbBar = new JMenuBar();
@@ -206,7 +257,13 @@ public class MainFrame extends JFrame {
 	}
 	
 	public void updateInfo(IntermediateProductPanel intermediateProductPanel){
-		idLabelShower.setText(intermediateProductPanel.getStoringSpace().getIntermediateProduct().getProductType().getName());
+		intermediateProductPanel.setSelected(true);
+		StoringSpace storingSpace = intermediateProductPanel.getStoringSpace();
+		idLabelShower.setText(storingSpace.getIntermediateProduct().getId());
+		productTypeLabelShower.setText(storingSpace.getIntermediateProduct().getProductType().getName());
+		positionLabelShower.setText("( "+ storingSpace.getPositionX() +":"+  storingSpace.getPositionY() +" )");
+		quantityLabelShower.setText(storingSpace.getIntermediateProduct().getQuantity() + "");
+		depotLabelShower.setText(storingSpace.getDepot().getName());
 	}
 	private class Controller implements ActionListener, ListSelectionListener {
 		
