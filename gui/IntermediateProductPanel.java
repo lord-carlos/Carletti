@@ -70,6 +70,10 @@ public class IntermediateProductPanel extends JPanel{
 		}
 	}
 	
+	public StoringSpace getStoringSpace() {
+		return storingSpace;
+	}
+	
 	
 
 }

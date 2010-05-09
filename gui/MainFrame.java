@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -59,8 +61,11 @@ public class MainFrame extends JFrame {
 	private GridLayout intermediateProductMapLayout = new GridLayout();
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
+	private JLabel idLabelShower;
+	private JLabel idLabel;
 	private JLabel titleLabel;
 	private JPanel pnlEast;
+	private MouseAdapter mouseAdapter = null;
 
 	//private CreateProductTypeFrame createProductTypeFrame;
 
@@ -71,6 +76,11 @@ public class MainFrame extends JFrame {
 		Service.getService().createTestData();
 		Service.getService().getFinishedIntermediateProducts();
 		
+		mouseAdapter = new MouseAdapter() {
+			public void mouseClicked(MouseEvent me) {
+				updateInfo((IntermediateProductPanel) me.getSource());
+			}
+		};
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Carletti v0.1");
@@ -128,6 +138,17 @@ public class MainFrame extends JFrame {
 				pnlEast.add(titleLabel);
 				titleLabel.setText("Information:");
 			}
+			{
+				idLabel = new JLabel();
+				pnlEast.add(idLabel);
+				idLabel.setText("ID:");
+				idLabel.setPreferredSize(new java.awt.Dimension(20, 10));
+			}
+			{
+				idLabelShower = new JLabel();
+				pnlEast.add(idLabelShower);
+				idLabelShower.setText("<null>");
+			}
 		}
 		{
 			mnbBar = new JMenuBar();
@@ -177,10 +198,15 @@ public class MainFrame extends JFrame {
 		
 		for (StoringSpace storingSpace : depot.getStoringSpaces()) {
 			IntermediateProductPanel intermediateProductPanel = new IntermediateProductPanel(storingSpace);
+			intermediateProductPanel.addMouseListener(mouseAdapter);
 			intermediateProductPanels.add(intermediateProductPanel);
 			pnlIntermediateProductMap.add(intermediateProductPanel);
 		} 
 		
+	}
+	
+	public void updateInfo(IntermediateProductPanel intermediateProductPanel){
+		idLabelShower.setText(intermediateProductPanel.getStoringSpace().getIntermediateProduct().getProductType().getName());
 	}
 	private class Controller implements ActionListener, ListSelectionListener {
 		
@@ -211,6 +237,7 @@ public class MainFrame extends JFrame {
 			
 		}
 		
+				
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == cbxDepot) {
 				setDepot((Depot) cbxDepot.getSelectedItem());
