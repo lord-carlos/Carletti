@@ -3,11 +3,12 @@ package model;
 import java.util.ArrayList;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 public class ProductType {
     private String name;
     private ProcessLine processLine = null;
-    private Icon picture = null;
+    private ImageIcon picture = null;
     private ArrayList<IntermediateProduct> intermediateProducts  = new ArrayList<IntermediateProduct>();
 
     public ProductType(String name){
@@ -26,7 +27,7 @@ public class ProductType {
         return this.processLine;
     }
     
-    public Icon getPicture() {
+    public ImageIcon getPicture() {
 		return picture;
 	}
 
@@ -47,7 +48,7 @@ public class ProductType {
         return this.intermediateProducts;
     }
     
-    public void setPicture(Icon picture) {
+    public void setPicture(ImageIcon picture) {
 		this.picture = picture;
 	}
 

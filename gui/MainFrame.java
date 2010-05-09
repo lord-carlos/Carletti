@@ -1,11 +1,14 @@
 package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -39,11 +42,11 @@ public class MainFrame extends JFrame {
 	private JList lstIntermediateProducts;
 	private JButton btnNewIntermediateProduct;
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
-	private GridLayout IntermediateProductMapLayout = new GridLayout();
+	private GridLayout intermediateProductMapLayout = new GridLayout();
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
 	
-	private CreateProductTypeFrame createProductTypeFrame;
+	//private CreateProductTypeFrame createProductTypeFrame;
 
 	private Controller controller = new Controller();
 
@@ -60,9 +63,17 @@ public class MainFrame extends JFrame {
 		{
 			pnlWest = new JPanel();
 			getContentPane().add(pnlWest, BorderLayout.WEST);
-			BoxLayout pnlWestLayout = new BoxLayout(pnlWest, BoxLayout.Y_AXIS);
+			FlowLayout pnlWestLayout = new FlowLayout();
+			pnlWest.setPreferredSize(new Dimension(110,400));
+			pnlWestLayout.setAlignment(0);
 			pnlWest.setLayout(pnlWestLayout);
-			{					
+			{	
+				cbxDepot = new JComboBox();
+				cbxDepot.addActionListener(controller);
+				pnlWest.add(cbxDepot);
+				
+				
+				
 				scpIntermediateProducts = new JScrollPane();
 				pnlWest.add(scpIntermediateProducts);
 				{
@@ -72,27 +83,22 @@ public class MainFrame extends JFrame {
 					lstIntermediateProducts.setModel(lstIntermediateProductsModel);
 				}
 
-				//filler
-				pnlWest.add(Box.createRigidArea(new Dimension(5,10)));
+				
 				
 				btnNewIntermediateProduct = new JButton();
 				btnNewIntermediateProduct.setText("Ny Mellemvare");
-				pnlWest.add(btnNewIntermediateProduct);
+				pnlWest.add(btnNewIntermediateProduct);				
 				
-				//filler
-				pnlWest.add(Box.createRigidArea(new Dimension(5,10)));
-				
-				cbxDepot = new JComboBox();
-				cbxDepot.addActionListener(controller);
-				pnlWest.add(cbxDepot);
 			}
 		}
 		{
 			pnlIntermediateProductMap = new JPanel();
 			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
-			IntermediateProductMapLayout.setHgap(5);
-			IntermediateProductMapLayout.setVgap(5);
-			pnlIntermediateProductMap.setLayout(IntermediateProductMapLayout);
+			intermediateProductMapLayout.setHgap(5);
+			intermediateProductMapLayout.setVgap(5);
+			
+			pnlIntermediateProductMap.setLayout(intermediateProductMapLayout);
+			pnlIntermediateProductMap.setBorder(BorderFactory.createEtchedBorder());
 		}
 		{
 			mnbBar = new JMenuBar();
@@ -127,7 +133,7 @@ public class MainFrame extends JFrame {
 		}
 		pack();
 		
-		createProductTypeFrame = new CreateProductTypeFrame();
+		//createProductTypeFrame = new CreateProductTypeFrame();
 		controller.fillCbxDepot();
 		controller.fillLstIntermediateProducts();
 	}
@@ -137,8 +143,9 @@ public class MainFrame extends JFrame {
 		pnlIntermediateProductMap.removeAll();
 		intermediateProductPanels.clear();
 		pnlIntermediateProductMap.updateUI();
-		IntermediateProductMapLayout.setColumns(depot.getMaxX());
-		IntermediateProductMapLayout.setRows(depot.getMaxY());
+		intermediateProductMapLayout.setColumns(depot.getMaxX());
+		intermediateProductMapLayout.setRows(depot.getMaxY());
+		
 		for (StoringSpace storingSpace : depot.getStoringSpaces()) {
 			IntermediateProductPanel intermediateProductPanel = new IntermediateProductPanel(storingSpace);
 			intermediateProductPanels.add(intermediateProductPanel);
@@ -149,7 +156,17 @@ public class MainFrame extends JFrame {
 	private class Controller implements ActionListener, ListSelectionListener {
 		
 		public void fillLstIntermediateProducts() {
-			lstIntermediateProducts.setListData(Service.getService().getAllIntermediateProducts().toArray());
+			Depot selectedDepot = (Depot) cbxDepot.getSelectedItem();
+			ArrayList<IntermediateProduct> intermediateProductList = new ArrayList<IntermediateProduct>();
+			
+			for (StoringSpace storingSpace : selectedDepot.getStoringSpaces()) {
+				if(storingSpace.getIntermediateProduct()!=null) {
+					intermediateProductList.add(storingSpace.getIntermediateProduct());
+				}
+				
+			}
+			
+			lstIntermediateProducts.setListData(intermediateProductList.toArray());
 		}
 		
 		public void fillCbxDepot() {
@@ -172,7 +189,7 @@ public class MainFrame extends JFrame {
 			}
 			
 			else if (e.getSource() == mitCreateProductType) {
-				createProductTypeFrame.setVisible(true);
+				//createProductTypeFrame.setVisible(true);
 			}
 		}
 		@Override

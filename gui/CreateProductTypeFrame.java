@@ -224,21 +224,7 @@ public class CreateProductTypeFrame extends JDialog {
 		}
 		return lblName;
 	}
-
-
-
-	/**
-	 * Main entry of the class.
-	 * Note: This class is only created so that you can easily preview the result at runtime.
-	 * It is not expected to be managed by the designer.
-	 * You can modify it as you like.
-	 */
-	public static void main(String[] args) {
-
-		CreateProductTypeFrame frame = new CreateProductTypeFrame();
-
-	}
-
+	
 	private class BtnController implements ActionListener {
 
 		@Override

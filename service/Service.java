@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
+
 import model.*;
 import model.Process;
 
@@ -98,8 +100,9 @@ public class Service {
 	
 	public void createTestData() {
 
-		Depot depot1 = createDepot("depot1","depot som ligger langt mellemgangen",5,8);
-		ProductType productType1 = createProductType("Tomater");
+		Depot depot1 = createDepot("depot1","depot som ligger langt væk",5,8);
+		ProductType productType1 = createProductType("Skumbananer");
+		productType1.setPicture(new ImageIcon("gui/icons/p-taerte.jpg"));
 		
 		for (int i = 0; i < 8; i++) {
 			createIntermediateProduct(Integer.toString(i), productType1, 120);
