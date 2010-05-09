@@ -104,16 +104,38 @@ public class Service {
 		ProductType productType1 = createProductType("Skumbananer");
 		productType1.setPicture(new ImageIcon("gui/icons/p-taerte.jpg"));
 		
+		ProcessLine processLine0 = createProcessLine("lakrits", "tilfoejer lakritz", productType1);
+		processLine0.createSubProcess(0, "den foerste", "her sker noget", 440, 60);
+		processLine0.createSubProcess(1, "den naeste", "her sker ikke noget :D", 200, 60);
+		
 		for (int i = 0; i < 8; i++) {
 			createIntermediateProduct(Integer.toString(i), productType1, 120);
 		}
 		
 		
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 5; i++) {
 			depot1.getStoringSpaces().get(i).setIntermediateProduct(Service.getService().getAllIntermediateProducts().get(i));
 	
 		}
 		Depot depot2 = createDepot("depot2","lager til lort",3,5);
+		
+		
+
+	}
+	
+	public void getFinishedIntermediateProducts() {
+		ArrayList<IntermediateProduct> result = new ArrayList<IntermediateProduct>();
+		
+		for (IntermediateProduct intermediateProduct : Service.getService().getAllIntermediateProducts()) {
+			if(intermediateProduct.getStoringSpace() == null){
+				System.out.println("intermediaProdukt without storingspace: "+ intermediateProduct);
+//				intermediateProduct.
+				System.out.println(intermediateProduct.getProductType().getProcessLine().getProcesses());
+			}
+		}
+		
+//		return result;
+		
 	}
 
 }
