@@ -257,18 +257,38 @@ public class MainFrame extends JFrame {
 		
 	}
 	
-	public void updateInfo(IntermediateProductPanel intermediateProductPanel){
-		if(intermediateProductPanelSelected != null){
-			intermediateProductPanelSelected.setSelected(false);
+	/**
+	 * Denne methode bliver udfoert ver gang man klicker paa en storingspace med musen i guien
+	 * @param intermediateProductPanel
+	 */
+	public void updateInfo(IntermediateProductPanel intermediateProductPanel) {
+		if (intermediateProductPanelSelected != null) { //unselecter den gamle storingspace
+			intermediateProductPanelSelected.setSelected(false); 
 		}
 		intermediateProductPanel.setSelected(true);
 		intermediateProductPanelSelected = intermediateProductPanel;
 		StoringSpace storingSpace = intermediateProductPanel.getStoringSpace();
-		idLabelShower.setText(storingSpace.getIntermediateProduct().getId());
-		productTypeLabelShower.setText(storingSpace.getIntermediateProduct().getProductType().getName());
-		positionLabelShower.setText("( "+ storingSpace.getPositionX() +":"+  storingSpace.getPositionY() +" )");
-		quantityLabelShower.setText(storingSpace.getIntermediateProduct().getQuantity() + "");
-		depotLabelShower.setText(storingSpace.getDepot().getName());
+		// Tjekker om den selected storingspace indeholder en mellemvare
+		if(storingSpace.getIntermediateProduct() != null) {
+			idLabelShower
+					.setText(storingSpace.getIntermediateProduct().getId());
+			productTypeLabelShower.setText(storingSpace
+					.getIntermediateProduct().getProductType().getName());
+			positionLabelShower.setText("( " + storingSpace.getPositionX()
+					+ ":" + storingSpace.getPositionY() + " )");
+			quantityLabelShower.setText(storingSpace.getIntermediateProduct()
+					.getQuantity()
+					+ "");
+			depotLabelShower.setText(storingSpace.getDepot().getName());
+		} else {
+			idLabelShower.setText("<tomt>");
+			productTypeLabelShower.setText(" - ");
+			positionLabelShower.setText("( " + storingSpace.getPositionX()
+					+ ":" + storingSpace.getPositionY() + " )");
+			quantityLabelShower.setText("0");
+			depotLabelShower.setText(storingSpace.getDepot().getName());
+		}
+
 	}
 	private class Controller implements ActionListener, ListSelectionListener {
 		
