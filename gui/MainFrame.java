@@ -15,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -30,6 +31,19 @@ import model.IntermediateProduct;
 import model.StoringSpace;
 import service.Service;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 public class MainFrame extends JFrame {
 	private JMenuBar mnbBar;
 	private JPanel pnlWest;
@@ -45,7 +59,9 @@ public class MainFrame extends JFrame {
 	private GridLayout intermediateProductMapLayout = new GridLayout();
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
-	
+	private JLabel titleLabel;
+	private JPanel pnlEast;
+
 	//private CreateProductTypeFrame createProductTypeFrame;
 
 	private Controller controller = new Controller();
@@ -53,6 +69,8 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		//Test Data
 		Service.getService().createTestData();
+		Service.getService().getFinishedIntermediateProducts();
+		
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Carletti v0.1");
@@ -99,6 +117,17 @@ public class MainFrame extends JFrame {
 			
 			pnlIntermediateProductMap.setLayout(intermediateProductMapLayout);
 			pnlIntermediateProductMap.setBorder(BorderFactory.createEtchedBorder());
+			pnlIntermediateProductMap.setPreferredSize(new java.awt.Dimension(452, 539));
+		}
+		{
+			pnlEast = new JPanel();
+			getContentPane().add(pnlEast, BorderLayout.EAST);
+			pnlEast.setPreferredSize(new java.awt.Dimension(114, 545));
+			{
+				titleLabel = new JLabel();
+				pnlEast.add(titleLabel);
+				titleLabel.setText("Information:");
+			}
 		}
 		{
 			mnbBar = new JMenuBar();

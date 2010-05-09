@@ -8,7 +8,7 @@ public class IntermediateProduct {
 	private double quantity;
 	private ProductType productType;
 	private ArrayList<ProcessLog> processLogs  = new ArrayList<ProcessLog>();
-	private StoringSpace storingSpace;
+	private StoringSpace storingSpace = null;
 
 	public IntermediateProduct(String id, ProductType productType, double quantity) throws RuntimeException{
 		this.setId(id);
