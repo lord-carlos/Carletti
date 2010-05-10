@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -74,23 +75,14 @@ public class MainFrame extends JFrame {
 	private JLabel idLabel;
 	private JLabel titleLabel;
 	private JPanel pnlEast;
-	private MouseAdapter mouseAdapter = null;
 	private IntermediateProductPanel intermediateProductPanelSelected = null;
-
-	//private CreateProductTypeFrame createProductTypeFrame;
 
 	private Controller controller = new Controller();
 
 	public MainFrame() {
 		//Test Data
 		Service.getService().createTestData();
-		Service.getService().getFinishedIntermediateProducts();
 		
-		mouseAdapter = new MouseAdapter() {
-			public void mouseClicked(MouseEvent me) {
-				updateInfo((IntermediateProductPanel) me.getSource());
-			}
-		};
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Carletti v0.1");
@@ -109,8 +101,6 @@ public class MainFrame extends JFrame {
 				cbxDepot = new JComboBox();
 				cbxDepot.addActionListener(controller);
 				pnlWest.add(cbxDepot);
-				
-				
 				
 				scpIntermediateProducts = new JScrollPane();
 				pnlWest.add(scpIntermediateProducts);
@@ -250,7 +240,7 @@ public class MainFrame extends JFrame {
 		
 		for (StoringSpace storingSpace : depot.getStoringSpaces()) {
 			IntermediateProductPanel intermediateProductPanel = new IntermediateProductPanel(storingSpace);
-			intermediateProductPanel.addMouseListener(mouseAdapter);
+			intermediateProductPanel.addMouseListener(controller);
 			intermediateProductPanels.add(intermediateProductPanel);
 			pnlIntermediateProductMap.add(intermediateProductPanel);
 		} 
@@ -290,7 +280,7 @@ public class MainFrame extends JFrame {
 		}
 
 	}
-	private class Controller implements ActionListener, ListSelectionListener {
+	private class Controller implements ActionListener, ListSelectionListener, MouseListener {
 		
 		public void fillLstIntermediateProducts() {
 			Depot selectedDepot = (Depot) cbxDepot.getSelectedItem();
@@ -327,7 +317,14 @@ public class MainFrame extends JFrame {
 			}
 			
 			else if (e.getSource() == mitCreateProductType) {
-				//createProductTypeFrame.setVisible(true);
+				System.out.println("hej");
+			}
+			
+			else if (e.getSource() == mitCreateIntermediateProduct) {
+				
+			}
+			else if (e.getSource() == btnNewIntermediateProduct) {
+				
 			}
 		}
 		@Override
@@ -339,6 +336,34 @@ public class MainFrame extends JFrame {
 			}
 
 		}
-	}
 
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			updateInfo((IntermediateProductPanel)e.getSource());			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
 }
