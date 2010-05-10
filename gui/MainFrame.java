@@ -59,6 +59,10 @@ public class MainFrame extends JFrame {
 	private JComboBox cbxDepot;
 	private JList lstIntermediateProducts;
 	private JButton btnNewIntermediateProduct;
+	private JPanel pnlInformation;
+	private JButton btnCreateDrying;
+	private JButton btnSendToNextProcess;
+	private JButton btnDeleteIntermediateProduct;
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
 	private GridLayout intermediateProductMapLayout = new GridLayout();
 	private JMenuItem mitCreateIntermediateProduct;
@@ -71,7 +75,7 @@ public class MainFrame extends JFrame {
 	private JLabel productTypeLabel;
 	private JTextField quantityTextField;
 	private JLabel quantityLabel;
-	private JTextField idTetFieldShower;
+	private JTextField idTextFieldShower;
 	private JLabel idLabel;
 	private JLabel titleLabel;
 	private JPanel pnlEast;
@@ -89,7 +93,7 @@ public class MainFrame extends JFrame {
 		
 		mouseAdapter = new MouseAdapter() {
 			public void mouseClicked(MouseEvent me) {
-				updateInfo((IntermediateProductPanel) me.getSource());
+				updateInfoFromPanel((IntermediateProductPanel) me.getSource());
 			}
 		};
 		
@@ -121,9 +125,7 @@ public class MainFrame extends JFrame {
 					scpIntermediateProducts.setViewportView(lstIntermediateProducts);
 					lstIntermediateProducts.setModel(lstIntermediateProductsModel);
 				}
-
-				
-				
+	
 				btnNewIntermediateProduct = new JButton();
 				btnNewIntermediateProduct.setText("Ny Mellemvare");
 				pnlWest.add(btnNewIntermediateProduct);				
@@ -132,86 +134,111 @@ public class MainFrame extends JFrame {
 		}
 		{
 			pnlEast = new JPanel();
-			GridLayout pnlEastLayout = new GridLayout(28, 2);
-			pnlEastLayout.setHgap(5);
-			pnlEastLayout.setVgap(3);
-			pnlEastLayout.setColumns(1);
 			getContentPane().add(pnlEast, BorderLayout.EAST);
 			pnlEast.setPreferredSize(new java.awt.Dimension(141, 545));
-			pnlEast.setLayout(pnlEastLayout);
+			pnlEast.setLayout(null);
 			{
-				titleLabel = new JLabel();
-//				Font font = titleLabel.getFont();
-//				titleLabel.setFont(font.deriveFont(font.getStyle() ^ Font.BOLD));
-				pnlEast.add(titleLabel);
-				titleLabel.setText("Information:");
-				titleLabel.setBounds(20, 5, 75, 14);
-			}
-			{
-				idLabel = new JLabel();
-				pnlEast.add(idLabel);
-				idLabel.setText("ID:");
-				idLabel.setPreferredSize(new java.awt.Dimension(20, 10));
-				idLabel.setBounds(100, 7, 20, 10);
-			}
-			{
-				idTetFieldShower = new JTextField();
-				pnlEast.add(idTetFieldShower);
-				idTetFieldShower.setText("<null>");
-				idTetFieldShower.setBounds(26, 24, 48, 21);
-				idTetFieldShower.setEditable(false);
-			}
-			{
-				quantityLabel = new JLabel();
-				pnlEast.add(quantityLabel);
-				quantityLabel.setText("Antal:");
-				quantityLabel.setBounds(79, 27, 36, 14);
-			}
-			{
-				quantityTextField = new JTextField();
-				pnlEast.add(quantityTextField);
-				quantityTextField.setText("<null>");
-				quantityTextField.setBounds(5, 74, 48, 21);
-				quantityTextField.setEditable(false);
-			}
-			{
-				productTypeLabel = new JLabel();
-				pnlEast.add(productTypeLabel);
-				productTypeLabel.setText("Produkt type:");
-				productTypeLabel.setBounds(37, 102, 84, 14);
-			}
-			{
-				productTypeTextFiel = new JTextField();
-				pnlEast.add(productTypeTextFiel);
-				productTypeTextFiel.setText("<null>");
-				productTypeTextFiel.setBounds(24, 95, 48, 21);
-				productTypeTextFiel.setEditable(false);
-			}
-			{
-				depotLabel = new JLabel();
-				pnlEast.add(depotLabel);
-				depotLabel.setText("Lager:");
-				depotLabel.setBounds(77, 98, 39, 14);
-			}
-			{
-				depotLabelTextField = new JTextField();
-				pnlEast.add(depotLabelTextField);
-				depotLabelTextField.setText("<null>");
-				depotLabelTextField.setBounds(17, 121, 48, 21);
-				depotLabelTextField.setEditable(false);
-			}
-			{
-				positionLabel = new JLabel();
-				pnlEast.add(positionLabel);
-				positionLabel.setText("Position:");
-				positionLabel.setBounds(70, 124, 54, 14);
-			}
-			{
-				positionLabelTextField = new JTextField();
-				pnlEast.add(positionLabelTextField);
-				positionLabelTextField.setBounds(-31, 147, 203, 21);
-				positionLabelTextField.setText("<null>");
-				positionLabelTextField.setEditable(false);
+				pnlInformation = new JPanel();
+				GridLayout pnlInformationLayout = new GridLayout(20, 2);
+				pnlInformationLayout.setHgap(5);
+				pnlInformationLayout.setVgap(5);
+				pnlInformationLayout.setRows(20);
+				pnlInformationLayout.setColumns(2);
+				pnlEast.add(pnlInformation);
+				pnlInformation.setLayout(pnlInformationLayout);
+				pnlInformation.setBounds(0, 0, 141, 438);
+				{
+					titleLabel = new JLabel();
+					pnlInformation.add(titleLabel);
+					//				Font font = titleLabel.getFont();
+					//				titleLabel.setFont(font.deriveFont(font.getStyle() ^ Font.BOLD));
+					titleLabel.setText("Information:");
+					titleLabel.setBounds(0, 8, 141, 16);
+				}
+				{
+					idLabel = new JLabel();
+					pnlInformation.add(idLabel);
+					idLabel.setText("ID:");
+					idLabel.setBounds(0, 27, 141, 16);
+				}
+				{
+					idTextFieldShower = new JTextField();
+					pnlInformation.add(idTextFieldShower);
+					idTextFieldShower.setText("<null>");
+					idTextFieldShower.setBounds(0, 46, 141, 16);
+					idTextFieldShower.setEditable(false);
+				}
+				{
+					quantityLabel = new JLabel();
+					pnlInformation.add(quantityLabel);
+					quantityLabel.setText("Antal:");
+					quantityLabel.setBounds(0, 65, 141, 16);
+				}
+				{
+					quantityTextField = new JTextField();
+					pnlInformation.add(quantityTextField);
+					quantityTextField.setText("<null>");
+					quantityTextField.setBounds(0, 84, 141, 16);
+					quantityTextField.setEditable(false);
+				}
+				{
+					productTypeLabel = new JLabel();
+					pnlInformation.add(productTypeLabel);
+					productTypeLabel.setText("Produkt type:");
+					productTypeLabel.setBounds(0, 103, 141, 16);
+				}
+				{
+					productTypeTextFiel = new JTextField();
+					pnlInformation.add(productTypeTextFiel);
+					productTypeTextFiel.setText("<null>");
+					productTypeTextFiel.setBounds(0, 122, 141, 16);
+					productTypeTextFiel.setEditable(false);
+				}
+				{
+					depotLabel = new JLabel();
+					pnlInformation.add(depotLabel);
+					depotLabel.setText("Lager:");
+					depotLabel.setBounds(0, 141, 141, 16);
+				}
+				{
+					depotLabelTextField = new JTextField();
+					pnlInformation.add(depotLabelTextField);
+					depotLabelTextField.setText("<null>");
+					depotLabelTextField.setBounds(0, 160, 141, 16);
+					depotLabelTextField.setEditable(false);
+				}
+				{
+					positionLabel = new JLabel();
+					pnlInformation.add(positionLabel);
+					positionLabel.setText("Position:");
+					positionLabel.setBounds(0, 179, 141, 16);
+				}
+				{
+					positionLabelTextField = new JTextField();
+					pnlInformation.add(positionLabelTextField);
+					positionLabelTextField.setBounds(0, 198, 141, 16);
+					positionLabelTextField.setText("<null>");
+					positionLabelTextField.setEditable(false);
+				}
+				{
+					btnSendToNextProcess = new JButton();
+					pnlInformation.add(btnSendToNextProcess);
+					btnSendToNextProcess.setText("Viderbehandling");
+					btnSendToNextProcess.setBounds(0, 236, 141, 16);
+				}
+				{
+					btnDeleteIntermediateProduct = new JButton();
+					pnlInformation.add(btnDeleteIntermediateProduct);
+					btnDeleteIntermediateProduct.setText("Slet");
+					btnDeleteIntermediateProduct.setBounds(0, 217, 141, 16);
+				}
+				{
+					btnCreateDrying = new JButton();
+					pnlInformation.add(btnCreateDrying);
+					btnCreateDrying.setVisible(false);
+					btnCreateDrying.setText("Opret Toering");
+					btnCreateDrying.setBounds(0, 255, 141, 16);
+				}
 			}
 		}
 		{
@@ -283,7 +310,7 @@ public class MainFrame extends JFrame {
 	 * Denne methode bliver udfoert ver gang man klicker paa en storingspace med musen i guien
 	 * @param intermediateProductPanel
 	 */
-	public void updateInfo(IntermediateProductPanel intermediateProductPanel) {
+	public void updateInfoFromPanel(IntermediateProductPanel intermediateProductPanel) {
 		if (intermediateProductPanelSelected != null) { //unselecter den gamle storingspace
 			intermediateProductPanelSelected.setSelected(false); 
 		}
@@ -291,27 +318,39 @@ public class MainFrame extends JFrame {
 		intermediateProductPanelSelected = intermediateProductPanel;
 		StoringSpace storingSpace = intermediateProductPanel.getStoringSpace();
 		// Tjekker om den selected storingspace indeholder en mellemvare
+		positionLabelTextField.setText("( " + storingSpace.getPositionX()
+				+ ":" + storingSpace.getPositionY() + " )");
+		depotLabelTextField.setText(storingSpace.getDepot().getName());
 		if(storingSpace.getIntermediateProduct() != null) {
-			idTetFieldShower
-					.setText(storingSpace.getIntermediateProduct().getId());
-			productTypeTextFiel.setText(storingSpace
-					.getIntermediateProduct().getProductType().getName());
-			positionLabelTextField.setText("( " + storingSpace.getPositionX()
-					+ ":" + storingSpace.getPositionY() + " )");
-			quantityTextField.setText(storingSpace.getIntermediateProduct()
-					.getQuantity()
-					+ "");
-			depotLabelTextField.setText(storingSpace.getDepot().getName());
+			updateInfo(storingSpace.getIntermediateProduct());
 		} else {
-			idTetFieldShower.setText("<tomt>");
+			btnDeleteIntermediateProduct.setVisible(false);//delete btn skal ikke vises hvis man drykker paa et tomt feld
+			btnSendToNextProcess.setVisible(false);
+//			btnCreateDrying.setVisible(true);
+			idTextFieldShower.setText("<tomt>");
 			productTypeTextFiel.setText(" - ");
-			positionLabelTextField.setText("( " + storingSpace.getPositionX()
-					+ ":" + storingSpace.getPositionY() + " )");
 			quantityTextField.setText("0");
-			depotLabelTextField.setText(storingSpace.getDepot().getName());
 		}
-
 	}
+	
+	public void updateInfoFromList(IntermediateProduct intermediateProduct) {
+		btnCreateDrying.setVisible(true);
+		positionLabelTextField.setText("( - : - )");
+		depotLabelTextField.setText(" - ");
+		updateInfo(intermediateProduct);
+	}
+	
+	private void updateInfo(IntermediateProduct intermediateProduct){
+		btnDeleteIntermediateProduct.setVisible(true);
+		btnSendToNextProcess.setVisible(true);
+		btnCreateDrying.setVisible(false);
+		idTextFieldShower.setText(intermediateProduct.getId());
+		productTypeTextFiel.setText(intermediateProduct.getProductType()
+				.getName());
+		quantityTextField.setText(intermediateProduct.getQuantity()
+				+ "");
+	}
+	
 	private class Controller implements ActionListener, ListSelectionListener {
 		
 		public void fillLstIntermediateProducts() {
