@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -169,7 +171,7 @@ public class CreateProductTypeFrame extends JDialog {
 	private JButton getBtnCreateDrying() {
 		if (btnCreateDrying == null) {
 			btnCreateDrying = new JButton();
-			btnCreateDrying.setText("Opret tørring");
+			btnCreateDrying.setText("Opret tÃ¸rring");
 			btnCreateDrying.addActionListener(btnController);
 			btnCreateDrying.setLocation(280, 212);
 			btnCreateDrying.setSize(250, 25);

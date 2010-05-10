@@ -1,17 +1,24 @@
 package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -27,6 +34,19 @@ import model.IntermediateProduct;
 import model.StoringSpace;
 import service.Service;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 public class MainFrame extends JFrame {
 	private JMenuBar mnbBar;
 	private JPanel pnlWest;
@@ -39,17 +59,38 @@ public class MainFrame extends JFrame {
 	private JList lstIntermediateProducts;
 	private JButton btnNewIntermediateProduct;
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
-	private GridLayout IntermediateProductMapLayout = new GridLayout();
+	private GridLayout intermediateProductMapLayout = new GridLayout();
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
-	
-	private CreateProductTypeFrame createProductTypeFrame;
+	private JLabel productTypeLabelShower;
+	private JLabel positionLabelShower;
+	private JLabel positionLabel;
+	private JLabel depotLabelShower;
+	private JLabel depotLabel;
+	private JLabel productTypeLabel;
+	private JLabel quantityLabelShower;
+	private JLabel quantityLabel;
+	private JLabel idLabelShower;
+	private JLabel idLabel;
+	private JLabel titleLabel;
+	private JPanel pnlEast;
+	private MouseAdapter mouseAdapter = null;
+	private IntermediateProductPanel intermediateProductPanelSelected = null;
+
+	//private CreateProductTypeFrame createProductTypeFrame;
 
 	private Controller controller = new Controller();
 
 	public MainFrame() {
 		//Test Data
 		Service.getService().createTestData();
+		Service.getService().getFinishedIntermediateProducts();
+		
+		mouseAdapter = new MouseAdapter() {
+			public void mouseClicked(MouseEvent me) {
+				updateInfo((IntermediateProductPanel) me.getSource());
+			}
+		};
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Carletti v0.1");
@@ -60,9 +101,17 @@ public class MainFrame extends JFrame {
 		{
 			pnlWest = new JPanel();
 			getContentPane().add(pnlWest, BorderLayout.WEST);
-			BoxLayout pnlWestLayout = new BoxLayout(pnlWest, BoxLayout.Y_AXIS);
+			FlowLayout pnlWestLayout = new FlowLayout();
+			pnlWest.setPreferredSize(new Dimension(110,400));
+			pnlWestLayout.setAlignment(0);
 			pnlWest.setLayout(pnlWestLayout);
-			{					
+			{	
+				cbxDepot = new JComboBox();
+				cbxDepot.addActionListener(controller);
+				pnlWest.add(cbxDepot);
+				
+				
+				
 				scpIntermediateProducts = new JScrollPane();
 				pnlWest.add(scpIntermediateProducts);
 				{
@@ -72,27 +121,86 @@ public class MainFrame extends JFrame {
 					lstIntermediateProducts.setModel(lstIntermediateProductsModel);
 				}
 
-				//filler
-				pnlWest.add(Box.createRigidArea(new Dimension(5,10)));
+				
 				
 				btnNewIntermediateProduct = new JButton();
 				btnNewIntermediateProduct.setText("Ny Mellemvare");
-				pnlWest.add(btnNewIntermediateProduct);
+				pnlWest.add(btnNewIntermediateProduct);				
 				
-				//filler
-				pnlWest.add(Box.createRigidArea(new Dimension(5,10)));
-				
-				cbxDepot = new JComboBox();
-				cbxDepot.addActionListener(controller);
-				pnlWest.add(cbxDepot);
+			}
+		}
+		{
+			pnlEast = new JPanel();
+			getContentPane().add(pnlEast, BorderLayout.EAST);
+			pnlEast.setPreferredSize(new java.awt.Dimension(141, 545));
+			{
+				titleLabel = new JLabel();
+//				Font font = titleLabel.getFont();
+//				titleLabel.setFont(font.deriveFont(font.getStyle() ^ Font.BOLD));
+				pnlEast.add(titleLabel);
+				titleLabel.setText("Information:");
+			}
+			{
+				idLabel = new JLabel();
+				pnlEast.add(idLabel);
+				idLabel.setText("ID:");
+				idLabel.setPreferredSize(new java.awt.Dimension(20, 10));
+			}
+			{
+				idLabelShower = new JLabel();
+				pnlEast.add(idLabelShower);
+				idLabelShower.setText("<null>");
+			}
+			{
+				quantityLabel = new JLabel();
+				pnlEast.add(quantityLabel);
+				quantityLabel.setText("Antal:");
+			}
+			{
+				quantityLabelShower = new JLabel();
+				pnlEast.add(quantityLabelShower);
+				quantityLabelShower.setText("<null>");
+			}
+			{
+				productTypeLabel = new JLabel();
+				pnlEast.add(productTypeLabel);
+				productTypeLabel.setText("Produkt type:");
+			}
+			{
+				productTypeLabelShower = new JLabel();
+				pnlEast.add(productTypeLabelShower);
+				productTypeLabelShower.setText("<null>");
+			}
+			{
+				depotLabel = new JLabel();
+				pnlEast.add(depotLabel);
+				depotLabel.setText("Lager:");
+			}
+			{
+				depotLabelShower = new JLabel();
+				pnlEast.add(depotLabelShower);
+				depotLabelShower.setText("<null>");
+			}
+			{
+				positionLabel = new JLabel();
+				pnlEast.add(positionLabel);
+				positionLabel.setText("Position:");
+			}
+			{
+				positionLabelShower = new JLabel();
+				pnlEast.add(positionLabelShower);
+				positionLabelShower.setText("<null>");
 			}
 		}
 		{
 			pnlIntermediateProductMap = new JPanel();
 			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
-			IntermediateProductMapLayout.setHgap(5);
-			IntermediateProductMapLayout.setVgap(5);
-			pnlIntermediateProductMap.setLayout(IntermediateProductMapLayout);
+			intermediateProductMapLayout.setHgap(5);
+			intermediateProductMapLayout.setVgap(5);
+			
+			pnlIntermediateProductMap.setLayout(intermediateProductMapLayout);
+			pnlIntermediateProductMap.setBorder(BorderFactory.createEtchedBorder());
+			pnlIntermediateProductMap.setPreferredSize(new java.awt.Dimension(452, 539));
 		}
 		{
 			mnbBar = new JMenuBar();
@@ -127,7 +235,7 @@ public class MainFrame extends JFrame {
 		}
 		pack();
 		
-		createProductTypeFrame = new CreateProductTypeFrame();
+		//createProductTypeFrame = new CreateProductTypeFrame();
 		controller.fillCbxDepot();
 		controller.fillLstIntermediateProducts();
 	}
@@ -137,19 +245,65 @@ public class MainFrame extends JFrame {
 		pnlIntermediateProductMap.removeAll();
 		intermediateProductPanels.clear();
 		pnlIntermediateProductMap.updateUI();
-		IntermediateProductMapLayout.setColumns(depot.getMaxX());
-		IntermediateProductMapLayout.setRows(depot.getMaxY());
+		intermediateProductMapLayout.setColumns(depot.getMaxX());
+		intermediateProductMapLayout.setRows(depot.getMaxY());
+		
 		for (StoringSpace storingSpace : depot.getStoringSpaces()) {
 			IntermediateProductPanel intermediateProductPanel = new IntermediateProductPanel(storingSpace);
+			intermediateProductPanel.addMouseListener(mouseAdapter);
 			intermediateProductPanels.add(intermediateProductPanel);
 			pnlIntermediateProductMap.add(intermediateProductPanel);
 		} 
 		
 	}
+	
+	/**
+	 * Denne methode bliver udfoert ver gang man klicker paa en storingspace med musen i guien
+	 * @param intermediateProductPanel
+	 */
+	public void updateInfo(IntermediateProductPanel intermediateProductPanel) {
+		if (intermediateProductPanelSelected != null) { //unselecter den gamle storingspace
+			intermediateProductPanelSelected.setSelected(false); 
+		}
+		intermediateProductPanel.setSelected(true);
+		intermediateProductPanelSelected = intermediateProductPanel;
+		StoringSpace storingSpace = intermediateProductPanel.getStoringSpace();
+		// Tjekker om den selected storingspace indeholder en mellemvare
+		if(storingSpace.getIntermediateProduct() != null) {
+			idLabelShower
+					.setText(storingSpace.getIntermediateProduct().getId());
+			productTypeLabelShower.setText(storingSpace
+					.getIntermediateProduct().getProductType().getName());
+			positionLabelShower.setText("( " + storingSpace.getPositionX()
+					+ ":" + storingSpace.getPositionY() + " )");
+			quantityLabelShower.setText(storingSpace.getIntermediateProduct()
+					.getQuantity()
+					+ "");
+			depotLabelShower.setText(storingSpace.getDepot().getName());
+		} else {
+			idLabelShower.setText("<tomt>");
+			productTypeLabelShower.setText(" - ");
+			positionLabelShower.setText("( " + storingSpace.getPositionX()
+					+ ":" + storingSpace.getPositionY() + " )");
+			quantityLabelShower.setText("0");
+			depotLabelShower.setText(storingSpace.getDepot().getName());
+		}
+
+	}
 	private class Controller implements ActionListener, ListSelectionListener {
 		
 		public void fillLstIntermediateProducts() {
-			lstIntermediateProducts.setListData(Service.getService().getAllIntermediateProducts().toArray());
+			Depot selectedDepot = (Depot) cbxDepot.getSelectedItem();
+			ArrayList<IntermediateProduct> intermediateProductList = new ArrayList<IntermediateProduct>();
+			
+			for (StoringSpace storingSpace : selectedDepot.getStoringSpaces()) {
+				if(storingSpace.getIntermediateProduct()!=null) {
+					intermediateProductList.add(storingSpace.getIntermediateProduct());
+				}
+				
+			}
+			
+			lstIntermediateProducts.setListData(intermediateProductList.toArray());
 		}
 		
 		public void fillCbxDepot() {
@@ -165,6 +319,7 @@ public class MainFrame extends JFrame {
 			
 		}
 		
+				
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == cbxDepot) {
 				setDepot((Depot) cbxDepot.getSelectedItem());
@@ -172,7 +327,7 @@ public class MainFrame extends JFrame {
 			}
 			
 			else if (e.getSource() == mitCreateProductType) {
-				createProductTypeFrame.setVisible(true);
+				//createProductTypeFrame.setVisible(true);
 			}
 		}
 		@Override
