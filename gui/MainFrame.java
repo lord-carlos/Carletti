@@ -25,6 +25,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -62,15 +63,15 @@ public class MainFrame extends JFrame {
 	private GridLayout intermediateProductMapLayout = new GridLayout();
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
-	private JLabel productTypeLabelShower;
-	private JLabel positionLabelShower;
+	private JTextField productTypeTextFiel;
+	private JTextField positionLabelTextField;
 	private JLabel positionLabel;
-	private JLabel depotLabelShower;
+	private JTextField depotLabelTextField;
 	private JLabel depotLabel;
 	private JLabel productTypeLabel;
-	private JLabel quantityLabelShower;
+	private JTextField quantityTextField;
 	private JLabel quantityLabel;
-	private JLabel idLabelShower;
+	private JTextField idLabelShower;
 	private JLabel idLabel;
 	private JLabel titleLabel;
 	private JPanel pnlEast;
@@ -147,7 +148,7 @@ public class MainFrame extends JFrame {
 				idLabel.setPreferredSize(new java.awt.Dimension(20, 10));
 			}
 			{
-				idLabelShower = new JLabel();
+				idLabelShower = new JTextField();
 				pnlEast.add(idLabelShower);
 				idLabelShower.setText("<null>");
 			}
@@ -157,9 +158,9 @@ public class MainFrame extends JFrame {
 				quantityLabel.setText("Antal:");
 			}
 			{
-				quantityLabelShower = new JLabel();
-				pnlEast.add(quantityLabelShower);
-				quantityLabelShower.setText("<null>");
+				quantityTextField = new JTextField();
+				pnlEast.add(quantityTextField);
+				quantityTextField.setText("<null>");
 			}
 			{
 				productTypeLabel = new JLabel();
@@ -167,9 +168,9 @@ public class MainFrame extends JFrame {
 				productTypeLabel.setText("Produkt type:");
 			}
 			{
-				productTypeLabelShower = new JLabel();
-				pnlEast.add(productTypeLabelShower);
-				productTypeLabelShower.setText("<null>");
+				productTypeTextFiel = new JTextField();
+				pnlEast.add(productTypeTextFiel);
+				productTypeTextFiel.setText("<null>");
 			}
 			{
 				depotLabel = new JLabel();
@@ -177,9 +178,9 @@ public class MainFrame extends JFrame {
 				depotLabel.setText("Lager:");
 			}
 			{
-				depotLabelShower = new JLabel();
-				pnlEast.add(depotLabelShower);
-				depotLabelShower.setText("<null>");
+				depotLabelTextField = new JTextField();
+				pnlEast.add(depotLabelTextField);
+				depotLabelTextField.setText("<null>");
 			}
 			{
 				positionLabel = new JLabel();
@@ -187,9 +188,9 @@ public class MainFrame extends JFrame {
 				positionLabel.setText("Position:");
 			}
 			{
-				positionLabelShower = new JLabel();
-				pnlEast.add(positionLabelShower);
-				positionLabelShower.setText("<null>");
+				positionLabelTextField = new JTextField();
+				pnlEast.add(positionLabelTextField);
+				positionLabelTextField.setText("<null>");
 			}
 		}
 		{
@@ -272,21 +273,21 @@ public class MainFrame extends JFrame {
 		if(storingSpace.getIntermediateProduct() != null) {
 			idLabelShower
 					.setText(storingSpace.getIntermediateProduct().getId());
-			productTypeLabelShower.setText(storingSpace
+			productTypeTextFiel.setText(storingSpace
 					.getIntermediateProduct().getProductType().getName());
-			positionLabelShower.setText("( " + storingSpace.getPositionX()
+			positionLabelTextField.setText("( " + storingSpace.getPositionX()
 					+ ":" + storingSpace.getPositionY() + " )");
-			quantityLabelShower.setText(storingSpace.getIntermediateProduct()
+			quantityTextField.setText(storingSpace.getIntermediateProduct()
 					.getQuantity()
 					+ "");
-			depotLabelShower.setText(storingSpace.getDepot().getName());
+			depotLabelTextField.setText(storingSpace.getDepot().getName());
 		} else {
 			idLabelShower.setText("<tomt>");
-			productTypeLabelShower.setText(" - ");
-			positionLabelShower.setText("( " + storingSpace.getPositionX()
+			productTypeTextFiel.setText(" - ");
+			positionLabelTextField.setText("( " + storingSpace.getPositionX()
 					+ ":" + storingSpace.getPositionY() + " )");
-			quantityLabelShower.setText("0");
-			depotLabelShower.setText(storingSpace.getDepot().getName());
+			quantityTextField.setText("0");
+			depotLabelTextField.setText(storingSpace.getDepot().getName());
 		}
 
 	}
