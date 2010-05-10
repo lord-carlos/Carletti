@@ -22,11 +22,6 @@ public interface Dao {
 	public List<IntermediateProduct> getAllIntermediateProducts(); 
 	public void store(IntermediateProduct interMediateProduct);		
 	public void delete(IntermediateProduct interMediateProduct); 
-	
-	//ProcessLine
-	public List<ProcessLine> getAllProcessLines(); 
-	public void store(ProcessLine processLine); 
-	public void delete(ProcessLine processLine); 
 		
 	//ProductType
 	public List<ProductType> getAllProductTypes(); 

@@ -97,8 +97,22 @@ public class IntermediateProduct {
 			oldStoringSpace.unsetIntermediateProduct();
 		}
 	}
-	
+
 	public String toString() {
 		return id+" "+productType.getName();
+	}
+
+	public boolean sendToNextProcess(StoringSpace storingSpace){
+		if (processLogs.size()==0){
+
+			createProcessLog(this.productType.getProcessLine().getProcesses().get(0), storingSpace);
+			
+		} else if (true) {
+			
+		} else {
+			
+		}
+		
+		return false;
 	}
 }

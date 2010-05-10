@@ -63,22 +63,6 @@ public class DaoDb4o implements Dao {
 		db.commit();
 	}
 	
-	//ProcessLine
-	public List<ProcessLine> getAllProcessLines() {
-		return db.query(ProcessLine.class);
-	}
-
-	public void store(ProcessLine processLine) {
-		db.store(processLine);
-		db.commit();
-	}
-
-	public void delete(ProcessLine processLine) {
-		db.delete(processLine);
-		db.commit();
-	}
-
-	
 	//ProductType
 	public List<ProductType> getAllProductTypes() {
 		return db.query(ProductType.class);
