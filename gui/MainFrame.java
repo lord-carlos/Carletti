@@ -72,7 +72,7 @@ public class MainFrame extends JFrame {
 	private JLabel productTypeLabel;
 	private JTextField quantityTextField;
 	private JLabel quantityLabel;
-	private JTextField idLabelShower;
+	private JTextField idTetFieldShower;
 	private JLabel idLabel;
 	private JLabel titleLabel;
 	private JPanel pnlEast;
@@ -117,65 +117,86 @@ public class MainFrame extends JFrame {
 		}
 		{
 			pnlEast = new JPanel();
+			GridLayout pnlEastLayout = new GridLayout(28, 2);
+			pnlEastLayout.setHgap(5);
+			pnlEastLayout.setVgap(3);
+			pnlEastLayout.setColumns(1);
 			getContentPane().add(pnlEast, BorderLayout.EAST);
 			pnlEast.setPreferredSize(new java.awt.Dimension(141, 545));
+			pnlEast.setLayout(pnlEastLayout);
 			{
 				titleLabel = new JLabel();
 //				Font font = titleLabel.getFont();
 //				titleLabel.setFont(font.deriveFont(font.getStyle() ^ Font.BOLD));
 				pnlEast.add(titleLabel);
 				titleLabel.setText("Information:");
+				titleLabel.setBounds(20, 5, 75, 14);
 			}
 			{
 				idLabel = new JLabel();
 				pnlEast.add(idLabel);
 				idLabel.setText("ID:");
 				idLabel.setPreferredSize(new java.awt.Dimension(20, 10));
+				idLabel.setBounds(100, 7, 20, 10);
 			}
 			{
-				idLabelShower = new JTextField();
-				pnlEast.add(idLabelShower);
-				idLabelShower.setText("<null>");
+				idTetFieldShower = new JTextField();
+				pnlEast.add(idTetFieldShower);
+				idTetFieldShower.setText("<null>");
+				idTetFieldShower.setBounds(26, 24, 48, 21);
+				idTetFieldShower.setEditable(false);
 			}
 			{
 				quantityLabel = new JLabel();
 				pnlEast.add(quantityLabel);
 				quantityLabel.setText("Antal:");
+				quantityLabel.setBounds(79, 27, 36, 14);
 			}
 			{
 				quantityTextField = new JTextField();
 				pnlEast.add(quantityTextField);
 				quantityTextField.setText("<null>");
+				quantityTextField.setBounds(5, 74, 48, 21);
+				quantityTextField.setEditable(false);
 			}
 			{
 				productTypeLabel = new JLabel();
 				pnlEast.add(productTypeLabel);
 				productTypeLabel.setText("Produkt type:");
+				productTypeLabel.setBounds(37, 102, 84, 14);
 			}
 			{
 				productTypeTextFiel = new JTextField();
 				pnlEast.add(productTypeTextFiel);
 				productTypeTextFiel.setText("<null>");
+				productTypeTextFiel.setBounds(24, 95, 48, 21);
+				productTypeTextFiel.setEditable(false);
 			}
 			{
 				depotLabel = new JLabel();
 				pnlEast.add(depotLabel);
 				depotLabel.setText("Lager:");
+				depotLabel.setBounds(77, 98, 39, 14);
 			}
 			{
 				depotLabelTextField = new JTextField();
 				pnlEast.add(depotLabelTextField);
 				depotLabelTextField.setText("<null>");
+				depotLabelTextField.setBounds(17, 121, 48, 21);
+				depotLabelTextField.setEditable(false);
 			}
 			{
 				positionLabel = new JLabel();
 				pnlEast.add(positionLabel);
 				positionLabel.setText("Position:");
+				positionLabel.setBounds(70, 124, 54, 14);
 			}
 			{
 				positionLabelTextField = new JTextField();
 				pnlEast.add(positionLabelTextField);
+				positionLabelTextField.setBounds(-31, 147, 203, 21);
 				positionLabelTextField.setText("<null>");
+				positionLabelTextField.setEditable(false);
 			}
 		}
 		{
@@ -278,7 +299,7 @@ public class MainFrame extends JFrame {
 		StoringSpace storingSpace = intermediateProductPanel.getStoringSpace();
 		// Tjekker om den selected storingspace indeholder en mellemvare
 		if(storingSpace.getIntermediateProduct() != null) {
-			idLabelShower
+			idTetFieldShower
 					.setText(storingSpace.getIntermediateProduct().getId());
 			productTypeTextFiel.setText(storingSpace
 					.getIntermediateProduct().getProductType().getName());
@@ -289,7 +310,7 @@ public class MainFrame extends JFrame {
 					+ "");
 			depotLabelTextField.setText(storingSpace.getDepot().getName());
 		} else {
-			idLabelShower.setText("<tomt>");
+			idTetFieldShower.setText("<tomt>");
 			productTypeTextFiel.setText(" - ");
 			positionLabelTextField.setText("( " + storingSpace.getPositionX()
 					+ ":" + storingSpace.getPositionY() + " )");
