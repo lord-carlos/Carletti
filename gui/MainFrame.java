@@ -137,7 +137,6 @@ public class MainFrame extends JFrame {
 			pnlEast.setLayout(null);
 			{
 				pnlInformation = new JPanel();
-				//BoxLayout pnlInformationLayout = new BoxLayout(pnlInformation, BoxLayout.Y_AXIS);
 				pnlEast.add(pnlInformation);
 				pnlInformation.setLayout(new FlowLayout());
 				pnlInformation.setBounds(0, 0, 141, 438);
@@ -157,7 +156,6 @@ public class MainFrame extends JFrame {
 				{
 					txfID = new JTextField();
 					pnlInformation.add(txfID);
-					txfID.setText("<null>");
 					txfID.setPreferredSize(new Dimension(70,25));
 					txfID.setEditable(false);
 				}
@@ -170,7 +168,6 @@ public class MainFrame extends JFrame {
 				{
 					txfQuantity = new JTextField();
 					pnlInformation.add(txfQuantity);
-					txfQuantity.setText("<null>");
 					txfQuantity.setPreferredSize(new Dimension(70,25));
 					txfQuantity.setEditable(false);
 				}
@@ -183,7 +180,6 @@ public class MainFrame extends JFrame {
 				{
 					txfProductType = new JTextField();
 					pnlInformation.add(txfProductType);
-					txfProductType.setText("<null>");
 					txfProductType.setPreferredSize(new Dimension(130,25));
 					txfProductType.setEditable(false);
 				}
@@ -196,7 +192,6 @@ public class MainFrame extends JFrame {
 				{
 					txfDepot = new JTextField();
 					pnlInformation.add(txfDepot);
-					txfDepot.setText("<null>");
 					txfDepot.setPreferredSize(new Dimension(70,25));
 					txfDepot.setEditable(false);
 				}
@@ -209,7 +204,6 @@ public class MainFrame extends JFrame {
 				{
 					txfCoordinates = new JTextField();
 					pnlInformation.add(txfCoordinates);
-					txfCoordinates.setText("<null>");
 					txfCoordinates.setPreferredSize(new Dimension(70,25));
 					txfCoordinates.setEditable(false);
 				}
@@ -345,9 +339,10 @@ public class MainFrame extends JFrame {
 			btnDeleteIntermediateProduct.setVisible(false);//delete btn skal ikke vises hvis man drykker paa et tomt feld
 			btnSendToNextProcess.setVisible(false);
 //			btnCreateDrying.setVisible(true);
-			txfID.setText("<tomt>");
-			txfProductType.setText(" - ");
-			txfQuantity.setText("0");
+			txfID.setText("N/A");
+			txfQuantity.setText("N/A");
+			txfProductType.setText("N/A");
+			txfQuantity.setText("N/A");
 		}
 	}
 	
