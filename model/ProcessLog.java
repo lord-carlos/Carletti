@@ -14,7 +14,11 @@ public class ProcessLog{
 			throw new RuntimeException("intermediateProduct can't be set to null");
 		} else {
 			this.setProcess(process);
-			this.setStoringSpace(storingSpace);
+			if (storingSpace==null){
+				this.storingSpace=null;
+			} else {
+				this.setStoringSpace(storingSpace);
+			}
 			this.intermediateProduct=intermediateProduct;
 			this.startTime = new Date(System.currentTimeMillis());
 		}

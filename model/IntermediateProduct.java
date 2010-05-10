@@ -20,10 +20,6 @@ public class IntermediateProduct {
 		return this.finished;
 	}
 
-	public void setFinished(){
-		this.finished=true;
-	}
-
 	public String getId(){
 		return this.id;
 	}
@@ -66,7 +62,7 @@ public class IntermediateProduct {
 		return this.processLogs;
 	}
 
-	public ProcessLog createProcessLog(Process process, StoringSpace storingSpace){
+	public ProcessLog createProcessLog(Process process, StoringSpace storingSpace) throws RuntimeException {
 		ProcessLog p =new ProcessLog(process,storingSpace,this);
 		this.processLogs.add(p);
 		return p;
@@ -74,6 +70,10 @@ public class IntermediateProduct {
 
 	public void deleteProcessLog(ProcessLog processLog){
 		this.processLogs.remove(processLog);
+		if (processLog.getStoringSpace()!=null){
+			processLog.unsetStoringSpace();
+		}
+		processLog.getProcess().removeProcessLog(processLog);
 	}
 
 	public StoringSpace getStoringSpace(){
@@ -107,27 +107,47 @@ public class IntermediateProduct {
 
 			createProcessLog(this.productType.getProcessLine().getProcesses().get(0), storingSpace);
 			if (storingSpace==null){
-				this.unsetStoringSpace();
+				this.storingSpace = null;
 			} else {
 				this.setStoringSpace(storingSpace);
 			}
-			
-		} else if (processLogs.size()==this.productType.getProcessLine().getProcesses().size()) {
-			
+
+		} else if (processLogs.size()>=this.productType.getProcessLine().getProcesses().size()) {
+
 			processLogs.get(processLogs.size()-1).endProcess();
 			finished=true;
-			
+
 		} else {
 			int i = processLogs.size()-1;
 			processLogs.get(i).endProcess();
 			createProcessLog(this.productType.getProcessLine().getProcesses().get(i+1), storingSpace);
-		
+
 			if (storingSpace==null){
-				this.unsetStoringSpace();
+				this.storingSpace = null;
 			} else {
 				this.setStoringSpace(storingSpace);
 			}
-		
+
 		}
+	}
+
+	public ProcessLog getActivProcessLog(){
+
+		if (processLogs.size()==0 || isFinished()) {
+			return null;
+		} else {
+			return processLogs.get(processLogs.size()-1);
+		}
+
+	}
+
+	public Process getNextProcess(){
+
+		if (processLogs.size()>=this.productType.getProcessLine().getProcesses().size()) {
+			return null;
+		} else {
+			return productType.getProcessLine().getProcesses().get(processLogs.size());
+		}
+
 	}
 }
