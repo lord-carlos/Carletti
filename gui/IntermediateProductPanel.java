@@ -40,7 +40,7 @@ public class IntermediateProductPanel extends JPanel{
 	public IntermediateProductPanel(StoringSpace storingSpace) {
 		this.storingSpace = storingSpace;
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		//this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
 		this.setLayout(new BorderLayout());
 		{	
 			panel = new JPanel();		
