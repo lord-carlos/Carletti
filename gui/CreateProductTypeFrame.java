@@ -1,13 +1,8 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
@@ -26,13 +21,6 @@ import model.Process;
 import model.ProcessLine;
 import model.ProductType;
 
-import org.dyno.visual.swing.layouts.Bilateral;
-import org.dyno.visual.swing.layouts.Constraints;
-import org.dyno.visual.swing.layouts.GroupLayout;
-import org.dyno.visual.swing.layouts.Leading;
-import org.dyno.visual.swing.layouts.Trailing;
-
-//VS4E -- DO NOT REMOVE THIS LINE!
 public class CreateProductTypeFrame extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -56,15 +44,15 @@ public class CreateProductTypeFrame extends JDialog {
 	private ProductType productTypeToReturn;
 	private DefaultListModel listProcessesModel = new DefaultListModel();
 	private JButton btnPicture;
-	private static final String PREFERRED_LOOK_AND_FEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
+	
+	
 	public CreateProductTypeFrame() {
 		initComponents();
 
 		this.setModal(true);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.getContentPane().setPreferredSize(this.getSize());
-		this.pack();
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 
 		thisProductType = new ProductType("");
 		ProcessLine pL = new ProcessLine("", "", thisProductType);
@@ -75,26 +63,22 @@ public class CreateProductTypeFrame extends JDialog {
 
 	private void initComponents() {
 		setTitle("Opret produkttype");
-		setFont(new Font("Dialog", Font.PLAIN, 12));
-		setBackground(new Color(240, 240, 240));
-		setModal(true);
-		setForeground(Color.black);
-		setLayout(new GroupLayout());
-		add(getLblName(), new Constraints(new Leading(12, 12, 12), new Leading(12, 12, 12)));
-		add(getLblDescription(), new Constraints(new Leading(12, 12, 12), new Leading(66, 50, 50)));
-		add(getBtnChancel(), new Constraints(new Trailing(12, 246, 161, 234), new Trailing(12, 174, 283)));
-		add(getTxfName(), new Constraints(new Bilateral(12, 274, 4), new Leading(34, 12, 12)));
-		add(getBtnCreateDrying(), new Constraints(new Trailing(12, 246, 302, 283), new Trailing(50, 40, 40)));
-		add(getBtnCreateSubProcess(), new Constraints(new Trailing(13, 244, 302, 283), new Trailing(82, 40, 40)));
-		add(getBtnDeleteProcess(), new Constraints(new Trailing(12, 246, 302, 283), new Trailing(114, 40, 40)));
-		add(getBtnMoveDown(), new Constraints(new Trailing(12, 302, 283), new Leading(94, 152, 152)));
-		add(getBtnMoveUp(), new Constraints(new Trailing(12, 80, 284, 284), new Leading(50, 152, 152)));
-		add(getScpProcesses(), new Constraints(new Trailing(109, 147, 302, 284), new Bilateral(34, 146, 22)));
-		add(getLblProcesses(), new Constraints(new Leading(304, 219, 10, 10), new Leading(12, 174, 283)));
-		add(getBtnCreateProductType(), new Constraints(new Bilateral(12, 274, 137), new Trailing(12, 66, 66)));
-		add(getBtnPicture(), new Constraints(new Bilateral(12, 274, 81), new Trailing(50, 122, 192)));
-		add(getScpDescription(), new Constraints(new Bilateral(12, 274, 22), new Bilateral(88, 82, 22)));
-		setSize(560, 286);
+		setLayout(null);
+		add(getLblName());
+		add(getLblDescription());
+		add(getBtnChancel());
+		add(getTxfName());
+		add(getBtnCreateDrying());
+		add(getBtnCreateSubProcess());
+		add(getBtnDeleteProcess());
+		add(getBtnMoveDown());
+		add(getBtnMoveUp());
+		add(getScpProcesses());
+		add(getLblProcesses());
+		add(getBtnCreateProductType());
+		add(getBtnPicture());
+		add(getScpDescription());
+		setSize(548, 312);
 	}
 
 	private JButton getBtnPicture() {
@@ -102,6 +86,8 @@ public class CreateProductTypeFrame extends JDialog {
 			btnPicture = new JButton();
 			btnPicture.setText("Tilknyt et billede");
 			btnPicture.addActionListener(btnController);
+			btnPicture.setLocation(12, 212);
+			btnPicture.setSize(250, 25);
 		}
 		return btnPicture;
 	}
@@ -110,6 +96,8 @@ public class CreateProductTypeFrame extends JDialog {
 		if (scpProcesses == null) {
 			scpProcesses = new JScrollPane();
 			scpProcesses.setViewportView(getListProcesses());
+			scpProcesses.setLocation(280, 34);
+			scpProcesses.setSize(158, 113);
 		}
 		return scpProcesses;
 	}
@@ -128,6 +116,8 @@ public class CreateProductTypeFrame extends JDialog {
 			btnDeleteProcess = new JButton();
 			btnDeleteProcess.setText("Slet delbehandling");
 			btnDeleteProcess.addActionListener(btnController);
+			btnDeleteProcess.setLocation(280, 152);
+			btnDeleteProcess.setSize(250, 25);
 		}
 		return btnDeleteProcess;
 	}
@@ -137,6 +127,8 @@ public class CreateProductTypeFrame extends JDialog {
 			btnMoveUp = new JButton();
 			btnMoveUp.setText("Ryk op");
 			btnMoveUp.addActionListener(btnController);
+			btnMoveUp.setLocation(450, 58);
+			btnMoveUp.setSize(80, 25);
 		}
 		return btnMoveUp;
 	}
@@ -146,6 +138,8 @@ public class CreateProductTypeFrame extends JDialog {
 			btnMoveDown = new JButton();
 			btnMoveDown.setText("Ryk ned");
 			btnMoveDown.addActionListener(btnController);
+			btnMoveDown.setLocation(450, 98);
+			btnMoveDown.setSize(80, 25);
 		}
 		return btnMoveDown;
 	}
@@ -155,6 +149,8 @@ public class CreateProductTypeFrame extends JDialog {
 			btnChancel = new JButton();
 			btnChancel.setText("Annuller");
 			btnChancel.addActionListener(btnController);
+			btnChancel.setLocation(280, 249);
+			btnChancel.setSize(250, 25);
 		}
 		return btnChancel;
 	}
@@ -164,6 +160,8 @@ public class CreateProductTypeFrame extends JDialog {
 			btnCreateSubProcess = new JButton();
 			btnCreateSubProcess.setText("Opret behandling");
 			btnCreateSubProcess.addActionListener(btnController);
+			btnCreateSubProcess.setLocation(280, 182);
+			btnCreateSubProcess.setSize(250, 25);
 		}
 		return btnCreateSubProcess;
 	}
@@ -173,6 +171,8 @@ public class CreateProductTypeFrame extends JDialog {
 			btnCreateDrying = new JButton();
 			btnCreateDrying.setText("Opret tørring");
 			btnCreateDrying.addActionListener(btnController);
+			btnCreateDrying.setLocation(280, 212);
+			btnCreateDrying.setSize(250, 25);
 		}
 		return btnCreateDrying;
 	}
@@ -181,6 +181,8 @@ public class CreateProductTypeFrame extends JDialog {
 		if (lblProcesses == null) {
 			lblProcesses = new JLabel();
 			lblProcesses.setText("Produkttypens delbehandlinger:");
+			lblProcesses.setLocation(280, 12);
+			lblProcesses.setSize(200, 20);
 		}
 		return lblProcesses;
 	}
@@ -189,6 +191,8 @@ public class CreateProductTypeFrame extends JDialog {
 		if (scpDescription == null) {
 			scpDescription = new JScrollPane();
 			scpDescription.setViewportView(getTxaDescription());
+			scpDescription.setLocation(12, 88);
+			scpDescription.setSize(250, 120);
 		}
 		return scpDescription;
 	}
@@ -204,6 +208,8 @@ public class CreateProductTypeFrame extends JDialog {
 		if (lblDescription == null) {
 			lblDescription = new JLabel();
 			lblDescription.setText("Beskrivelse:");
+			lblDescription.setLocation(12, 66);
+			lblDescription.setSize(250, 20);
 		}
 		return lblDescription;
 	}
@@ -213,6 +219,8 @@ public class CreateProductTypeFrame extends JDialog {
 			btnCreateProductType = new JButton();
 			btnCreateProductType.setText("Opret produkttype");
 			btnCreateProductType.addActionListener(btnController);
+			btnCreateProductType.setLocation(12, 249);
+			btnCreateProductType.setSize(250, 25);
 		}
 		return btnCreateProductType;
 	}
@@ -220,6 +228,8 @@ public class CreateProductTypeFrame extends JDialog {
 	private JTextField getTxfName() {
 		if (txfName == null) {
 			txfName = new JTextField();
+			txfName.setLocation(12, 34);
+			txfName.setSize(250, 20);
 		}
 		return txfName;
 	}
@@ -228,7 +238,9 @@ public class CreateProductTypeFrame extends JDialog {
 		if (lblName == null) {
 			lblName = new JLabel();
 			lblName.setText("Produkttypens navn:");
-		}
+			lblName.setLocation(12, 12);
+			lblName.setSize(250, 20);
+			}
 		return lblName;
 	}
 
@@ -241,7 +253,7 @@ public class CreateProductTypeFrame extends JDialog {
 	 * You can modify it as you like.
 	 */
 	public static void main(String[] args) {
-
+		service.Service.getService().createTestData();
 		CreateProductTypeFrame frame = new CreateProductTypeFrame();
 
 	}
@@ -265,6 +277,9 @@ public class CreateProductTypeFrame extends JDialog {
 				}
 			} else if (e.getSource().equals(btnPicture)){
 				
+				
+				if (thisProductType.getPicture()==null){
+				
 				File activeFile;
 				
 				EditorFileHandler choosenfil = new EditorFileHandler(EditorFileHandler.LOAD_FUNCTION, new File(System.getProperty("user.dir")));
@@ -272,7 +287,11 @@ public class CreateProductTypeFrame extends JDialog {
 					activeFile = choosenfil.getSelectedFile();
 					
 					thisProductType.setPicture(new ImageIcon(activeFile.getPath()));
-					btnPicture.setText("Tilknyt et billede ("+activeFile.getPath()+")");
+					btnPicture.setText("Fjern billede ("+activeFile.getPath()+")");
+				}
+				} else {
+					thisProductType.setPicture(null);
+					btnPicture.setText("Tilknyt et billede");
 				}
 				
 				
@@ -306,6 +325,8 @@ public class CreateProductTypeFrame extends JDialog {
 
 					thisProductType.getProcessLine().getProcesses().set(index, elementBottom);
 					listProcessesModel.set(index, elementBottom);
+					
+					listProcesses.setSelectedIndex(index+1);
 				}
 				
 			} else if (e.getSource().equals(btnMoveUp)){
@@ -321,6 +342,7 @@ public class CreateProductTypeFrame extends JDialog {
 
 					thisProductType.getProcessLine().getProcesses().set(index-1, elementBottom);
 					listProcessesModel.set(index-1, elementBottom);
+					listProcesses.setSelectedIndex(index-1);
 				}
 
 			} else if (e.getSource().equals(btnCreateProductType)){

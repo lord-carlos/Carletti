@@ -18,7 +18,7 @@ public class EditorFileFilter extends FileFilter{
 
 	@Override
 	public String getDescription() {
-		return "Java File";
+		return "Billed filer";
 	}
 
 }

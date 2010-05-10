@@ -1,34 +1,22 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.Depot;
 import model.Drying;
 import model.ProcessLine;
 
-import org.dyno.visual.swing.layouts.Bilateral;
-import org.dyno.visual.swing.layouts.Constraints;
-import org.dyno.visual.swing.layouts.GroupLayout;
-import org.dyno.visual.swing.layouts.Leading;
-import org.dyno.visual.swing.layouts.Trailing;
-
 import service.Service;
 
-//VS4E -- DO NOT REMOVE THIS LINE!
 public class CreateDrying extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -46,51 +34,47 @@ public class CreateDrying extends JDialog {
 	private Drying thisDrying;
 	private BtnController btnController = new BtnController();
 	private MultiSelectebleList msl;
-	private static final String PREFERRED_LOOK_AND_FEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
+	
 	public CreateDrying(ProcessLine pl) {
 		initComponents();
 
 		this.pl=pl;
 		this.setModal(true);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.getContentPane().setPreferredSize(this.getSize());
-		this.pack();
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		
+
 		this.setVisible(true);
 	}
 
 	private void initComponents() {
-		setTitle("Opret Tørretid");
-		setFont(new Font("Dialog", Font.PLAIN, 12));
-		setBackground(new Color(240, 240, 240));
-		setModal(true);
-		setForeground(Color.black);
-		setLayout(new GroupLayout());
-		add(getLblMinTime(), new Constraints(new Leading(12, 12, 12), new Leading(12, 12, 12)));
-		add(getLblIdealTime(), new Constraints(new Leading(12, 12, 12), new Leading(66, 12, 12)));
-		add(getLblMaxTime(), new Constraints(new Leading(12, 12, 12), new Leading(120, 12, 12)));
-		add(getTxfMaxTime(), new Constraints(new Leading(12, 170, 10, 10), new Leading(142, 12, 12)));
-		add(getTxfIdealTime(), new Constraints(new Leading(12, 170, 12, 12), new Leading(88, 12, 12)));
-		add(getTxfMinTime(), new Constraints(new Leading(12, 170, 12, 12), new Leading(34, 12, 12)));
-		add(getLblDepot(), new Constraints(new Leading(209, 10, 10), new Leading(12, 12, 12)));
-		add(getBtnChancel(), new Constraints(new Bilateral(209, 12, 81), new Trailing(12, 174, 174)));
-		add(getBtnCreate(), new Constraints(new Leading(12, 170, 12, 12), new Trailing(12, 174, 174)));
-		add(getMsl(), new Constraints(new Bilateral(209, 12, 0), new Bilateral(34, 44, 0)));
-		setSize(405, 212);
+		setTitle("Opret Tørreing");
+		setLayout(null);
+		add(getLblMinTime());
+		add(getLblIdealTime());
+		add(getLblMaxTime());
+		add(getTxfMaxTime());
+		add(getTxfIdealTime());
+		add(getTxfMinTime());
+		add(getLblDepot());
+		add(getBtnChancel());
+		add(getBtnCreate());
+		add(getMsl());
+		setSize(400, 235);
 	}
 
 	private MultiSelectebleList getMsl() {
 		if (msl == null) {
 			msl = new MultiSelectebleList("Lagre");
-			msl.setSize(184, 127);
-			
+			msl.setLocation(194, 34);
+			msl.setSize(190, 127);
+
 			List<Depot> depoter= Service.getService().getAllDepots();
-			
+
 			for (int i = 0; i < depoter.size(); i++) {
 				msl.add(depoter.get(i), false);
 			}
-			
+
 		}
 		return msl;
 	}
@@ -100,6 +84,8 @@ public class CreateDrying extends JDialog {
 			btnChancel = new JButton();
 			btnChancel.setText("Annuller");
 			btnChancel.addActionListener(btnController);
+			btnChancel.setLocation(194, 174);
+			btnChancel.setSize(190, 25);
 		}
 		return btnChancel;
 	}
@@ -109,6 +95,8 @@ public class CreateDrying extends JDialog {
 			btnCreate = new JButton();
 			btnCreate.setText("Opret tørring");
 			btnCreate.addActionListener(btnController);
+			btnCreate.setLocation(12, 174);
+			btnCreate.setSize(170, 25);
 		}
 		return btnCreate;
 	}
@@ -117,6 +105,8 @@ public class CreateDrying extends JDialog {
 		if (lblDepot == null) {
 			lblDepot = new JLabel();
 			lblDepot.setText("Lagre hvor tørringen skal foregå:");
+			lblDepot.setLocation(194, 12);
+			lblDepot.setSize(190, 20);
 		}
 		return lblDepot;
 	}
@@ -124,6 +114,8 @@ public class CreateDrying extends JDialog {
 	private JTextField getTxfMaxTime() {
 		if (txfMaxTime == null) {
 			txfMaxTime = new JTextField();
+			txfMaxTime.setLocation(12, 142);
+			txfMaxTime.setSize(170, 20);
 		}
 		return txfMaxTime;
 	}
@@ -132,6 +124,8 @@ public class CreateDrying extends JDialog {
 		if (lblMaxTime == null) {
 			lblMaxTime = new JLabel();
 			lblMaxTime.setText("Maximum tørretid (timer):");
+			lblMaxTime.setLocation(12, 120);
+			lblMaxTime.setSize(170, 20);
 		}
 		return lblMaxTime;
 	}
@@ -139,6 +133,8 @@ public class CreateDrying extends JDialog {
 	private JTextField getTxfIdealTime() {
 		if (txfIdealTime == null) {
 			txfIdealTime = new JTextField();
+			txfIdealTime.setLocation(12, 88);
+			txfIdealTime.setSize(170, 20);
 		}
 		return txfIdealTime;
 	}
@@ -147,6 +143,8 @@ public class CreateDrying extends JDialog {
 		if (lblIdealTime == null) {
 			lblIdealTime = new JLabel();
 			lblIdealTime.setText("Ideal tørretid (timer):");
+			lblIdealTime.setLocation(12, 66);
+			lblIdealTime.setSize(170, 20);
 		}
 		return lblIdealTime;
 	}
@@ -154,6 +152,8 @@ public class CreateDrying extends JDialog {
 	private JTextField getTxfMinTime() {
 		if (txfMinTime == null) {
 			txfMinTime = new JTextField();
+			txfMinTime.setLocation(12, 34);
+			txfMinTime.setSize(170, 20);
 		}
 		return txfMinTime;
 	}
@@ -162,6 +162,8 @@ public class CreateDrying extends JDialog {
 		if (lblMinTime == null) {
 			lblMinTime = new JLabel();
 			lblMinTime.setText("Minimums tørretid (timer):");
+			lblMinTime.setLocation(12, 12);
+			lblMinTime.setSize(170, 20);
 		}
 		return lblMinTime;
 	}
@@ -195,9 +197,9 @@ public class CreateDrying extends JDialog {
 						for (int i = 0; i < msl.getSelectedElements().size(); i++) {
 							thisDrying.addDepot((Depot)msl.getSelectedElements().get(i));
 						}
-						
+
 						System.out.println(thisDrying.getDepots());
-						
+
 						CreateDrying.this.setVisible(false);
 					}
 					catch (NumberFormatException exception){

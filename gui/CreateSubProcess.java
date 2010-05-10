@@ -15,13 +15,6 @@ import javax.swing.JTextField;
 import model.ProcessLine;
 import model.SubProcess;
 
-import org.dyno.visual.swing.layouts.Bilateral;
-import org.dyno.visual.swing.layouts.Constraints;
-import org.dyno.visual.swing.layouts.GroupLayout;
-import org.dyno.visual.swing.layouts.Leading;
-import org.dyno.visual.swing.layouts.Trailing;
-
-//VS4E -- DO NOT REMOVE THIS LINE!
 public class CreateSubProcess extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -39,39 +32,39 @@ public class CreateSubProcess extends JDialog {
 	private ProcessLine pl;
 	private SubProcess thisSubProcess = null;
 	private BtnController btnController = new BtnController();
-	private static final String PREFERRED_LOOK_AND_FEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
 	public CreateSubProcess(ProcessLine pl) {
 		initComponents();
 
 		this.pl=pl;
 		this.setModal(true);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.getContentPane().setPreferredSize(this.getSize());
-		this.pack();
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 
 	private void initComponents() {
 		setTitle("Opret behandling");
-		setLayout(new GroupLayout());
-		add(getLblName(), new Constraints(new Leading(12, 12, 12), new Leading(12, 12, 12)));
-		add(getLblTemp(), new Constraints(new Leading(12, 12, 12), new Leading(60, 12, 12)));
-		add(getLblTime(), new Constraints(new Leading(12, 12, 12), new Leading(108, 12, 12)));
-		add(getLblDescr(), new Constraints(new Leading(12, 12, 12), new Leading(156, 12, 12)));
-		add(getBtnCreate(), new Constraints(new Leading(12, 198, 10, 10), new Trailing(12, 184, 184)));
-		add(getBtnChancel(), new Constraints(new Bilateral(228, 12, 81), new Trailing(12, 12, 12)));
-		add(getScpDescr(), new Constraints(new Bilateral(12, 12, 22), new Bilateral(178, 56, 22)));
-		add(getTxfTime(), new Constraints(new Leading(12, 198, 12, 12), new Leading(130, 12, 12)));
-		add(getTxfTemp(), new Constraints(new Leading(12, 198, 12, 12), new Leading(82, 12, 12)));
-		add(getTxfName(), new Constraints(new Leading(12, 198, 12, 12), new Leading(34, 12, 12)));
-		setSize(425, 324);
+		setLayout(null);
+		add(getLblName());
+		add(getLblTemp());
+		add(getLblTime());
+		add(getLblDescr());
+		add(getBtnCreate());
+		add(getBtnChancel());
+		add(getScpDescr());
+		add(getTxfTime());
+		add(getTxfTemp());
+		add(getTxfName());
+		setSize(312, 378);
 	}
 
 	private JScrollPane getScpDescr() {
 		if (scpDescr == null) {
 			scpDescr = new JScrollPane();
 			scpDescr.setViewportView(getTxaDescr());
+			scpDescr.setLocation(12, 192);
+			scpDescr.setSize(282, 120);
 		}
 		return scpDescr;
 	}
@@ -88,6 +81,8 @@ public class CreateSubProcess extends JDialog {
 			btnChancel = new JButton();
 			btnChancel.setText("Annuller");
 			btnChancel.addActionListener(btnController);
+			btnChancel.setLocation(159, 316);
+			btnChancel.setSize(135, 25);
 		}
 		return btnChancel;
 	}
@@ -97,6 +92,9 @@ public class CreateSubProcess extends JDialog {
 			btnCreate = new JButton();
 			btnCreate.setText("Opret behandling");
 			btnCreate.addActionListener(btnController);
+			btnCreate.setLocation(12, 316);
+			btnCreate.setSize(135, 25);
+
 		}
 		return btnCreate;
 	}
@@ -105,6 +103,8 @@ public class CreateSubProcess extends JDialog {
 		if (lblDescr == null) {
 			lblDescr = new JLabel();
 			lblDescr.setText("Beskrivelse:");
+			lblDescr.setLocation(12, 174);
+			lblDescr.setSize(282, 20);
 		}
 		return lblDescr;
 	}
@@ -112,6 +112,8 @@ public class CreateSubProcess extends JDialog {
 	private JTextField getTxfTime() {
 		if (txfTime == null) {
 			txfTime = new JTextField("24");
+			txfTime.setLocation(12, 142);
+			txfTime.setSize(282, 20);
 		}
 		return txfTime;
 	}
@@ -120,6 +122,8 @@ public class CreateSubProcess extends JDialog {
 		if (lblTime == null) {
 			lblTime = new JLabel();
 			lblTime.setText("Behandlingens tid (timer):");
+			lblTime.setLocation(12, 120);
+			lblTime.setSize(282, 20);
 		}
 		return lblTime;
 	}
@@ -127,6 +131,8 @@ public class CreateSubProcess extends JDialog {
 	private JTextField getTxfTemp() {
 		if (txfTemp == null) {
 			txfTemp = new JTextField("15");
+			txfTemp.setLocation(12, 88);
+			txfTemp.setSize(282, 20);
 		}
 		return txfTemp;
 	}
@@ -135,6 +141,8 @@ public class CreateSubProcess extends JDialog {
 		if (lblTemp == null) {
 			lblTemp = new JLabel();
 			lblTemp.setText("Behandlingengs temperatur (C):");
+			lblTemp.setLocation(12, 66);
+			lblTemp.setSize(282, 20);
 		}
 		return lblTemp;
 	}
@@ -142,6 +150,8 @@ public class CreateSubProcess extends JDialog {
 	private JTextField getTxfName() {
 		if (txfName == null) {
 			txfName = new JTextField();
+			txfName.setLocation(12, 34);
+			txfName.setSize(282, 20);
 		}
 		return txfName;
 	}
@@ -150,6 +160,8 @@ public class CreateSubProcess extends JDialog {
 		if (lblName == null) {
 			lblName = new JLabel();
 			lblName.setText("Behandlingsens navn:");
+			lblName.setLocation(12, 12);
+			lblName.setSize(282, 20);
 		}
 		return lblName;
 	}
@@ -166,7 +178,7 @@ public class CreateSubProcess extends JDialog {
 			if (e.getSource().equals(btnChancel)){
 				CreateSubProcess.this.setVisible(false);
 			} else if (e.getSource().equals(btnCreate)){
-			
+
 				if (getTxfName().getText().isEmpty()){
 					JOptionPane.showMessageDialog(null,"Behandlingen skal have et navn!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
 
@@ -198,6 +210,6 @@ public class CreateSubProcess extends JDialog {
 
 		}
 	}
-	
-	
+
+
 }
