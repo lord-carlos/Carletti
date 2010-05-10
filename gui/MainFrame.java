@@ -82,6 +82,7 @@ public class MainFrame extends JFrame {
 	private CreateProductTypeFrame createProductTypeFrame;
 	private CreateIntermediateProduct createIntermediateProduct;
 	private Controller controller = new Controller();
+	private UpdateTimer updateTimer;
 
 	public MainFrame() {
 		Service.getService().createTestData();
@@ -286,6 +287,9 @@ public class MainFrame extends JFrame {
 		pack();
 
 		controller.fillLstIntermediateProducts();
+		
+		updateTimer = new UpdateTimer(60, intermediateProductPanels);
+		
 	}
 	public void fillChooseDepotMenu() {
 		mnuViewDepot.removeAll();

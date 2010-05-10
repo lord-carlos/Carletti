@@ -18,8 +18,8 @@ public class Depot {
 		this.maxX=maxX;
 		this.maxY=maxY;
 		
-		for (int x = 1; x <=maxX; x++) {
-			for (int y = 1; y <=maxY; y++) {
+		for (int y = 1; y <=maxY; y++) {
+			for (int x = 1; x <=maxX; x++) {
 				StoringSpace ss =new StoringSpace(x,y,this);
 				this.storingspaces.add(ss);
 			}

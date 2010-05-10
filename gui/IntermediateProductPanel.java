@@ -30,13 +30,13 @@ public class IntermediateProductPanel extends JPanel{
 	private JPanel panel;
 	private JProgressBar progressBar;
 	private JLabel lblName, lblIcon;
-	
-	
+
+
 	private StoringSpace storingSpace;
 	private Boolean selected;
-	
-	
-	
+
+
+
 	public IntermediateProductPanel(StoringSpace storingSpace) {
 		this.storingSpace = storingSpace;
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -65,7 +65,7 @@ public class IntermediateProductPanel extends JPanel{
 				panel.add(lblIcon, BorderLayout.CENTER);		
 			}
 		}
-		
+
 		if(storingSpace.getIntermediateProduct() != null) {
 			lblName.setText(storingSpace.getIntermediateProduct().getProductType().getName());
 			lblIcon.setIcon(storingSpace.getIntermediateProduct().getProductType().getPicture());
@@ -76,17 +76,17 @@ public class IntermediateProductPanel extends JPanel{
 			lblIcon.setVisible(false);
 		}
 	}
-	
+
 	public void updateTime() {
 		if(storingSpace.getIntermediateProduct() != null) {
-		Drying drying = (Drying) storingSpace.getIntermediateProduct().getProcessLogs().get(storingSpace.getIntermediateProduct().getProcessLogs().size()-1).getProcess();		
-		progressBar.setMinimum(0);
-		progressBar.setMaximum((int) drying.getMaxTime()/1000);
-		long currentTime = System.currentTimeMillis()-storingSpace.getIntermediateProduct().getProcessLogs().get(storingSpace.getIntermediateProduct().getProcessLogs().size()-1).getStartTime().getTime();
-		progressBar.setValue((int) currentTime/1000);
+			Drying drying = (Drying) storingSpace.getIntermediateProduct().getActivProcessLog().getProcess();		
+			progressBar.setMinimum(0);
+			progressBar.setMaximum((int) drying.getMaxTime()/1000);
+			long currentTime = System.currentTimeMillis()-storingSpace.getIntermediateProduct().getActivProcessLog().getStartTime().getTime();
+			progressBar.setValue((int) currentTime/1000);
 		}
 	}
-	
+
 	public void setSelected(Boolean bool) {
 		if(bool) {
 			this.setBorder(BorderFactory.createLineBorder(Color.orange, 3));
@@ -95,11 +95,11 @@ public class IntermediateProductPanel extends JPanel{
 			this.setBorder(BorderFactory.createLineBorder(Color.black));	
 		}
 	}
-	
+
 	public Boolean isSelected() {
 		return this.selected;
 	}
-	
+
 	public StoringSpace getStoringSpace() {
 		return this.storingSpace;
 	}
