@@ -66,6 +66,7 @@ public class MainFrame extends JFrame {
 	private JButton btnDeleteIntermediateProduct;
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
 	private GridLayout intermediateProductMapLayout = new GridLayout();
+	private JPanel pnlInformation;
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
 	private JTextField productTypeTextFiel;
@@ -415,7 +416,7 @@ public class MainFrame extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			updateInfo((IntermediateProductPanel)e.getSource());			
+			updateInfoFromPanel((IntermediateProductPanel)e.getSource());
 		}
 
 		@Override
