@@ -1,8 +1,10 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -54,23 +56,24 @@ public class Service {
 		return intermediateProduct;
 	}
 	
+	public void StoreIntermediateProduct(IntermediateProduct intermediateProduct) {
+		dao.store(intermediateProduct);
+	}
+	
 	public void deleteIntermediateProduct(IntermediateProduct intermediateProduct) {
 		dao.delete(intermediateProduct);
 	}
-
-	//ProcessLine
-	public List<ProcessLine> getAllProcessLines() {
-		return dao.getAllProcessLines();
-	}
 	
-	public ProcessLine createProcessLine(String name, String description, ProductType productType) {
-		ProcessLine processLine = new ProcessLine(name, description, productType);
-		dao.store(processLine);
-		return processLine;
-	}
-	
-	public void deleteProcessLine(ProcessLine processLine) {
-		dao.delete(processLine);
+	public List<IntermediateProduct> getActiveIntermediateProducts(){
+		List<IntermediateProduct> activeP= new ArrayList<IntermediateProduct>();
+		List<IntermediateProduct> allP= dao.getAllIntermediateProducts();
+		for (int i = 0; i < allP.size(); i++) {
+			if (!allP.get(i).isFinished()){
+				activeP.add(allP.get(i));
+			}
+		}
+		
+		return activeP;
 	}
 	
 	//ProductType
@@ -82,6 +85,10 @@ public class Service {
 		ProductType productType = new ProductType(name);
 		dao.store(productType);
 		return productType;
+	}
+	
+	public void storeProductType(ProductType productType){
+		dao.store(productType);
 	}
 	
 	public void deleteProductType(ProductType productType) {
@@ -109,7 +116,7 @@ public class Service {
 		pteCitronDrage.setPicture(new ImageIcon("gui/icons/citron dragé.jpg"));
 		
 		// Carls mess below
-		ProcessLine processLine0 = createProcessLine("lakrits", "tilfoejer lakritz", pteChokoladelinser);
+		ProcessLine processLine0 = new ProcessLine("lakrits", "tilfoejer lakritz", pteChokoladelinser);
 		processLine0.createSubProcess(0, "den foerste", "her sker noget", 440, 60);
 		processLine0.createSubProcess(1, "den naeste", "her sker ikke noget :D", 200, 60);
 		// end of Carls mess

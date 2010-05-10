@@ -65,21 +65,6 @@ public class DaoList implements Dao {
 		intermediateProducts.remove(interMediateProduct);
 	}
 	
-	
-	//ProcessLine
-	public List<ProcessLine> getAllProcessLines() {
-		return processLines;
-	}
-	
-	public void store(ProcessLine processLine) {
-		if (!processLines.contains(processLine))
-			processLines.add(processLine);
-	}
-	
-	public void delete(ProcessLine processLine) {
-		processLines.remove(processLine);
-	}
-	
 	//ProductType
 	public List<ProductType> getAllProductTypes() {
 		return productTypes;
