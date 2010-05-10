@@ -4,20 +4,16 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -69,17 +65,17 @@ public class MainFrame extends JFrame {
 	private JPanel pnlInformation;
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
-	private JTextField productTypeTextFiel;
-	private JTextField positionLabelTextField;
-	private JLabel positionLabel;
-	private JTextField depotLabelTextField;
-	private JLabel depotLabel;
-	private JLabel productTypeLabel;
-	private JTextField quantityTextField;
-	private JLabel quantityLabel;
-	private JTextField idTextFieldShower;
-	private JLabel idLabel;
-	private JLabel titleLabel;
+	private JTextField txfProductType;
+	private JTextField txfCoordinates;
+	private JLabel lblCoordinates;
+	private JTextField txfDepot;
+	private JLabel lblDepot;
+	private JLabel lblProductType;
+	private JTextField txfQuantity;
+	private JLabel lblQuantity;
+	private JTextField txfID;
+	private JLabel lblID;
+	private JLabel lblInformation;
 	private JPanel pnlEast;
 	private ArrayList<JMenuItem> mitDepots = new ArrayList<JMenuItem>();
 	private IntermediateProductPanel intermediateProductPanelSelected = null;
@@ -101,12 +97,14 @@ public class MainFrame extends JFrame {
 			pnlWest = new JPanel();
 			getContentPane().add(pnlWest, BorderLayout.WEST);
 			FlowLayout pnlWestLayout = new FlowLayout();
-			pnlWest.setPreferredSize(new Dimension(140,400));
+			pnlWest.setPreferredSize(new Dimension(140,500));
 			pnlWestLayout.setAlignment(0);
 			pnlWest.setLayout(pnlWestLayout);
 			{	
 				{
 					lblIntermediateProduct = new JLabel("Mellemvarer:");
+					lblIntermediateProduct.setFont(lblIntermediateProduct.getFont().deriveFont(lblIntermediateProduct.getFont().getStyle() ^ Font.BOLD));
+					lblIntermediateProduct.setPreferredSize(new Dimension(130,25));
 					pnlWest.add(lblIntermediateProduct);
 				}
 				{
@@ -134,102 +132,97 @@ public class MainFrame extends JFrame {
 		{
 			pnlEast = new JPanel();
 			getContentPane().add(pnlEast, BorderLayout.EAST);
-			pnlEast.setPreferredSize(new java.awt.Dimension(141, 545));
+			pnlEast.setPreferredSize(new java.awt.Dimension(140, 500));
 			pnlEast.setLayout(null);
 			{
 				pnlInformation = new JPanel();
-				GridLayout pnlInformationLayout = new GridLayout(20, 2);
-				pnlInformationLayout.setHgap(5);
-				pnlInformationLayout.setVgap(5);
-				pnlInformationLayout.setRows(20);
-				pnlInformationLayout.setColumns(2);
+				//BoxLayout pnlInformationLayout = new BoxLayout(pnlInformation, BoxLayout.Y_AXIS);
 				pnlEast.add(pnlInformation);
-				pnlInformation.setLayout(pnlInformationLayout);
+				pnlInformation.setLayout(new FlowLayout());
 				pnlInformation.setBounds(0, 0, 141, 438);
 				{
-					titleLabel = new JLabel();
-					pnlInformation.add(titleLabel);
-					//				Font font = titleLabel.getFont();
-					//				titleLabel.setFont(font.deriveFont(font.getStyle() ^ Font.BOLD));
-					titleLabel.setText("Information:");
-					titleLabel.setBounds(0, 8, 141, 16);
+					lblInformation = new JLabel();
+					pnlInformation.add(lblInformation);
+					lblInformation.setFont(lblInformation.getFont().deriveFont(lblInformation.getFont().getStyle() ^ Font.BOLD));
+					lblInformation.setText("Information:");
+					lblInformation.setPreferredSize(new Dimension(130,25));
 				}
 				{
-					idLabel = new JLabel();
-					pnlInformation.add(idLabel);
-					idLabel.setText("ID:");
-					idLabel.setBounds(0, 27, 141, 16);
+					lblID = new JLabel();
+					pnlInformation.add(lblID);
+					lblID.setText("ID:");
+					lblID.setPreferredSize(new Dimension(60,25));
 				}
 				{
-					idTextFieldShower = new JTextField();
-					pnlInformation.add(idTextFieldShower);
-					idTextFieldShower.setText("<null>");
-					idTextFieldShower.setBounds(0, 46, 141, 16);
-					idTextFieldShower.setEditable(false);
+					txfID = new JTextField();
+					pnlInformation.add(txfID);
+					txfID.setText("<null>");
+					txfID.setPreferredSize(new Dimension(70,25));
+					txfID.setEditable(false);
 				}
 				{
-					quantityLabel = new JLabel();
-					pnlInformation.add(quantityLabel);
-					quantityLabel.setText("Antal:");
-					quantityLabel.setBounds(0, 65, 141, 16);
+					lblQuantity = new JLabel();
+					pnlInformation.add(lblQuantity);
+					lblQuantity.setText("Antal:");
+					lblQuantity.setPreferredSize(new Dimension(60,25));
 				}
 				{
-					quantityTextField = new JTextField();
-					pnlInformation.add(quantityTextField);
-					quantityTextField.setText("<null>");
-					quantityTextField.setBounds(0, 84, 141, 16);
-					quantityTextField.setEditable(false);
+					txfQuantity = new JTextField();
+					pnlInformation.add(txfQuantity);
+					txfQuantity.setText("<null>");
+					txfQuantity.setPreferredSize(new Dimension(70,25));
+					txfQuantity.setEditable(false);
 				}
 				{
-					productTypeLabel = new JLabel();
-					pnlInformation.add(productTypeLabel);
-					productTypeLabel.setText("Produkt type:");
-					productTypeLabel.setBounds(0, 103, 141, 16);
+					lblProductType = new JLabel();
+					pnlInformation.add(lblProductType);
+					lblProductType.setText("Produkt type:");
+					lblProductType.setPreferredSize(new Dimension(130,25));
 				}
 				{
-					productTypeTextFiel = new JTextField();
-					pnlInformation.add(productTypeTextFiel);
-					productTypeTextFiel.setText("<null>");
-					productTypeTextFiel.setBounds(0, 122, 141, 16);
-					productTypeTextFiel.setEditable(false);
+					txfProductType = new JTextField();
+					pnlInformation.add(txfProductType);
+					txfProductType.setText("<null>");
+					txfProductType.setPreferredSize(new Dimension(130,25));
+					txfProductType.setEditable(false);
 				}
 				{
-					depotLabel = new JLabel();
-					pnlInformation.add(depotLabel);
-					depotLabel.setText("Lager:");
-					depotLabel.setBounds(0, 141, 141, 16);
+					lblDepot = new JLabel();
+					pnlInformation.add(lblDepot);
+					lblDepot.setText("Lager:");
+					lblDepot.setPreferredSize(new Dimension(60,25));
 				}
 				{
-					depotLabelTextField = new JTextField();
-					pnlInformation.add(depotLabelTextField);
-					depotLabelTextField.setText("<null>");
-					depotLabelTextField.setBounds(0, 160, 141, 16);
-					depotLabelTextField.setEditable(false);
+					txfDepot = new JTextField();
+					pnlInformation.add(txfDepot);
+					txfDepot.setText("<null>");
+					txfDepot.setPreferredSize(new Dimension(70,25));
+					txfDepot.setEditable(false);
 				}
 				{
-					positionLabel = new JLabel();
-					pnlInformation.add(positionLabel);
-					positionLabel.setText("Position:");
-					positionLabel.setBounds(0, 179, 141, 16);
+					lblCoordinates = new JLabel();
+					pnlInformation.add(lblCoordinates);
+					lblCoordinates.setText("Position:");
+					lblCoordinates.setPreferredSize(new Dimension (60,25));
 				}
 				{
-					positionLabelTextField = new JTextField();
-					pnlInformation.add(positionLabelTextField);
-					positionLabelTextField.setBounds(0, 198, 141, 16);
-					positionLabelTextField.setText("<null>");
-					positionLabelTextField.setEditable(false);
+					txfCoordinates = new JTextField();
+					pnlInformation.add(txfCoordinates);
+					txfCoordinates.setText("<null>");
+					txfCoordinates.setPreferredSize(new Dimension(70,25));
+					txfCoordinates.setEditable(false);
 				}
 				{
 					btnSendToNextProcess = new JButton();
 					pnlInformation.add(btnSendToNextProcess);
 					btnSendToNextProcess.setText("Viderbehandling");
-					btnSendToNextProcess.setBounds(0, 236, 141, 16);
+					btnSendToNextProcess.setPreferredSize(new Dimension(130,25));
 				}
 				{
 					btnDeleteIntermediateProduct = new JButton();
 					pnlInformation.add(btnDeleteIntermediateProduct);
 					btnDeleteIntermediateProduct.setText("Slet");
-					btnDeleteIntermediateProduct.setBounds(0, 217, 141, 16);
+					btnDeleteIntermediateProduct.setPreferredSize(new Dimension(130,25));
 				}
 				{
 					btnCreateDrying = new JButton();
@@ -339,25 +332,25 @@ public class MainFrame extends JFrame {
 		intermediateProductPanelSelected = intermediateProductPanel;
 		StoringSpace storingSpace = intermediateProductPanel.getStoringSpace();
 		// Tjekker om den selected storingspace indeholder en mellemvare
-		positionLabelTextField.setText("( " + storingSpace.getPositionX()
+		txfCoordinates.setText("( " + storingSpace.getPositionX()
 				+ ":" + storingSpace.getPositionY() + " )");
-		depotLabelTextField.setText(storingSpace.getDepot().getName());
+		txfDepot.setText(storingSpace.getDepot().getName());
 		if(storingSpace.getIntermediateProduct() != null) {
 			updateInfo(storingSpace.getIntermediateProduct());
 		} else {
 			btnDeleteIntermediateProduct.setVisible(false);//delete btn skal ikke vises hvis man drykker paa et tomt feld
 			btnSendToNextProcess.setVisible(false);
 //			btnCreateDrying.setVisible(true);
-			idTextFieldShower.setText("<tomt>");
-			productTypeTextFiel.setText(" - ");
-			quantityTextField.setText("0");
+			txfID.setText("<tomt>");
+			txfProductType.setText(" - ");
+			txfQuantity.setText("0");
 		}
 	}
 	
 	public void updateInfoFromList(IntermediateProduct intermediateProduct) {
 		btnCreateDrying.setVisible(true);
-		positionLabelTextField.setText("( - : - )");
-		depotLabelTextField.setText(" - ");
+		txfCoordinates.setText("( - : - )");
+		txfDepot.setText(" - ");
 		updateInfo(intermediateProduct);
 	}
 	
@@ -365,10 +358,10 @@ public class MainFrame extends JFrame {
 		btnDeleteIntermediateProduct.setVisible(true);
 		btnSendToNextProcess.setVisible(true);
 		btnCreateDrying.setVisible(false);
-		idTextFieldShower.setText(intermediateProduct.getId());
-		productTypeTextFiel.setText(intermediateProduct.getProductType()
+		txfID.setText(intermediateProduct.getId());
+		txfProductType.setText(intermediateProduct.getProductType()
 				.getName());
-		quantityTextField.setText(intermediateProduct.getQuantity()
+		txfQuantity.setText(intermediateProduct.getQuantity()
 				+ "");
 	}
 	private class Controller implements ActionListener, ListSelectionListener, MouseListener {
