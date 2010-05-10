@@ -92,7 +92,6 @@ public class Service {
 
 		Depot depot1 = createDepot("Lager 1","Hovedlageret",5,8);
 		Depot depot2 = createDepot("Lager 2","Lager til lort",4,5);
-		ProcessLine processLine1 = new ProcessLine("Tomater", "Grønne tomater", productType1);
 		
 		ProductType pteSkumbananer = createProductType("Skumbananer");
 		pteSkumbananer.setPicture(new ImageIcon("gui/icons/skumbananer.jpg"));
