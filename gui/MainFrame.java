@@ -4,19 +4,16 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -37,64 +34,61 @@ import service.Service;
 
 
 /**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
+ * This code was edited or generated using CloudGarden's Jigloo
+ * SWT/Swing GUI Builder, which is free for non-commercial
+ * use. If Jigloo is being used commercially (ie, by a corporation,
+ * company or business for any purpose whatever) then you
+ * should purchase a license for each developer using Jigloo.
+ * Please visit www.cloudgarden.com for details.
+ * Use of Jigloo implies acceptance of these licensing terms.
+ * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+ * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+ * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+ */
 public class MainFrame extends JFrame {
 	private JMenuBar mnbBar;
 	private JPanel pnlWest;
+	private JLabel lblIntermediateProduct;
 	private JScrollPane scpIntermediateProducts;
-	private JMenu jMenu3;
 	private JMenu mnuView;
+	private JMenu mnuCreate;
 	private JMenu jMenu1;
 	private JPanel pnlIntermediateProductMap;
-	private JComboBox cbxDepot;
 	private JList lstIntermediateProducts;
-	private JButton btnNewIntermediateProduct;
+	private JButton btnCreateIntermediateProduct;
+	private JMenuItem mnuViewDepot;
+	private JButton btnCreateDrying;
+	private JButton btnSendToNextProcess;
+	private JButton btnDeleteIntermediateProduct;
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
 	private GridLayout intermediateProductMapLayout = new GridLayout();
+	private JPanel pnlInformation;
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
-	private JTextField productTypeTextFiel;
-	private JTextField positionLabelTextField;
-	private JLabel positionLabel;
-	private JTextField depotLabelTextField;
-	private JLabel depotLabel;
-	private JLabel productTypeLabel;
-	private JTextField quantityTextField;
-	private JLabel quantityLabel;
-	private JTextField idLabelShower;
-	private JLabel idLabel;
-	private JLabel titleLabel;
+	private JTextField txfProductType;
+	private JTextField txfCoordinates;
+	private JLabel lblCoordinates;
+	private JTextField txfDepot;
+	private JLabel lblDepot;
+	private JLabel lblProductType;
+	private JTextField txfQuantity;
+	private JLabel lblQuantity;
+	private JTextField txfID;
+	private JLabel lblID;
+	private JLabel lblInformation;
 	private JPanel pnlEast;
-	private MouseAdapter mouseAdapter = null;
+	private ArrayList<JMenuItem> mitDepots = new ArrayList<JMenuItem>();
 	private IntermediateProductPanel intermediateProductPanelSelected = null;
-
-	//private CreateProductTypeFrame createProductTypeFrame;
-
+	private CreateProductTypeFrame createProductTypeFrame;
+	private CreateIntermediateProduct createIntermediateProduct;
 	private Controller controller = new Controller();
 
 	public MainFrame() {
-		//Test Data
 		Service.getService().createTestData();
-		Service.getService().getFinishedIntermediateProducts();
-		
-		mouseAdapter = new MouseAdapter() {
-			public void mouseClicked(MouseEvent me) {
-				updateInfo((IntermediateProductPanel) me.getSource());
-			}
-		};
-		
+
+
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Carletti v0.1");
+		this.setTitle("Carletti v0.7");
 		BorderLayout thisLayout = new BorderLayout();
 		getContentPane().setLayout(thisLayout);
 		this.setResizable(true);
@@ -103,94 +97,140 @@ public class MainFrame extends JFrame {
 			pnlWest = new JPanel();
 			getContentPane().add(pnlWest, BorderLayout.WEST);
 			FlowLayout pnlWestLayout = new FlowLayout();
-			pnlWest.setPreferredSize(new Dimension(110,400));
+			pnlWest.setPreferredSize(new Dimension(140,500));
 			pnlWestLayout.setAlignment(0);
 			pnlWest.setLayout(pnlWestLayout);
 			{	
-				cbxDepot = new JComboBox();
-				cbxDepot.addActionListener(controller);
-				pnlWest.add(cbxDepot);
-				
-				
-				
-				scpIntermediateProducts = new JScrollPane();
-				pnlWest.add(scpIntermediateProducts);
 				{
-					ListModel lstIntermediateProductsModel = new DefaultComboBoxModel();
-					lstIntermediateProducts = new JList();
-					scpIntermediateProducts.setViewportView(lstIntermediateProducts);
-					lstIntermediateProducts.setModel(lstIntermediateProductsModel);
+					lblIntermediateProduct = new JLabel("Mellemvarer:");
+					lblIntermediateProduct.setFont(lblIntermediateProduct.getFont().deriveFont(lblIntermediateProduct.getFont().getStyle() ^ Font.BOLD));
+					lblIntermediateProduct.setPreferredSize(new Dimension(130,25));
+					pnlWest.add(lblIntermediateProduct);
+				}
+				{
+					scpIntermediateProducts = new JScrollPane();
+					pnlWest.add(scpIntermediateProducts);
+					scpIntermediateProducts.setPreferredSize(new Dimension(130,300));
+
+					{
+						ListModel lstIntermediateProductsModel = new DefaultComboBoxModel();
+						lstIntermediateProducts = new JList();
+						scpIntermediateProducts.setViewportView(lstIntermediateProducts);
+						lstIntermediateProducts.setModel(lstIntermediateProductsModel);
+						lstIntermediateProducts.addListSelectionListener(controller);
+					}
+				}
+				{
+					btnCreateIntermediateProduct = new JButton();
+					btnCreateIntermediateProduct.setText("Opret Mellemvare");
+					btnCreateIntermediateProduct.setPreferredSize(new Dimension(130,30));
+					pnlWest.add(btnCreateIntermediateProduct);		
 				}
 
-				
-				
-				btnNewIntermediateProduct = new JButton();
-				btnNewIntermediateProduct.setText("Ny Mellemvare");
-				pnlWest.add(btnNewIntermediateProduct);				
-				
 			}
 		}
 		{
 			pnlEast = new JPanel();
 			getContentPane().add(pnlEast, BorderLayout.EAST);
-			pnlEast.setPreferredSize(new java.awt.Dimension(141, 545));
+			pnlEast.setPreferredSize(new java.awt.Dimension(140, 500));
+			pnlEast.setLayout(null);
 			{
-				titleLabel = new JLabel();
-//				Font font = titleLabel.getFont();
-//				titleLabel.setFont(font.deriveFont(font.getStyle() ^ Font.BOLD));
-				pnlEast.add(titleLabel);
-				titleLabel.setText("Information:");
-			}
-			{
-				idLabel = new JLabel();
-				pnlEast.add(idLabel);
-				idLabel.setText("ID:");
-				idLabel.setPreferredSize(new java.awt.Dimension(20, 10));
-			}
-			{
-				idLabelShower = new JTextField();
-				pnlEast.add(idLabelShower);
-				idLabelShower.setText("<null>");
-			}
-			{
-				quantityLabel = new JLabel();
-				pnlEast.add(quantityLabel);
-				quantityLabel.setText("Antal:");
-			}
-			{
-				quantityTextField = new JTextField();
-				pnlEast.add(quantityTextField);
-				quantityTextField.setText("<null>");
-			}
-			{
-				productTypeLabel = new JLabel();
-				pnlEast.add(productTypeLabel);
-				productTypeLabel.setText("Produkt type:");
-			}
-			{
-				productTypeTextFiel = new JTextField();
-				pnlEast.add(productTypeTextFiel);
-				productTypeTextFiel.setText("<null>");
-			}
-			{
-				depotLabel = new JLabel();
-				pnlEast.add(depotLabel);
-				depotLabel.setText("Lager:");
-			}
-			{
-				depotLabelTextField = new JTextField();
-				pnlEast.add(depotLabelTextField);
-				depotLabelTextField.setText("<null>");
-			}
-			{
-				positionLabel = new JLabel();
-				pnlEast.add(positionLabel);
-				positionLabel.setText("Position:");
-			}
-			{
-				positionLabelTextField = new JTextField();
-				pnlEast.add(positionLabelTextField);
-				positionLabelTextField.setText("<null>");
+				pnlInformation = new JPanel();
+				//BoxLayout pnlInformationLayout = new BoxLayout(pnlInformation, BoxLayout.Y_AXIS);
+				pnlEast.add(pnlInformation);
+				pnlInformation.setLayout(new FlowLayout());
+				pnlInformation.setBounds(0, 0, 141, 438);
+				{
+					lblInformation = new JLabel();
+					pnlInformation.add(lblInformation);
+					lblInformation.setFont(lblInformation.getFont().deriveFont(lblInformation.getFont().getStyle() ^ Font.BOLD));
+					lblInformation.setText("Information:");
+					lblInformation.setPreferredSize(new Dimension(130,25));
+				}
+				{
+					lblID = new JLabel();
+					pnlInformation.add(lblID);
+					lblID.setText("ID:");
+					lblID.setPreferredSize(new Dimension(60,25));
+				}
+				{
+					txfID = new JTextField();
+					pnlInformation.add(txfID);
+					txfID.setText("<null>");
+					txfID.setPreferredSize(new Dimension(70,25));
+					txfID.setEditable(false);
+				}
+				{
+					lblQuantity = new JLabel();
+					pnlInformation.add(lblQuantity);
+					lblQuantity.setText("Antal:");
+					lblQuantity.setPreferredSize(new Dimension(60,25));
+				}
+				{
+					txfQuantity = new JTextField();
+					pnlInformation.add(txfQuantity);
+					txfQuantity.setText("<null>");
+					txfQuantity.setPreferredSize(new Dimension(70,25));
+					txfQuantity.setEditable(false);
+				}
+				{
+					lblProductType = new JLabel();
+					pnlInformation.add(lblProductType);
+					lblProductType.setText("Produkt type:");
+					lblProductType.setPreferredSize(new Dimension(130,25));
+				}
+				{
+					txfProductType = new JTextField();
+					pnlInformation.add(txfProductType);
+					txfProductType.setText("<null>");
+					txfProductType.setPreferredSize(new Dimension(130,25));
+					txfProductType.setEditable(false);
+				}
+				{
+					lblDepot = new JLabel();
+					pnlInformation.add(lblDepot);
+					lblDepot.setText("Lager:");
+					lblDepot.setPreferredSize(new Dimension(60,25));
+				}
+				{
+					txfDepot = new JTextField();
+					pnlInformation.add(txfDepot);
+					txfDepot.setText("<null>");
+					txfDepot.setPreferredSize(new Dimension(70,25));
+					txfDepot.setEditable(false);
+				}
+				{
+					lblCoordinates = new JLabel();
+					pnlInformation.add(lblCoordinates);
+					lblCoordinates.setText("Position:");
+					lblCoordinates.setPreferredSize(new Dimension (60,25));
+				}
+				{
+					txfCoordinates = new JTextField();
+					pnlInformation.add(txfCoordinates);
+					txfCoordinates.setText("<null>");
+					txfCoordinates.setPreferredSize(new Dimension(70,25));
+					txfCoordinates.setEditable(false);
+				}
+				{
+					btnSendToNextProcess = new JButton();
+					pnlInformation.add(btnSendToNextProcess);
+					btnSendToNextProcess.setText("Viderbehandling");
+					btnSendToNextProcess.setPreferredSize(new Dimension(130,25));
+				}
+				{
+					btnDeleteIntermediateProduct = new JButton();
+					pnlInformation.add(btnDeleteIntermediateProduct);
+					btnDeleteIntermediateProduct.setText("Slet");
+					btnDeleteIntermediateProduct.setPreferredSize(new Dimension(130,25));
+				}
+				{
+					btnCreateDrying = new JButton();
+					pnlInformation.add(btnCreateDrying);
+					btnCreateDrying.setVisible(false);
+					btnCreateDrying.setText("Opret Toering");
+					btnCreateDrying.setBounds(0, 255, 141, 16);
+				}
 			}
 		}
 		{
@@ -198,7 +238,7 @@ public class MainFrame extends JFrame {
 			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
 			intermediateProductMapLayout.setHgap(5);
 			intermediateProductMapLayout.setVgap(5);
-			
+
 			pnlIntermediateProductMap.setLayout(intermediateProductMapLayout);
 			pnlIntermediateProductMap.setBorder(BorderFactory.createEtchedBorder());
 			pnlIntermediateProductMap.setPreferredSize(new java.awt.Dimension(452, 539));
@@ -212,35 +252,57 @@ public class MainFrame extends JFrame {
 				jMenu1.setText("jMenu1");
 			}
 			{
-				mnuView = new JMenu();
-				mnbBar.add(mnuView);
-				mnuView.setText("Vis");
+				mnuCreate = new JMenu();
+				mnbBar.add(mnuCreate);
+				mnuCreate.setText("Opret");
 				{
 					mitCreateProductType = new JMenuItem();
-					mnuView.add(mitCreateProductType);
+					mnuCreate.add(mitCreateProductType);
 					mitCreateProductType.setText("Opret Produkttype");
 					mitCreateProductType.addActionListener(controller);
 				}
 				{
 					mitCreateIntermediateProduct = new JMenuItem();
-					mnuView.add(mitCreateIntermediateProduct);
+					mnuCreate.add(mitCreateIntermediateProduct);
 					mitCreateIntermediateProduct.setText("Opret Mellemvare");
 					mitCreateIntermediateProduct.addActionListener(controller);
 				}
 			}
 			{
-				jMenu3 = new JMenu();
-				mnbBar.add(jMenu3);
-				jMenu3.setText("jMenu3");
+				mnuView = new JMenu();
+				mnbBar.add(mnuView);
+				mnuView.setText("Vis");
+				{
+					mnuViewDepot = new JMenu();
+					mnuView.add(mnuViewDepot);
+					mnuViewDepot.setText("Vis lager");
+					{
+						fillChooseDepotMenu();
+
+					}
+				}
 			}
 		}
 		pack();
-		
-		//createProductTypeFrame = new CreateProductTypeFrame();
-		controller.fillCbxDepot();
+
 		controller.fillLstIntermediateProducts();
 	}
-	
+	public void fillChooseDepotMenu() {
+		mnuViewDepot.removeAll();
+		mitDepots.clear();
+		mnuViewDepot.updateUI();
+		for (Depot depot : Service.getService().getAllDepots()) {
+			JMenuItem mitDepot = new JMenuItem();
+			mitDepot.setText(depot.getName());
+			mitDepot.addActionListener(controller);
+			mitDepots.add(mitDepot);
+			mnuViewDepot.add(mitDepot);
+		}
+		if(mitDepots.size()>0) {
+			setDepot(Service.getService().getAllDepots().get(0));
+		}
+
+	}
 	// Denne metode kræver at arraylisten med StoringSpaces i depot er efter læse systemet
 	public void setDepot(Depot depot) {
 		pnlIntermediateProductMap.removeAll();
@@ -248,21 +310,21 @@ public class MainFrame extends JFrame {
 		pnlIntermediateProductMap.updateUI();
 		intermediateProductMapLayout.setColumns(depot.getMaxX());
 		intermediateProductMapLayout.setRows(depot.getMaxY());
-		
+
 		for (StoringSpace storingSpace : depot.getStoringSpaces()) {
 			IntermediateProductPanel intermediateProductPanel = new IntermediateProductPanel(storingSpace);
-			intermediateProductPanel.addMouseListener(mouseAdapter);
+			intermediateProductPanel.addMouseListener(controller);
 			intermediateProductPanels.add(intermediateProductPanel);
 			pnlIntermediateProductMap.add(intermediateProductPanel);
 		} 
-		
+
 	}
-	
+
 	/**
 	 * Denne methode bliver udfoert ver gang man klicker paa en storingspace med musen i guien
 	 * @param intermediateProductPanel
 	 */
-	public void updateInfo(IntermediateProductPanel intermediateProductPanel) {
+	public void updateInfoFromPanel(IntermediateProductPanel intermediateProductPanel) {
 		if (intermediateProductPanelSelected != null) { //unselecter den gamle storingspace
 			intermediateProductPanelSelected.setSelected(false); 
 		}
@@ -270,65 +332,69 @@ public class MainFrame extends JFrame {
 		intermediateProductPanelSelected = intermediateProductPanel;
 		StoringSpace storingSpace = intermediateProductPanel.getStoringSpace();
 		// Tjekker om den selected storingspace indeholder en mellemvare
+		txfCoordinates.setText("( " + storingSpace.getPositionX()
+				+ ":" + storingSpace.getPositionY() + " )");
+		txfDepot.setText(storingSpace.getDepot().getName());
 		if(storingSpace.getIntermediateProduct() != null) {
-			idLabelShower
-					.setText(storingSpace.getIntermediateProduct().getId());
-			productTypeTextFiel.setText(storingSpace
-					.getIntermediateProduct().getProductType().getName());
-			positionLabelTextField.setText("( " + storingSpace.getPositionX()
-					+ ":" + storingSpace.getPositionY() + " )");
-			quantityTextField.setText(storingSpace.getIntermediateProduct()
-					.getQuantity()
-					+ "");
-			depotLabelTextField.setText(storingSpace.getDepot().getName());
+			updateInfo(storingSpace.getIntermediateProduct());
 		} else {
-			idLabelShower.setText("<tomt>");
-			productTypeTextFiel.setText(" - ");
-			positionLabelTextField.setText("( " + storingSpace.getPositionX()
-					+ ":" + storingSpace.getPositionY() + " )");
-			quantityTextField.setText("0");
-			depotLabelTextField.setText(storingSpace.getDepot().getName());
+			btnDeleteIntermediateProduct.setVisible(false);//delete btn skal ikke vises hvis man drykker paa et tomt feld
+			btnSendToNextProcess.setVisible(false);
+//			btnCreateDrying.setVisible(true);
+			txfID.setText("<tomt>");
+			txfProductType.setText(" - ");
+			txfQuantity.setText("0");
+		}
+	}
+	
+	public void updateInfoFromList(IntermediateProduct intermediateProduct) {
+		btnCreateDrying.setVisible(true);
+		txfCoordinates.setText("( - : - )");
+		txfDepot.setText(" - ");
+		updateInfo(intermediateProduct);
+	}
+	
+	private void updateInfo(IntermediateProduct intermediateProduct){
+		btnDeleteIntermediateProduct.setVisible(true);
+		btnSendToNextProcess.setVisible(true);
+		btnCreateDrying.setVisible(false);
+		txfID.setText(intermediateProduct.getId());
+		txfProductType.setText(intermediateProduct.getProductType()
+				.getName());
+		txfQuantity.setText(intermediateProduct.getQuantity()
+				+ "");
+	}
+	private class Controller implements ActionListener, ListSelectionListener, MouseListener {
+
+		public void fillLstIntermediateProducts() {
+			lstIntermediateProducts.setListData(Service.getService().getAllIntermediateProducts().toArray());
 		}
 
-	}
-	private class Controller implements ActionListener, ListSelectionListener {
-		
-		public void fillLstIntermediateProducts() {
-			Depot selectedDepot = (Depot) cbxDepot.getSelectedItem();
-			ArrayList<IntermediateProduct> intermediateProductList = new ArrayList<IntermediateProduct>();
-			
-			for (StoringSpace storingSpace : selectedDepot.getStoringSpaces()) {
-				if(storingSpace.getIntermediateProduct()!=null) {
-					intermediateProductList.add(storingSpace.getIntermediateProduct());
-				}
-				
-			}
-			
-			lstIntermediateProducts.setListData(intermediateProductList.toArray());
-		}
-		
-		public void fillCbxDepot() {
-			DefaultComboBoxModel cbxDepotModel = new DefaultComboBoxModel(Service.getService().getAllDepots().toArray());
-			cbxDepot.setModel(cbxDepotModel);
-			if(cbxDepot.getItemCount()>0)
-				cbxDepot.setSelectedIndex(0);
-		}
-		
-		
 		public void updateView() {
 			// TODO venstre menu info opdateres og der laves markering på panel i map
-			
+
 		}
-		
-				
+
+
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == cbxDepot) {
-				setDepot((Depot) cbxDepot.getSelectedItem());
-				System.out.println(cbxDepot.getSelectedItem());
+			if (e.getSource() == mitCreateProductType) {
+				System.out.println("menu laver produkttype");
+				createProductTypeFrame = new CreateProductTypeFrame();
+				Service.getService().storeProductType(createProductTypeFrame.getProductType());
 			}
-			
-			else if (e.getSource() == mitCreateProductType) {
-				//createProductTypeFrame.setVisible(true);
+
+			else if (e.getSource() == mitCreateIntermediateProduct) {
+				createIntermediateProduct = new CreateIntermediateProduct();
+				Service.getService().StoreIntermediateProduct(createIntermediateProduct.getIntermediateProduct());
+			}
+			else if (e.getSource() == btnCreateIntermediateProduct) {
+				createIntermediateProduct = new CreateIntermediateProduct();
+				Service.getService().StoreIntermediateProduct(createIntermediateProduct.getIntermediateProduct());
+			}
+			for (int i = 0; i < mitDepots.size(); i++) {
+				if (e.getSource() == mitDepots.get(i)) {
+					setDepot(Service.getService().getAllDepots().get(i));
+				}
 			}
 		}
 		@Override
@@ -340,6 +406,34 @@ public class MainFrame extends JFrame {
 			}
 
 		}
-	}
 
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			updateInfoFromPanel((IntermediateProductPanel)e.getSource());
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+	}
 }
