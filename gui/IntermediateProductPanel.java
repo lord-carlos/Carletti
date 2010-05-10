@@ -1,29 +1,16 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import java.awt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.plaf.ProgressBarUI;
-
-
 
 import model.Drying;
-import model.IntermediateProduct;
 import model.StoringSpace;
 
 public class IntermediateProductPanel extends JPanel{
@@ -75,6 +62,8 @@ public class IntermediateProductPanel extends JPanel{
 			lblName.setVisible(false);
 			lblIcon.setVisible(false);
 		}
+		
+		updateTime();
 	}
 
 	public void updateTime() {
@@ -84,6 +73,8 @@ public class IntermediateProductPanel extends JPanel{
 			progressBar.setMaximum((int) drying.getMaxTime()/1000);
 			long currentTime = System.currentTimeMillis()-storingSpace.getIntermediateProduct().getActivProcessLog().getStartTime().getTime();
 			progressBar.setValue((int) currentTime/1000);
+			progressBar.setForeground(Color.blue);
+
 		}
 	}
 

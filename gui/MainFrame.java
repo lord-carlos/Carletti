@@ -282,7 +282,7 @@ public class MainFrame extends JFrame {
 
 		controller.fillLstIntermediateProducts();
 		
-		updateTimer = new UpdateTimer(60, intermediateProductPanels);
+		updateTimer = new UpdateTimer(2, intermediateProductPanels);
 		
 	}
 	public void fillChooseDepotMenu() {
