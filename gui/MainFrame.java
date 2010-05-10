@@ -38,27 +38,28 @@ import service.Service;
 
 
 /**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
+ * This code was edited or generated using CloudGarden's Jigloo
+ * SWT/Swing GUI Builder, which is free for non-commercial
+ * use. If Jigloo is being used commercially (ie, by a corporation,
+ * company or business for any purpose whatever) then you
+ * should purchase a license for each developer using Jigloo.
+ * Please visit www.cloudgarden.com for details.
+ * Use of Jigloo implies acceptance of these licensing terms.
+ * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+ * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+ * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+ */
 public class MainFrame extends JFrame {
 	private JMenuBar mnbBar;
 	private JPanel pnlWest;
+	private JLabel lblIntermediateProduct;
 	private JScrollPane scpIntermediateProducts;
 	private JMenu mnuView;
 	private JMenu mnuCreate;
 	private JMenu jMenu1;
 	private JPanel pnlIntermediateProductMap;
 	private JList lstIntermediateProducts;
-	private JButton btnNewIntermediateProduct;
+	private JButton btnCreateIntermediateProduct;
 	private JMenuItem mnuViewDepot;
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
 	private GridLayout intermediateProductMapLayout = new GridLayout();
@@ -84,8 +85,8 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 		Service.getService().createTestData();
-		
-		
+
+
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Carletti v0.7");
 		BorderLayout thisLayout = new BorderLayout();
@@ -99,20 +100,30 @@ public class MainFrame extends JFrame {
 			pnlWest.setPreferredSize(new Dimension(140,400));
 			pnlWestLayout.setAlignment(0);
 			pnlWest.setLayout(pnlWestLayout);
-			{				
-				scpIntermediateProducts = new JScrollPane();
-				pnlWest.add(scpIntermediateProducts);
-				scpIntermediateProducts.setPreferredSize(new Dimension(130,300));
+			{	
 				{
-					ListModel lstIntermediateProductsModel = new DefaultComboBoxModel();
-					lstIntermediateProducts = new JList();
-					scpIntermediateProducts.setViewportView(lstIntermediateProducts);
-					lstIntermediateProducts.setModel(lstIntermediateProductsModel);
-					lstIntermediateProducts.addListSelectionListener(controller);
+					lblIntermediateProduct = new JLabel("Mellemvarer:");
+					pnlWest.add(lblIntermediateProduct);
 				}
-				btnNewIntermediateProduct = new JButton();
-				btnNewIntermediateProduct.setText("Ny Mellemvare");
-				pnlWest.add(btnNewIntermediateProduct);								
+				{
+					scpIntermediateProducts = new JScrollPane();
+					pnlWest.add(scpIntermediateProducts);
+					scpIntermediateProducts.setPreferredSize(new Dimension(130,300));
+
+					{
+						ListModel lstIntermediateProductsModel = new DefaultComboBoxModel();
+						lstIntermediateProducts = new JList();
+						scpIntermediateProducts.setViewportView(lstIntermediateProducts);
+						lstIntermediateProducts.setModel(lstIntermediateProductsModel);
+						lstIntermediateProducts.addListSelectionListener(controller);
+					}
+				}
+				{
+					btnCreateIntermediateProduct = new JButton();
+					btnCreateIntermediateProduct.setText("Opret Mellemvare");
+					btnCreateIntermediateProduct.setPreferredSize(new Dimension(130,30));
+					pnlWest.add(btnCreateIntermediateProduct);		
+				}
 			}
 		}
 		{
@@ -126,8 +137,8 @@ public class MainFrame extends JFrame {
 			pnlEast.setLayout(pnlEastLayout);
 			{
 				titleLabel = new JLabel();
-//				Font font = titleLabel.getFont();
-//				titleLabel.setFont(font.deriveFont(font.getStyle() ^ Font.BOLD));
+				//				Font font = titleLabel.getFont();
+				//				titleLabel.setFont(font.deriveFont(font.getStyle() ^ Font.BOLD));
 				pnlEast.add(titleLabel);
 				titleLabel.setText("Information:");
 				titleLabel.setBounds(20, 5, 75, 14);
@@ -204,7 +215,7 @@ public class MainFrame extends JFrame {
 			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
 			intermediateProductMapLayout.setHgap(5);
 			intermediateProductMapLayout.setVgap(5);
-			
+
 			pnlIntermediateProductMap.setLayout(intermediateProductMapLayout);
 			pnlIntermediateProductMap.setBorder(BorderFactory.createEtchedBorder());
 			pnlIntermediateProductMap.setPreferredSize(new java.awt.Dimension(452, 539));
@@ -244,13 +255,13 @@ public class MainFrame extends JFrame {
 					mnuViewDepot.setText("Vis lager");
 					{
 						fillChooseDepotMenu();
-						
+
 					}
 				}
 			}
 		}
 		pack();
-		
+
 		controller.fillLstIntermediateProducts();
 	}
 	public void fillChooseDepotMenu() {
@@ -267,7 +278,7 @@ public class MainFrame extends JFrame {
 		if(mitDepots.size()>0) {
 			setDepot(Service.getService().getAllDepots().get(0));
 		}
-		
+
 	}
 	// Denne metode kræver at arraylisten med StoringSpaces i depot er efter læse systemet
 	public void setDepot(Depot depot) {
@@ -276,16 +287,16 @@ public class MainFrame extends JFrame {
 		pnlIntermediateProductMap.updateUI();
 		intermediateProductMapLayout.setColumns(depot.getMaxX());
 		intermediateProductMapLayout.setRows(depot.getMaxY());
-		
+
 		for (StoringSpace storingSpace : depot.getStoringSpaces()) {
 			IntermediateProductPanel intermediateProductPanel = new IntermediateProductPanel(storingSpace);
 			intermediateProductPanel.addMouseListener(controller);
 			intermediateProductPanels.add(intermediateProductPanel);
 			pnlIntermediateProductMap.add(intermediateProductPanel);
 		} 
-		
+
 	}
-	
+
 	/**
 	 * Denne methode bliver udfoert ver gang man klicker paa en storingspace med musen i guien
 	 * @param intermediateProductPanel
@@ -300,7 +311,7 @@ public class MainFrame extends JFrame {
 		// Tjekker om den selected storingspace indeholder en mellemvare
 		if(storingSpace.getIntermediateProduct() != null) {
 			idTetFieldShower
-					.setText(storingSpace.getIntermediateProduct().getId());
+			.setText(storingSpace.getIntermediateProduct().getId());
 			productTypeTextFiel.setText(storingSpace
 					.getIntermediateProduct().getProductType().getName());
 			positionLabelTextField.setText("( " + storingSpace.getPositionX()
@@ -320,29 +331,29 @@ public class MainFrame extends JFrame {
 
 	}
 	private class Controller implements ActionListener, ListSelectionListener, MouseListener {
-		
+
 		public void fillLstIntermediateProducts() {
 			lstIntermediateProducts.setListData(Service.getService().getAllIntermediateProducts().toArray());
 		}
-				
+
 		public void updateView() {
 			// TODO venstre menu info opdateres og der laves markering på panel i map
-			
+
 		}
-		
-				
+
+
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == mitCreateProductType) {
 				System.out.println("menu laver produkttype");
 				createProductTypeFrame = new CreateProductTypeFrame();
 				Service.getService().storeProductType(createProductTypeFrame.getProductType());
 			}
-			
+
 			else if (e.getSource() == mitCreateIntermediateProduct) {
 				createIntermediateProduct = new CreateIntermediateProduct();
 				Service.getService().StoreIntermediateProduct(createIntermediateProduct.getIntermediateProduct());
 			}
-			else if (e.getSource() == btnNewIntermediateProduct) {
+			else if (e.getSource() == btnCreateIntermediateProduct) {
 				createIntermediateProduct = new CreateIntermediateProduct();
 				Service.getService().StoreIntermediateProduct(createIntermediateProduct.getIntermediateProduct());
 			}
@@ -370,25 +381,25 @@ public class MainFrame extends JFrame {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 }
