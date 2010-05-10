@@ -64,7 +64,7 @@ public class ProductType {
      * @param intermediateProduct
      */
     public void removeIntermediateProduct(IntermediateProduct intermediateProduct){
-    	this.removeIntermediateProduct(intermediateProduct);
+    	this.intermediateProducts.remove(intermediateProduct);
     }
 
 }
