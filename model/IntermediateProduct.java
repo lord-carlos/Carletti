@@ -102,17 +102,32 @@ public class IntermediateProduct {
 		return id+" "+productType.getName();
 	}
 
-	public boolean sendToNextProcess(StoringSpace storingSpace){
+	public void sendToNextProcess(StoringSpace storingSpace){
 		if (processLogs.size()==0){
 
 			createProcessLog(this.productType.getProcessLine().getProcesses().get(0), storingSpace);
+			if (storingSpace==null){
+				this.unsetStoringSpace();
+			} else {
+				this.setStoringSpace(storingSpace);
+			}
 			
-		} else if (true) {
+		} else if (processLogs.size()==this.productType.getProcessLine().getProcesses().size()) {
+			
+			processLogs.get(processLogs.size()-1).endProcess();
+			finished=true;
 			
 		} else {
-			
-		}
+			int i = processLogs.size()-1;
+			processLogs.get(i).endProcess();
+			createProcessLog(this.productType.getProcessLine().getProcesses().get(i+1), storingSpace);
 		
-		return false;
+			if (storingSpace==null){
+				this.unsetStoringSpace();
+			} else {
+				this.setStoringSpace(storingSpace);
+			}
+		
+		}
 	}
 }
