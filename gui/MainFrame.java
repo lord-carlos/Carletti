@@ -73,6 +73,7 @@ public class MainFrame extends JFrame {
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
 	private GridLayout intermediateProductMapLayout = new GridLayout();
 	private JPanel pnlInformation;
+	private JPanel pnlProcessOverView;
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
 	private JTextField txfProductType;
@@ -107,10 +108,8 @@ public class MainFrame extends JFrame {
 		{
 			pnlWest = new JPanel();
 			getContentPane().add(pnlWest, BorderLayout.WEST);
-			FlowLayout pnlWestLayout = new FlowLayout();
 			pnlWest.setPreferredSize(new Dimension(140,500));
-			pnlWestLayout.setAlignment(0);
-			pnlWest.setLayout(pnlWestLayout);
+			pnlWest.setLayout(new FlowLayout());
 			{	
 				{
 					lblIntermediateProduct = new JLabel("Mellemvarer:");
@@ -143,13 +142,13 @@ public class MainFrame extends JFrame {
 		{
 			pnlEast = new JPanel();
 			getContentPane().add(pnlEast, BorderLayout.EAST);
-			pnlEast.setPreferredSize(new java.awt.Dimension(140, 500));
+			pnlEast.setPreferredSize(new Dimension(140, 700));
 			pnlEast.setLayout(null);
 			{
 				pnlInformation = new JPanel();
 				pnlEast.add(pnlInformation);
 				pnlInformation.setLayout(new FlowLayout());
-				pnlInformation.setBounds(0, 0, 141, 438);
+				pnlInformation.setBounds(0,0,140,500);
 				{
 					lblInformation = new JLabel();
 					pnlInformation.add(lblInformation);
@@ -236,6 +235,11 @@ public class MainFrame extends JFrame {
 					btnCreateDrying.setText("Opret Toering");
 					btnCreateDrying.setBounds(0, 255, 141, 16);
 				}
+			}
+			{
+				pnlProcessOverView = new JPanel();
+				pnlEast.add(pnlProcessOverView);
+				GridLayout pnlProcessOverViewLayout = new GridLayout();
 			}
 		}
 		{
@@ -328,6 +332,7 @@ public class MainFrame extends JFrame {
 
 	}
 
+	
 	/**
 	 * Denne methode bliver udfoert ver gang man klicker paa en storingspace med musen i guien
 	 * @param intermediateProductPanel
