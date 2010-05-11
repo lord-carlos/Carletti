@@ -152,7 +152,7 @@ public class CreateIntermediateProduct extends JDialog {
 	private JLabel getLblQuantity() {
 		if (lblQuantity == null) {
 			lblQuantity = new JLabel();
-			lblQuantity.setText("Mellemvare mængde:");
+			lblQuantity.setText("Mellemvare maengde:");
 			lblQuantity.setBounds(12, 125, 150, 20);
 		}
 		return lblQuantity;
@@ -200,23 +200,10 @@ public class CreateIntermediateProduct extends JDialog {
 	private JLabel getLblProductType() {
 		if (lblProduktType == null) {
 			lblProduktType = new JLabel();
-			lblProduktType.setText("Vælg produkttype:");
+			lblProduktType.setText("Vaelg produkttype:");
 			lblProduktType.setBounds(12, 12, 150, 20);
 		}
 		return lblProduktType;
-	}
-
-
-	/**
-	 * Main entry of the class.
-	 * Note: This class is only created so that you can easily preview the result at runtime.
-	 * It is not expected to be managed by the designer.
-	 * You can modify it as you like.
-	 */
-	public static void main(String[] args) {
-		service.Service.getService().createTestData();
-		CreateIntermediateProduct frame = new CreateIntermediateProduct();
-
 	}
 
 	private class BtnController implements ActionListener {
@@ -239,10 +226,10 @@ public class CreateIntermediateProduct extends JDialog {
 					}
 					
 				}catch (NumberFormatException exception){
-					JOptionPane.showMessageDialog(null,"Mængden skal være et tal","Fejl!!!",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"MÃ¦ngden skal vÃ¦re et tal","Fejl!!!",JOptionPane.ERROR_MESSAGE);
 				}
 				catch (RuntimeException exception){
-					JOptionPane.showMessageDialog(null,"Mængden skal være større end 0","Fejl!!!",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"MÃ¦ngden skal vÃ¦re stÃ¸rre end 0","Fejl!!!",JOptionPane.ERROR_MESSAGE);
 				}
 
 			} else if (e.getSource().equals(cmbProductType)){
