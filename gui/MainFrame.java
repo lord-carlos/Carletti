@@ -1,4 +1,5 @@
 package gui;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -9,10 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +27,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -59,6 +64,7 @@ public class MainFrame extends JFrame {
 	private JMenuBar mnbBar;
 	private JPanel pnlWest;
 	private JLabel lblIntermediateProduct;
+	private JTextField txfSearch;
 	private JScrollPane scpIntermediateProducts;
 	private JMenu mnuView;
 	private JMenu mnuCreate;
@@ -94,6 +100,7 @@ public class MainFrame extends JFrame {
 	private CreateIntermediateProduct createIntermediateProduct;
 	private Controller controller = new Controller();
 	private UpdateTimer updateTimer;
+	private TxfChangeListener TxfChangeListener = new TxfChangeListener();
 
 	public MainFrame() {
 		Service.getService().createTestData();
@@ -118,12 +125,18 @@ public class MainFrame extends JFrame {
 					pnlWest.add(lblIntermediateProduct);
 				}
 				{
+					txfSearch = new JTextField();
+					txfSearch.setPreferredSize(new Dimension(130,25));
+					txfSearch.getDocument().addDocumentListener(TxfChangeListener);
+					pnlWest.add(txfSearch);
+				}
+				{
 					scpIntermediateProducts = new JScrollPane();
 					pnlWest.add(scpIntermediateProducts);
 					scpIntermediateProducts.setPreferredSize(new Dimension(130,300));
 
 					{
-						ListModel lstIntermediateProductsModel = new DefaultComboBoxModel();
+						ListModel lstIntermediateProductsModel = new DefaultListModel();
 						lstIntermediateProducts = new JList();
 						scpIntermediateProducts.setViewportView(lstIntermediateProducts);
 						lstIntermediateProducts.setModel(lstIntermediateProductsModel);
@@ -293,8 +306,8 @@ public class MainFrame extends JFrame {
 			}
 		}
 		pack();
-
-		controller.fillLstIntermediateProducts();
+		
+		TxfChangeListener.fillLstIntermediateProducts();
 		
 		updateTimer = new UpdateTimer(2, intermediateProductPanels);
 		
@@ -380,10 +393,6 @@ public class MainFrame extends JFrame {
 	}
 	private class Controller implements ActionListener, ListSelectionListener, MouseListener {
 
-		public void fillLstIntermediateProducts() {
-			lstIntermediateProducts.setListData(Service.getService().getAllIntermediateProducts().toArray());
-		}
-
 		public void updateView() {
 			// TODO venstre menu info opdateres og der laves markering på panel i map
 
@@ -449,5 +458,38 @@ public class MainFrame extends JFrame {
 			// TODO Auto-generated method stub
 
 		}
+	}
+	
+	public class TxfChangeListener implements DocumentListener{
+
+		public void changedUpdate(DocumentEvent e) {
+			// text was changed
+			fillLstIntermediateProducts();
+		}
+		public void removeUpdate(DocumentEvent e) {
+			// text was deleted
+			fillLstIntermediateProducts();
+		}
+		public void insertUpdate(DocumentEvent e) {
+			// text was inserted
+			fillLstIntermediateProducts();
+		}
+		
+		public void fillLstIntermediateProducts() {
+			
+			List<IntermediateProduct> allIntermediateProducts = Service.getService().getActiveIntermediateProducts();
+			List<IntermediateProduct> searchedIntermediateProducts = new ArrayList<IntermediateProduct>();
+			
+			for (int i = 0; i < allIntermediateProducts.size(); i++) {
+				String idLower = allIntermediateProducts.get(i).getId().toLowerCase();
+				String productTypeLower = allIntermediateProducts.get(i).getProductType().getName().toLowerCase();
+				if (idLower.indexOf(txfSearch.getText().toLowerCase())!=-1 || productTypeLower.indexOf(txfSearch.getText().toLowerCase())!=-1){
+					searchedIntermediateProducts.add(allIntermediateProducts.get(i));
+				}
+			}
+			
+			lstIntermediateProducts.setListData(searchedIntermediateProducts.toArray());
+		}
+
 	}
 }
