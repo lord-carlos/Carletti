@@ -28,7 +28,6 @@ public class IntermediateProductPanel extends JPanel{
 	public IntermediateProductPanel(StoringSpace storingSpace) {
 		this.storingSpace = storingSpace;
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-
 		this.setLayout(new BorderLayout());
 		{	
 			panel = new JPanel();		
@@ -62,7 +61,7 @@ public class IntermediateProductPanel extends JPanel{
 			lblName.setVisible(false);
 			lblIcon.setVisible(false);
 		}
-
+		
 		updateTime();
 	}
 
@@ -80,10 +79,16 @@ public class IntermediateProductPanel extends JPanel{
 				progressBar.setForeground(Color.yellow);
 			} else if ((drying.getIdealTime()+(drying.getMaxTime()-drying.getIdealTime())/2)>currentTime){
 				progressBar.setForeground(Color.green);
+			} else if (drying.getMaxTime()>currentTime) {
+				progressBar.setForeground(Color.red);
 			} else {
+				panel.setOpaque(true);
+				panel.setBackground(Color.red);
 				progressBar.setForeground(Color.red);
 			}
 
+		} else {
+			panel.setOpaque(false);;
 		}
 	}
 
@@ -103,4 +108,5 @@ public class IntermediateProductPanel extends JPanel{
 	public StoringSpace getStoringSpace() {
 		return this.storingSpace;
 	}
+
 }

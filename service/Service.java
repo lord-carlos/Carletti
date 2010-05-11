@@ -128,7 +128,7 @@ public class Service {
 		pteChokoladelinser.setPicture(new ImageIcon("gui/icons/chokoladelinser.jpg"));
 		ProcessLine plChokoladelinser = new ProcessLine("Chokoladelinser", "nam", pteChokoladelinser);
 		plChokoladelinser.createSubProcess(1, "Tilsætter chokolade", "tilføjer chokolade",24, -3);
-		Drying d5 = plChokoladelinser.createDrying(2, 1*60*1000, 2*60*1000, 2*60*1000);
+		Drying d5 = plChokoladelinser.createDrying(2, 30*1000, 60*1000, 120*1000);
 		d5.addDepot(depot1); d5.addDepot(depot2); 
 		plChokoladelinser.createSubProcess(3, "Tilsætter linser", "Tilsætter linser fra optikkeren", 3, 13);
 		Drying d6 = plChokoladelinser.createDrying(4, 1*60*1000, 2*60*1000, 2*60*1000);
