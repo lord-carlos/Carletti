@@ -13,10 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -37,21 +36,12 @@ import model.IntermediateProduct;
 import model.StoringSpace;
 import service.Service;
 
-
-/**
- * This code was edited or generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
- * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
- * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 public class MainFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1752000392799508369L;
 	{
 		//Set Look & Feel
 		try {
@@ -79,7 +69,8 @@ public class MainFrame extends JFrame {
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
 	private GridLayout intermediateProductMapLayout = new GridLayout();
 	private JPanel pnlInformation;
-	private JPanel pnlProcessOverView;
+	private JScrollPane scpProcesses;
+	private JCheckBoxList cbxLstProcesses;	
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
 	private JTextField txfProductType;
@@ -100,7 +91,6 @@ public class MainFrame extends JFrame {
 	private CreateIntermediateProduct createIntermediateProduct;
 	private Controller controller = new Controller();
 	private UpdateTimer updateTimer;
-	private TxfChangeListener TxfChangeListener = new TxfChangeListener();
 
 	public MainFrame() {
 		Service.getService().createTestData();
@@ -127,7 +117,7 @@ public class MainFrame extends JFrame {
 				{
 					txfSearch = new JTextField();
 					txfSearch.setPreferredSize(new Dimension(130,25));
-					txfSearch.getDocument().addDocumentListener(TxfChangeListener);
+					txfSearch.getDocument().addDocumentListener(controller);
 					pnlWest.add(txfSearch);
 				}
 				{
@@ -246,14 +236,16 @@ public class MainFrame extends JFrame {
 					pnlInformation.add(btnCreateDrying);
 					btnCreateDrying.setVisible(false);
 					btnCreateDrying.setText("Opret Toering");
-					btnCreateDrying.setBounds(0, 255, 141, 16);
 				}
 			}
 			{
-				pnlProcessOverView = new JPanel();
-				pnlEast.add(pnlProcessOverView);
-				GridLayout pnlProcessOverViewLayout = new GridLayout();
-				pnlProcessOverView.setLayout(pnlProcessOverViewLayout);
+				scpProcesses = new JScrollPane();
+				pnlInformation.add(scpProcesses);
+				scpProcesses.setPreferredSize(new Dimension(130,100));
+				{
+					cbxLstProcesses = new JCheckBoxList();
+					scpProcesses.setViewportView(cbxLstProcesses);
+				}
 			}
 		}
 		{
@@ -261,7 +253,6 @@ public class MainFrame extends JFrame {
 			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
 			intermediateProductMapLayout.setHgap(5);
 			intermediateProductMapLayout.setVgap(5);
-
 			pnlIntermediateProductMap.setLayout(intermediateProductMapLayout);
 			pnlIntermediateProductMap.setBorder(BorderFactory.createEtchedBorder());
 			pnlIntermediateProductMap.setPreferredSize(new java.awt.Dimension(452, 539));
@@ -308,8 +299,7 @@ public class MainFrame extends JFrame {
 		}
 		pack();
 
-		TxfChangeListener.fillLstIntermediateProducts();
-
+		controller.fillLstIntermediateProducts();
 		updateTimer = new UpdateTimer(2, intermediateProductPanels);
 
 	}
@@ -325,12 +315,12 @@ public class MainFrame extends JFrame {
 			mnuViewDepot.add(mitDepot);
 		}
 		if(mitDepots.size()>0) {
-			setDepot(Service.getService().getAllDepots().get(0));
+			updateDepotMap(Service.getService().getAllDepots().get(0));
 		}
 
 	}
 	// Denne metode kræver at arraylisten med StoringSpaces i depot er efter læse systemet
-	public void setDepot(Depot depot) {
+	public void updateDepotMap(Depot depot) {
 		pnlIntermediateProductMap.removeAll();
 		intermediateProductPanels.clear();
 		pnlIntermediateProductMap.updateUI();
@@ -343,7 +333,6 @@ public class MainFrame extends JFrame {
 			intermediateProductPanels.add(intermediateProductPanel);
 			pnlIntermediateProductMap.add(intermediateProductPanel);
 		} 
-
 	}
 
 	/**
@@ -357,7 +346,7 @@ public class MainFrame extends JFrame {
 			}
 			intermediateProductPanel.setSelected(true);
 			intermediateProductPanelSelected = intermediateProductPanel;
-			
+
 			updateInfo(intermediateProductPanel.getStoringSpace().getIntermediateProduct());
 			lstIntermediateProducts.setSelectedValue(intermediateProductPanel.getStoringSpace().getIntermediateProduct(), true);
 		}
@@ -367,7 +356,7 @@ public class MainFrame extends JFrame {
 		if(intermediateProduct != null) {
 			if(intermediateProduct.getActivProcessLog() != null) {
 				if(intermediateProduct.getActivProcessLog().getProcess().getClass().getName().equals("model.Drying")) {
-					setDepot(intermediateProduct.getStoringSpace().getDepot());
+					updateDepotMap(intermediateProduct.getStoringSpace().getDepot());
 					for (IntermediateProductPanel intermediateProductPanel : intermediateProductPanels) {
 						if (intermediateProductPanel.getStoringSpace().getIntermediateProduct() == intermediateProduct) {
 							updateInfoFromPanel(intermediateProductPanel);
@@ -387,6 +376,7 @@ public class MainFrame extends JFrame {
 
 	private void updateInfo(IntermediateProduct intermediateProduct){
 		if(intermediateProduct != null) {
+			cbxLstProcesses.setListData(intermediateProduct.getProcessLogs().toArray());
 			btnDeleteIntermediateProduct.setVisible(true);
 			btnSendToNextProcess.setVisible(true);
 			btnCreateDrying.setVisible(false);
@@ -411,27 +401,22 @@ public class MainFrame extends JFrame {
 			txfQuantity.setText("N/A");
 		}
 	}
-	private class Controller implements ActionListener, ListSelectionListener, MouseListener {
+	private class Controller implements ActionListener, ListSelectionListener, MouseListener, DocumentListener {
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == mitCreateProductType) {
 				createProductTypeFrame = new CreateProductTypeFrame();
 				Service.getService().storeProductType(createProductTypeFrame.getProductType());
-				lstIntermediateProducts.setListData(Service.getService().getAllIntermediateProducts().toArray());
-				
 			}
 
-			else if (e.getSource() == mitCreateIntermediateProduct) {
+			else if (e.getSource() == mitCreateIntermediateProduct || e.getSource() == btnCreateIntermediateProduct) {
 				createIntermediateProduct = new CreateIntermediateProduct();
 				Service.getService().StoreIntermediateProduct(createIntermediateProduct.getIntermediateProduct());
-			}
-			else if (e.getSource() == btnCreateIntermediateProduct) {
-				createIntermediateProduct = new CreateIntermediateProduct();
-				Service.getService().StoreIntermediateProduct(createIntermediateProduct.getIntermediateProduct());
+				fillLstIntermediateProducts();
 			}
 			for (int i = 0; i < mitDepots.size(); i++) {
 				if (e.getSource() == mitDepots.get(i)) {
-					setDepot(Service.getService().getAllDepots().get(i));
+					updateDepotMap(Service.getService().getAllDepots().get(i));
 				}
 			}
 		}
@@ -473,21 +458,20 @@ public class MainFrame extends JFrame {
 			// TODO Auto-generated method stub
 
 		}
-	}
-
-	public class TxfChangeListener implements DocumentListener{
-
+		@Override
 		public void changedUpdate(DocumentEvent e) {
-			// text was changed
 			fillLstIntermediateProducts();
+
 		}
-		public void removeUpdate(DocumentEvent e) {
-			// text was deleted
-			fillLstIntermediateProducts();
-		}
+		@Override
 		public void insertUpdate(DocumentEvent e) {
-			// text was inserted
 			fillLstIntermediateProducts();
+
+		}
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			fillLstIntermediateProducts();
+
 		}
 
 		public void fillLstIntermediateProducts() {
@@ -502,9 +486,7 @@ public class MainFrame extends JFrame {
 					searchedIntermediateProducts.add(allIntermediateProducts.get(i));
 				}
 			}
-
 			lstIntermediateProducts.setListData(searchedIntermediateProducts.toArray());
 		}
-
 	}
 }
