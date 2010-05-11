@@ -295,9 +295,9 @@ public class MainFrame extends JFrame {
 		pack();
 
 		controller.fillLstIntermediateProducts();
-		
+
 		updateTimer = new UpdateTimer(2, intermediateProductPanels);
-		
+
 	}
 	public void fillChooseDepotMenu() {
 		mnuViewDepot.removeAll();
@@ -332,63 +332,69 @@ public class MainFrame extends JFrame {
 
 	}
 
-	
+
 	/**
 	 * Denne methode bliver udfoert ver gang man klicker paa en storingspace med musen i guien
 	 * @param intermediateProductPanel
 	 */
 	public void updateInfoFromPanel(IntermediateProductPanel intermediateProductPanel) {
-		if (intermediateProductPanelSelected != null) { //unselecter den gamle storingspace
-			intermediateProductPanelSelected.setSelected(false); 
-		}
-		intermediateProductPanel.setSelected(true);
-		intermediateProductPanelSelected = intermediateProductPanel;
-		StoringSpace storingSpace = intermediateProductPanel.getStoringSpace();
-		// Tjekker om den selected storingspace indeholder en mellemvare
-		txfCoordinates.setText("( " + storingSpace.getPositionX()
-				+ ":" + storingSpace.getPositionY() + " )");
-		txfDepot.setText(storingSpace.getDepot().getName());
-		if(storingSpace.getIntermediateProduct() != null) {
+		if (intermediateProductPanelSelected != intermediateProductPanel) {
+			if (intermediateProductPanelSelected != null) { //unselecter den gamle storingspace
+				intermediateProductPanelSelected.setSelected(false); 
+			}
+			intermediateProductPanel.setSelected(true);
+			intermediateProductPanelSelected = intermediateProductPanel;
+			StoringSpace storingSpace = intermediateProductPanel.getStoringSpace();
+			// Tjekker om den selected storingspace indeholder en mellemvare
+			txfCoordinates.setText("( " + storingSpace.getPositionX()+ ":" + storingSpace.getPositionY() + " )");
+			txfDepot.setText(storingSpace.getDepot().getName());
 			updateInfo(storingSpace.getIntermediateProduct());
-		} else {
+			lstIntermediateProducts.setSelectedValue(storingSpace.getIntermediateProduct(), true);
+		}
+	}
+
+	public void updateInfoFromList(IntermediateProduct intermediateProduct) {
+		if(intermediateProduct.getActivProcessLog().getProcess().getClass().getName().equals("model.Drying")) {
+			setDepot(intermediateProduct.getStoringSpace().getDepot());
+			for (IntermediateProductPanel intermediateProductPanel : intermediateProductPanels) {
+				if (intermediateProductPanel.getStoringSpace().getIntermediateProduct() == intermediateProduct) {
+					updateInfoFromPanel(intermediateProductPanel);
+				}
+			}
+		}
+		else {
+			btnCreateDrying.setVisible(true);
+			txfCoordinates.setText("( - : - )");
+			txfDepot.setText(" - ");
+			updateInfo(intermediateProduct);
+		}
+
+
+	}
+
+	private void updateInfo(IntermediateProduct intermediateProduct){
+		if(intermediateProduct != null) {
+			btnDeleteIntermediateProduct.setVisible(true);
+			btnSendToNextProcess.setVisible(true);
+			btnCreateDrying.setVisible(false);
+			txfID.setText(intermediateProduct.getId());
+			txfProductType.setText(intermediateProduct.getProductType().getName());
+			txfQuantity.setText(intermediateProduct.getQuantity()+ ""); 
+		}
+		else {
 			btnDeleteIntermediateProduct.setVisible(false);//delete btn skal ikke vises hvis man drykker paa et tomt feld
 			btnSendToNextProcess.setVisible(false);
-//			btnCreateDrying.setVisible(true);
 			txfID.setText("N/A");
 			txfQuantity.setText("N/A");
 			txfProductType.setText("N/A");
 			txfQuantity.setText("N/A");
 		}
 	}
-	
-	public void updateInfoFromList(IntermediateProduct intermediateProduct) {
-		btnCreateDrying.setVisible(true);
-		txfCoordinates.setText("( - : - )");
-		txfDepot.setText(" - ");
-		updateInfo(intermediateProduct);
-	}
-	
-	private void updateInfo(IntermediateProduct intermediateProduct){
-		btnDeleteIntermediateProduct.setVisible(true);
-		btnSendToNextProcess.setVisible(true);
-		btnCreateDrying.setVisible(false);
-		txfID.setText(intermediateProduct.getId());
-		txfProductType.setText(intermediateProduct.getProductType()
-				.getName());
-		txfQuantity.setText(intermediateProduct.getQuantity()
-				+ "");
-	}
 	private class Controller implements ActionListener, ListSelectionListener, MouseListener {
 
 		public void fillLstIntermediateProducts() {
 			lstIntermediateProducts.setListData(Service.getService().getAllIntermediateProducts().toArray());
 		}
-
-		public void updateView() {
-			// TODO venstre menu info opdateres og der laves markering på panel i map
-
-		}
-
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == mitCreateProductType) {
@@ -415,7 +421,7 @@ public class MainFrame extends JFrame {
 		public void valueChanged(ListSelectionEvent e) {
 			if (e.getSource() == lstIntermediateProducts) {
 				if (!e.getValueIsAdjusting()) {
-					this.updateView();
+					updateInfoFromList((IntermediateProduct)lstIntermediateProducts.getSelectedValue());
 				}
 			}
 
