@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,7 +28,7 @@ public class IntermediateProductPanel extends JPanel{
 	public IntermediateProductPanel(StoringSpace storingSpace) {
 		this.storingSpace = storingSpace;
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		
+
 		this.setLayout(new BorderLayout());
 		{	
 			panel = new JPanel();		
@@ -40,7 +41,6 @@ public class IntermediateProductPanel extends JPanel{
 			}
 			{
 				progressBar = new JProgressBar();
-				progressBar.setForeground(Color.green);
 				panel.add(progressBar, BorderLayout.CENTER);
 			}
 			{
@@ -62,7 +62,7 @@ public class IntermediateProductPanel extends JPanel{
 			lblName.setVisible(false);
 			lblIcon.setVisible(false);
 		}
-		
+
 		updateTime();
 	}
 
@@ -73,7 +73,16 @@ public class IntermediateProductPanel extends JPanel{
 			progressBar.setMaximum((int) drying.getMaxTime()/1000);
 			long currentTime = System.currentTimeMillis()-storingSpace.getIntermediateProduct().getActivProcessLog().getStartTime().getTime();
 			progressBar.setValue((int) currentTime/1000);
-			progressBar.setForeground(Color.blue);
+
+			if (drying.getMinTime()>currentTime){
+				progressBar.setForeground(new Color(210,210,210));
+			} else if ((drying.getMinTime()+(drying.getIdealTime()-drying.getMinTime())/2)>currentTime){
+				progressBar.setForeground(Color.yellow);
+			} else if ((drying.getIdealTime()+(drying.getMaxTime()-drying.getIdealTime())/2)>currentTime){
+				progressBar.setForeground(Color.green);
+			} else {
+				progressBar.setForeground(Color.red);
+			}
 
 		}
 	}
