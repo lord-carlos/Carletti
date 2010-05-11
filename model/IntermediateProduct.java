@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class IntermediateProduct {
 	private boolean finished = false;
+	private boolean discarded = false;
 	private String id;
 	private double quantity;
 	private ProductType productType;
@@ -18,6 +19,10 @@ public class IntermediateProduct {
 
 	public boolean isFinished(){
 		return this.finished;
+	}
+
+	public boolean isDiscarded(){
+		return this.discarded;
 	}
 
 	public String getId(){
@@ -103,51 +108,68 @@ public class IntermediateProduct {
 	}
 
 	public void sendToNextProcess(StoringSpace storingSpace){
-		if (processLogs.size()==0){
+		if (!isDiscarded() && !isFinished()){
+			if (processLogs.size()==0){
 
-			createProcessLog(this.productType.getProcessLine().getProcesses().get(0), storingSpace);
-			if (storingSpace==null){
-				this.storingSpace = null;
+				createProcessLog(this.productType.getProcessLine().getProcesses().get(0), storingSpace);
+				if (storingSpace==null){
+					if (this.storingSpace!=null){
+						unsetStoringSpace();
+					}
+				} else {
+					this.setStoringSpace(storingSpace);
+				}
+
+			} else if (processLogs.size()>=this.productType.getProcessLine().getProcesses().size()) {
+
+				processLogs.get(processLogs.size()-1).endProcess();
+				finished=true;
+
 			} else {
-				this.setStoringSpace(storingSpace);
+				int i = processLogs.size()-1;
+				processLogs.get(i).endProcess();
+				createProcessLog(this.productType.getProcessLine().getProcesses().get(i+1), storingSpace);
+
+				if (storingSpace==null){
+					if (this.storingSpace!=null){
+						unsetStoringSpace();
+					}
+				} else {
+					this.setStoringSpace(storingSpace);
+				}
+
 			}
-
-		} else if (processLogs.size()>=this.productType.getProcessLine().getProcesses().size()) {
-
-			processLogs.get(processLogs.size()-1).endProcess();
-			finished=true;
-
-		} else {
-			int i = processLogs.size()-1;
-			processLogs.get(i).endProcess();
-			createProcessLog(this.productType.getProcessLine().getProcesses().get(i+1), storingSpace);
-
-			if (storingSpace==null){
-				this.storingSpace = null;
-			} else {
-				this.setStoringSpace(storingSpace);
-			}
-
 		}
 	}
 
 	public ProcessLog getActivProcessLog(){
 
-		if (processLogs.size()==0 || isFinished()) {
+		if (processLogs.size()==0 || isFinished() || isDiscarded()) {
 			return null;
 		} else {
 			return processLogs.get(processLogs.size()-1);
 		}
-
 	}
 
 	public Process getNextProcess(){
-
-		if (processLogs.size()>=this.productType.getProcessLine().getProcesses().size()) {
+		if (processLogs.size()>=this.productType.getProcessLine().getProcesses().size() || isFinished() || isDiscarded()) {
 			return null;
 		} else {
 			return productType.getProcessLine().getProcesses().get(processLogs.size());
 		}
 
+	}
+
+	public void discardThisIntermediateProduct(){
+		if (!isDiscarded() && !isFinished()){
+			discarded = true;
+			if (processLogs.size()!=0){
+				int i = processLogs.size()-1;
+				processLogs.get(i).endProcess();
+			}
+			if (this.storingSpace!=null){
+				unsetStoringSpace();
+			}
+		}
 	}
 }

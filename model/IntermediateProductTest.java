@@ -9,6 +9,7 @@ public class IntermediateProductTest {
 
 	private ProductType pT;
 	private IntermediateProduct iP;
+	private Depot dp ;
 
 	@Before
 	public void setUp() throws Exception {
@@ -26,9 +27,10 @@ public class IntermediateProductTest {
 		pL.createDrying(9, 1, 2, 3);
 
 		iP = new IntermediateProduct("", pT, 0);
-
+		
+		dp = new Depot("", "", 2, 2);;
 	}
-
+	
 	@Test
 	public void testConstructor() {
 		IntermediateProduct iP1 = new IntermediateProduct("", pT, 0);
@@ -135,7 +137,6 @@ public class IntermediateProductTest {
 
 	@Test 
 	public void testSetStoringSpace (){
-		Depot dp = new Depot("", "", 2, 2);
 		iP.setStoringSpace(dp.getStoringSpaces().get(0));
 		assertEquals(dp.getStoringSpaces().get(0), iP.getStoringSpace());
 		assertEquals(iP,dp.getStoringSpaces().get(0).getIntermediateProduct());
@@ -152,7 +153,6 @@ public class IntermediateProductTest {
 
 	@Test 
 	public void testCreateProcessLog(){
-		Depot dp = new Depot("", "", 2, 2);
 		ProcessLog pLog1 = iP.createProcessLog(pT.getProcessLine().getProcesses().get(0), null);
 		assertEquals(1,iP.getProcessLogs().size());
 		assertTrue(pT.getProcessLine().getProcesses().get(0).getProcessLogs().contains(pLog1));
@@ -171,11 +171,9 @@ public class IntermediateProductTest {
 
 	@Test
 	public void TestProcessHandling(){
-		iP = new IntermediateProduct("", pT, 0);
-		Depot dp = new Depot("", "", 2, 2);
-
 		//before start
 		assertFalse(iP.isFinished());
+		assertFalse(iP.isDiscarded());
 		assertNull(iP.getActivProcessLog());
 		assertEquals(pT.getProcessLine().getProcesses().get(0), iP.getNextProcess());
 		assertEquals(0, iP.getProcessLogs().size());
@@ -184,20 +182,23 @@ public class IntermediateProductTest {
 		iP.sendToNextProcess(null);
 
 		assertFalse(iP.isFinished());
+		assertFalse(iP.isDiscarded());
 		assertEquals(pT.getProcessLine().getProcesses().get(0), iP.getActivProcessLog().getProcess());
 		assertEquals(pT.getProcessLine().getProcesses().get(1), iP.getNextProcess());
 		assertEquals(1, iP.getProcessLogs().size());
-		assertNull(iP.getActivProcessLog().getStoringSpace());
+		assertNull(iP.getStoringSpace());
 		assertTrue(iP.getActivProcessLog().isActive());
 
 		//sekond prcess
 		iP.sendToNextProcess(dp.getStoringSpaces().get(0));
 
 		assertFalse(iP.isFinished());
+		assertFalse(iP.isDiscarded());
 		assertEquals(pT.getProcessLine().getProcesses().get(1), iP.getActivProcessLog().getProcess());
 		assertEquals(pT.getProcessLine().getProcesses().get(2), iP.getNextProcess());
 		assertEquals(2, iP.getProcessLogs().size());
-		assertEquals(dp.getStoringSpaces().get(0), iP.getActivProcessLog().getStoringSpace());
+		assertEquals(dp.getStoringSpaces().get(0), iP.getStoringSpace());
+		assertEquals(iP, dp.getStoringSpaces().get(0).getIntermediateProduct());
 		assertTrue(iP.getActivProcessLog().isActive());
 		assertFalse(iP.getProcessLogs().get(0).isActive());
 		
@@ -205,10 +206,12 @@ public class IntermediateProductTest {
 		iP.sendToNextProcess(null);
 
 		assertFalse(iP.isFinished());
+		assertFalse(iP.isDiscarded());
 		assertEquals(pT.getProcessLine().getProcesses().get(2), iP.getActivProcessLog().getProcess());
 		assertEquals(pT.getProcessLine().getProcesses().get(3), iP.getNextProcess());
 		assertEquals(3, iP.getProcessLogs().size());
-		assertNull(iP.getActivProcessLog().getStoringSpace());
+		assertNull(iP.getStoringSpace());
+		assertNull(dp.getStoringSpaces().get(0).getIntermediateProduct());
 		assertTrue(iP.getActivProcessLog().isActive());
 		assertFalse(iP.getProcessLogs().get(1).isActive());
 		
@@ -221,6 +224,7 @@ public class IntermediateProductTest {
 		iP.sendToNextProcess(null);
 		
 		assertFalse(iP.isFinished());
+		assertFalse(iP.isDiscarded());
 		assertEquals(pT.getProcessLine().getProcesses().get(7), iP.getActivProcessLog().getProcess());
 		assertEquals(pT.getProcessLine().getProcesses().get(8), iP.getNextProcess());
 		assertEquals(8, iP.getProcessLogs().size());
@@ -237,6 +241,7 @@ public class IntermediateProductTest {
 		iP.sendToNextProcess(null);
 		
 		assertFalse(iP.isFinished());
+		assertFalse(iP.isDiscarded());
 		assertEquals(pT.getProcessLine().getProcesses().get(8), iP.getActivProcessLog().getProcess());
 		assertNull(iP.getNextProcess());
 		assertEquals(9, iP.getProcessLogs().size());
@@ -247,11 +252,56 @@ public class IntermediateProductTest {
 		iP.sendToNextProcess(null);
 		
 		assertTrue(iP.isFinished());
+		assertFalse(iP.isDiscarded());
 		assertNull(iP.getActivProcessLog());
 		assertNull(iP.getNextProcess());
 		assertEquals(9, iP.getProcessLogs().size());
 		assertFalse(iP.getProcessLogs().get(8).isActive());
+	}
+	
+	@Test
+	public void testDiscardMethod(){
+		//before start
+		assertFalse(iP.isFinished());
+		assertFalse(iP.isDiscarded());
+		assertNull(iP.getActivProcessLog());
+		assertEquals(pT.getProcessLine().getProcesses().get(0), iP.getNextProcess());
+		assertEquals(0, iP.getProcessLogs().size());
 
+		//first process
+		iP.sendToNextProcess(null);
+
+		assertFalse(iP.isFinished());
+		assertFalse(iP.isDiscarded());
+		assertEquals(pT.getProcessLine().getProcesses().get(0), iP.getActivProcessLog().getProcess());
+		assertEquals(pT.getProcessLine().getProcesses().get(1), iP.getNextProcess());
+		assertEquals(1, iP.getProcessLogs().size());
+		assertNull(iP.getStoringSpace());
+		assertTrue(iP.getActivProcessLog().isActive());
+
+		//sekond prcess
+		iP.sendToNextProcess(dp.getStoringSpaces().get(0));
+
+		assertFalse(iP.isFinished());
+		assertFalse(iP.isDiscarded());
+		assertEquals(pT.getProcessLine().getProcesses().get(1), iP.getActivProcessLog().getProcess());
+		assertEquals(pT.getProcessLine().getProcesses().get(2), iP.getNextProcess());
+		assertEquals(2, iP.getProcessLogs().size());
+		assertEquals(dp.getStoringSpaces().get(0), iP.getStoringSpace());
+		assertTrue(iP.getActivProcessLog().isActive());
+		assertFalse(iP.getProcessLogs().get(0).isActive());
+		
+		//testing discard method
+		iP.discardThisIntermediateProduct();
+		assertFalse(iP.isFinished());
+		assertTrue(iP.isDiscarded());
+		assertNull(iP.getActivProcessLog());
+		assertNull(iP.getNextProcess());
+		assertEquals(2, iP.getProcessLogs().size());
+		assertNull(iP.getStoringSpace());
+		assertFalse(iP.getProcessLogs().get(0).isActive());
+		assertFalse(iP.getProcessLogs().get(1).isActive());
+		
 	}
 
 }

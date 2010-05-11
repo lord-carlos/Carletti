@@ -68,7 +68,7 @@ public class Service {
 		List<IntermediateProduct> activeP= new ArrayList<IntermediateProduct>();
 		List<IntermediateProduct> allP= dao.getAllIntermediateProducts();
 		for (int i = 0; i < allP.size(); i++) {
-			if (!allP.get(i).isFinished()){
+			if (!allP.get(i).isFinished() && !allP.get(i).isDiscarded()){
 				activeP.add(allP.get(i));
 			}
 		}
