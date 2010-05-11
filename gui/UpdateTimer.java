@@ -23,6 +23,4 @@ public class UpdateTimer extends java.util.Timer {
 			}
 		}
 	}
-	
-	
 }

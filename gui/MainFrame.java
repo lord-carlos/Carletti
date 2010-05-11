@@ -46,6 +46,16 @@ import service.Service;
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
 public class MainFrame extends JFrame {
+
+	{
+		//Set Look & Feel
+		try {
+			javax.swing.UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private JMenuBar mnbBar;
 	private JPanel pnlWest;
 	private JLabel lblIntermediateProduct;
