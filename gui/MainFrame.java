@@ -225,6 +225,7 @@ public class MainFrame extends JFrame {
 					pnlInformation.add(btnSendToNextProcess);
 					btnSendToNextProcess.setText("Viderbehandling");
 					btnSendToNextProcess.setPreferredSize(new Dimension(130,25));
+					btnSendToNextProcess.addActionListener(controller);
 				}
 				{
 					btnDeleteIntermediateProduct = new JButton();
@@ -429,6 +430,26 @@ public class MainFrame extends JFrame {
 					if (selectedIntermediateProductDepot!=null){
 						updateDepotMap(selectedIntermediateProductDepot);
 					}
+					updateInfo(null);
+				}
+			} else if (e.getSource().equals(btnSendToNextProcess)){
+				IntermediateProduct selectedIntermediateProduct=(IntermediateProduct)lstIntermediateProducts.getSelectedValue();
+				if (selectedIntermediateProduct!=null){
+					if (selectedIntermediateProduct.getNextProcess()==null){
+						selectedIntermediateProduct.sendToNextProcess(null);
+					} else if (selectedIntermediateProduct.getNextProcess().getClass().equals(model.Drying.class) && intermediateProductPanelSelected.getStoringSpace()!=null){
+						if (intermediateProductPanelSelected.getStoringSpace().getIntermediateProduct()==null){
+							selectedIntermediateProduct.sendToNextProcess(intermediateProductPanelSelected.getStoringSpace());
+						}
+					} else if (selectedIntermediateProduct.getNextProcess().getClass().equals(model.SubProcess.class)){
+						selectedIntermediateProduct.sendToNextProcess(null);
+					}
+					fillLstIntermediateProducts();
+					if (intermediateProductPanelSelected.getStoringSpace()!=null){
+						updateDepotMap(intermediateProductPanelSelected.getStoringSpace().getDepot());
+					}
+					updateInfo(null);
+					lstIntermediateProducts.setSelectedValue(selectedIntermediateProduct, true);
 				}
 			}
 

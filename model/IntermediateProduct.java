@@ -121,7 +121,9 @@ public class IntermediateProduct {
 				}
 
 			} else if (processLogs.size()>=this.productType.getProcessLine().getProcesses().size()) {
-
+				if (this.storingSpace!=null){
+					unsetStoringSpace();
+				}
 				processLogs.get(processLogs.size()-1).endProcess();
 				finished=true;
 
