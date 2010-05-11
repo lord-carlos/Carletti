@@ -39,7 +39,7 @@ public class UpdateTimer extends java.util.Timer {
 
 				if (intermediateProducts.get(i).getActivProcessLog()!=null){
 					if (intermediateProducts.get(i).getActivProcessLog().getProcess().getClass().equals(Drying.class)){
-						System.out.println(intermediateProducts.get(i));
+						
 						Drying drying = (Drying) intermediateProducts.get(i).getActivProcessLog().getProcess();	
 						ProcessLog log = intermediateProducts.get(i).getActivProcessLog();	
 						long currentTime = System.currentTimeMillis()-log.getStartTime().getTime();

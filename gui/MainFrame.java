@@ -137,6 +137,7 @@ public class MainFrame extends JFrame {
 					btnCreateIntermediateProduct = new JButton();
 					btnCreateIntermediateProduct.setText("Opret Mellemvare");
 					btnCreateIntermediateProduct.setPreferredSize(new Dimension(130,30));
+					btnCreateIntermediateProduct.addActionListener(controller);
 					pnlWest.add(btnCreateIntermediateProduct);		
 				}
 
@@ -228,8 +229,9 @@ public class MainFrame extends JFrame {
 				{
 					btnDeleteIntermediateProduct = new JButton();
 					pnlInformation.add(btnDeleteIntermediateProduct);
-					btnDeleteIntermediateProduct.setText("Slet");
+					btnDeleteIntermediateProduct.setText("Kassere mellemvare");
 					btnDeleteIntermediateProduct.setPreferredSize(new Dimension(130,25));
+					btnDeleteIntermediateProduct.addActionListener(controller);
 				}
 				{
 					btnCreateDrying = new JButton();
@@ -411,9 +413,25 @@ public class MainFrame extends JFrame {
 
 			else if (e.getSource() == mitCreateIntermediateProduct || e.getSource() == btnCreateIntermediateProduct) {
 				createIntermediateProduct = new CreateIntermediateProduct();
-				Service.getService().StoreIntermediateProduct(createIntermediateProduct.getIntermediateProduct());
+				if (createIntermediateProduct.getIntermediateProduct()!=null){
+					Service.getService().StoreIntermediateProduct(createIntermediateProduct.getIntermediateProduct());
+				}
 				fillLstIntermediateProducts();
+			} else if (e.getSource().equals(btnDeleteIntermediateProduct)){
+				IntermediateProduct selectedIntermediateProduct=(IntermediateProduct)lstIntermediateProducts.getSelectedValue();
+				if (selectedIntermediateProduct!=null){
+					Depot selectedIntermediateProductDepot =null;
+					if (selectedIntermediateProduct.getStoringSpace()!=null){
+						selectedIntermediateProductDepot = selectedIntermediateProduct.getStoringSpace().getDepot();
+					}
+					selectedIntermediateProduct.discardThisIntermediateProduct();
+					fillLstIntermediateProducts();
+					if (selectedIntermediateProductDepot!=null){
+						updateDepotMap(selectedIntermediateProductDepot);
+					}
+				}
 			}
+
 			for (int i = 0; i < mitDepots.size(); i++) {
 				if (e.getSource() == mitDepots.get(i)) {
 					updateDepotMap(Service.getService().getAllDepots().get(i));
