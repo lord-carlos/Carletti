@@ -83,5 +83,9 @@ public class ProcessLog{
 	public IntermediateProduct getIntermediateProduct(){
 		return this.intermediateProduct;
 	}
+	
+	public String toString() {
+		return process.toString();
+	}
 
 }

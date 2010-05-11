@@ -103,44 +103,44 @@ public class Service {
 		ProductType pteSkumbananer = createProductType("Skumbananer");
 		pteSkumbananer.setPicture(new ImageIcon("gui/icons/skumbananer.jpg"));
 		ProcessLine plSkumbananer = new ProcessLine("Skumbananer", "Skum", pteSkumbananer);
-		plSkumbananer.createSubProcess(1, "Tilføj skum", "siger sig selv", 2, 24);
+		plSkumbananer.createSubProcess(1, "Tilfoej skum", "siger sig selv", 2, 24);
 		Drying d1 = plSkumbananer.createDrying(2, 1, 2*60*1000, 3*60*1000);
 		d1.addDepot(depot1); d1.addDepot(depot2); 
-		plSkumbananer.createSubProcess(3, "Tilføj chokolade", "siger sig selv", 1, 100);
+		plSkumbananer.createSubProcess(3, "Tilsaet chokolade", "siger sig selv", 1, 100);
 		Drying d2 = plSkumbananer.createDrying(4, 1, 2*60*1000, 3*60*1000);
 		d2.addDepot(depot1); d2.addDepot(depot2); 
 		
 		ProductType pteChokoKaramelLys = createProductType("Choko Karamel Lys");
 		pteChokoKaramelLys.setPicture(new ImageIcon("gui/icons/choko karamel lys.jpg"));
 		ProcessLine plChokoKaramelLys = new ProcessLine("Choko Karamel Lys", "asdf", pteChokoKaramelLys);
-		plChokoKaramelLys.createSubProcess(1, "Tilsæt karamel", "Lys karamel", 1, 2);
+		plChokoKaramelLys.createSubProcess(1, "Tilsaet karamel", "Lys karamel", 1, 2);
 		Drying d3 = plChokoKaramelLys.createDrying(21, 1*60*1000, 2*60*1000, 3*60*1000);
 		d3.addDepot(depot1); d3.addDepot(depot2);
 		
 		ProductType pteChokoKaramelMoerk = createProductType("Choko Karamel Moerk");
 		pteChokoKaramelMoerk.setPicture(new ImageIcon("gui/icons/choko karamel moerk.jpg"));
 		ProcessLine plChokoKaramelMoerk = new ProcessLine("Choko Karamel Moerk", "asdf2", pteChokoKaramelMoerk);
-		plChokoKaramelMoerk.createSubProcess(1, "Tilsæt karamel", "Mørk karamel", 1, 2);
+		plChokoKaramelMoerk.createSubProcess(1, "Tilsaet karamel", "Moerk karamel", 1, 2);
 		Drying d4 = plChokoKaramelMoerk.createDrying(2, 3*60*1000, 4*60*1000, 5*60*1000);
 		d4.addDepot(depot1); d4.addDepot(depot2);
 		
 		ProductType pteChokoladelinser = createProductType("Chokoladelinser");
 		pteChokoladelinser.setPicture(new ImageIcon("gui/icons/chokoladelinser.jpg"));
 		ProcessLine plChokoladelinser = new ProcessLine("Chokoladelinser", "nam", pteChokoladelinser);
-		plChokoladelinser.createSubProcess(1, "Tilsætter chokolade", "tilføjer chokolade",24, -3);
+		plChokoladelinser.createSubProcess(1, "Tilsaetter chokolade", "tilfoejer chokolade",24, -3);
 		Drying d5 = plChokoladelinser.createDrying(2, 30*1000, 60*1000, 120*1000);
 		d5.addDepot(depot1); d5.addDepot(depot2); 
-		plChokoladelinser.createSubProcess(3, "Tilsætter linser", "Tilsætter linser fra optikkeren", 3, 13);
+		plChokoladelinser.createSubProcess(3, "Tilsaetter linser", "Tilsaetter linser fra optikkeren", 3, 13);
 		Drying d6 = plChokoladelinser.createDrying(4, 1*60*1000, 2*60*1000, 2*60*1000);
 		d6.addDepot(depot1); d6.addDepot(depot2); 
 		
 		ProductType pteCitronDrage = createProductType("Citron DragÃ©");
 		pteCitronDrage.setPicture(new ImageIcon("gui/icons/citron dragÃ©.jpg"));
 		ProcessLine plCitronDrage = new ProcessLine("Citron DragÃ©", "ild", pteCitronDrage);
-		plCitronDrage.createSubProcess(1, "Tilsætter citron", "press en eller to citroner og put dem i",21, -45);
+		plCitronDrage.createSubProcess(1, "Tilsaetter citron", "press en eller to citroner og put dem i",21, -45);
 		Drying d7 = plCitronDrage.createDrying(2, 1*60*1000, 2*60*1000, 3*60*1000);
 		d7.addDepot(depot1); d7.addDepot(depot2); 
-		plCitronDrage.createSubProcess(3, "Tilsætter linser", "Tilsætter linser fra optikkeren", 17, 87);
+		plCitronDrage.createSubProcess(3, "Tilsaetter linser", "Tilsaetter linser fra optikkeren", 17, 87);
 		Drying d8 = plCitronDrage.createDrying(4, 4*60*1000, 7*60*1000, 8*60*1000);
 		d8.addDepot(depot1); d8.addDepot(depot2); 
 		
