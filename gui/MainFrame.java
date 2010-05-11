@@ -253,6 +253,7 @@ public class MainFrame extends JFrame {
 				pnlProcessOverView = new JPanel();
 				pnlEast.add(pnlProcessOverView);
 				GridLayout pnlProcessOverViewLayout = new GridLayout();
+				pnlProcessOverView.setLayout(pnlProcessOverViewLayout);
 			}
 		}
 		{
@@ -306,9 +307,9 @@ public class MainFrame extends JFrame {
 			}
 		}
 		pack();
-		
+
 		TxfChangeListener.fillLstIntermediateProducts();
-		
+
 		updateTimer = new UpdateTimer(2, intermediateProductPanels);
 
 	}
@@ -345,7 +346,6 @@ public class MainFrame extends JFrame {
 
 	}
 
-
 	/**
 	 * Denne methode bliver udfoert ver gang man klicker paa en storingspace med musen i guien
 	 * @param intermediateProductPanel
@@ -357,32 +357,32 @@ public class MainFrame extends JFrame {
 			}
 			intermediateProductPanel.setSelected(true);
 			intermediateProductPanelSelected = intermediateProductPanel;
-			StoringSpace storingSpace = intermediateProductPanel.getStoringSpace();
-			// Tjekker om den selected storingspace indeholder en mellemvare
-			txfCoordinates.setText("( " + storingSpace.getPositionX()+ ":" + storingSpace.getPositionY() + " )");
-			txfDepot.setText(storingSpace.getDepot().getName());
-			updateInfo(storingSpace.getIntermediateProduct());
-			lstIntermediateProducts.setSelectedValue(storingSpace.getIntermediateProduct(), true);
+			
+			updateInfo(intermediateProductPanel.getStoringSpace().getIntermediateProduct());
+			lstIntermediateProducts.setSelectedValue(intermediateProductPanel.getStoringSpace().getIntermediateProduct(), true);
 		}
 	}
 
 	public void updateInfoFromList(IntermediateProduct intermediateProduct) {
-		if(intermediateProduct.getActivProcessLog().getProcess().getClass().getName().equals("model.Drying")) {
-			setDepot(intermediateProduct.getStoringSpace().getDepot());
-			for (IntermediateProductPanel intermediateProductPanel : intermediateProductPanels) {
-				if (intermediateProductPanel.getStoringSpace().getIntermediateProduct() == intermediateProduct) {
-					updateInfoFromPanel(intermediateProductPanel);
+		if(intermediateProduct != null) {
+			if(intermediateProduct.getActivProcessLog() != null) {
+				if(intermediateProduct.getActivProcessLog().getProcess().getClass().getName().equals("model.Drying")) {
+					setDepot(intermediateProduct.getStoringSpace().getDepot());
+					for (IntermediateProductPanel intermediateProductPanel : intermediateProductPanels) {
+						if (intermediateProductPanel.getStoringSpace().getIntermediateProduct() == intermediateProduct) {
+							updateInfoFromPanel(intermediateProductPanel);
+						}
+					}
+				}
+				else {
+					btnCreateDrying.setVisible(true);
+					updateInfo(intermediateProduct);
 				}
 			}
+			else {
+				updateInfo(intermediateProduct);
+			}
 		}
-		else {
-			btnCreateDrying.setVisible(true);
-			txfCoordinates.setText("( - : - )");
-			txfDepot.setText(" - ");
-			updateInfo(intermediateProduct);
-		}
-
-
 	}
 
 	private void updateInfo(IntermediateProduct intermediateProduct){
@@ -393,9 +393,17 @@ public class MainFrame extends JFrame {
 			txfID.setText(intermediateProduct.getId());
 			txfProductType.setText(intermediateProduct.getProductType().getName());
 			txfQuantity.setText(intermediateProduct.getQuantity()+ ""); 
+			if(intermediateProduct.getStoringSpace() != null) {
+				txfCoordinates.setText("( " + intermediateProduct.getStoringSpace().getPositionX()+ ":" + intermediateProduct.getStoringSpace().getPositionY() + " )");
+				txfDepot.setText(intermediateProduct.getStoringSpace().getDepot().getName());
+			}
+			else {
+				txfDepot.setText("N/A");
+				txfCoordinates.setText("N/A");
+			}
 		}
 		else {
-			btnDeleteIntermediateProduct.setVisible(false);//delete btn skal ikke vises hvis man drykker paa et tomt feld
+			btnDeleteIntermediateProduct.setVisible(false);//delete btn skal ikke vises hvis man trykker paa et tomt feld
 			btnSendToNextProcess.setVisible(false);
 			txfID.setText("N/A");
 			txfQuantity.setText("N/A");
@@ -405,17 +413,12 @@ public class MainFrame extends JFrame {
 	}
 	private class Controller implements ActionListener, ListSelectionListener, MouseListener {
 
-		public void updateView() {
-			// TODO venstre menu info opdateres og der laves markering på panel i map
-
-		}
-
-
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == mitCreateProductType) {
-				System.out.println("menu laver produkttype");
 				createProductTypeFrame = new CreateProductTypeFrame();
 				Service.getService().storeProductType(createProductTypeFrame.getProductType());
+				lstIntermediateProducts.setListData(Service.getService().getAllIntermediateProducts().toArray());
+				
 			}
 
 			else if (e.getSource() == mitCreateIntermediateProduct) {
@@ -471,7 +474,7 @@ public class MainFrame extends JFrame {
 
 		}
 	}
-	
+
 	public class TxfChangeListener implements DocumentListener{
 
 		public void changedUpdate(DocumentEvent e) {
@@ -486,12 +489,12 @@ public class MainFrame extends JFrame {
 			// text was inserted
 			fillLstIntermediateProducts();
 		}
-		
+
 		public void fillLstIntermediateProducts() {
-			
+
 			List<IntermediateProduct> allIntermediateProducts = Service.getService().getActiveIntermediateProducts();
 			List<IntermediateProduct> searchedIntermediateProducts = new ArrayList<IntermediateProduct>();
-			
+
 			for (int i = 0; i < allIntermediateProducts.size(); i++) {
 				String idLower = allIntermediateProducts.get(i).getId().toLowerCase();
 				String productTypeLower = allIntermediateProducts.get(i).getProductType().getName().toLowerCase();
@@ -499,7 +502,7 @@ public class MainFrame extends JFrame {
 					searchedIntermediateProducts.add(allIntermediateProducts.get(i));
 				}
 			}
-			
+
 			lstIntermediateProducts.setListData(searchedIntermediateProducts.toArray());
 		}
 

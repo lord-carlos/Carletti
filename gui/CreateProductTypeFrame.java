@@ -46,8 +46,8 @@ public class CreateProductTypeFrame extends JDialog {
 	private ProductType productTypeToReturn;
 	private DefaultListModel listProcessesModel = new DefaultListModel();
 	private JButton btnPicture;
-	
-	
+
+
 	public CreateProductTypeFrame() {
 		initComponents();
 
@@ -171,7 +171,7 @@ public class CreateProductTypeFrame extends JDialog {
 	private JButton getBtnCreateDrying() {
 		if (btnCreateDrying == null) {
 			btnCreateDrying = new JButton();
-			btnCreateDrying.setText("Opret tørring");
+			btnCreateDrying.setText("Opret toerring");
 			btnCreateDrying.addActionListener(btnController);
 			btnCreateDrying.setLocation(280, 212);
 			btnCreateDrying.setSize(250, 25);
@@ -242,22 +242,8 @@ public class CreateProductTypeFrame extends JDialog {
 			lblName.setText("Produkttypens navn:");
 			lblName.setLocation(12, 12);
 			lblName.setSize(250, 20);
-			}
+		}
 		return lblName;
-	}
-
-
-
-	/**
-	 * Main entry of the class.
-	 * Note: This class is only created so that you can easily preview the result at runtime.
-	 * It is not expected to be managed by the designer.
-	 * You can modify it as you like.
-	 */
-	public static void main(String[] args) {
-		service.Service.getService().createTestData();
-		CreateProductTypeFrame frame = new CreateProductTypeFrame();
-
 	}
 
 	private class BtnController implements ActionListener {
@@ -278,43 +264,42 @@ public class CreateProductTypeFrame extends JDialog {
 					CreateProductTypeFrame.this.setProcessBtns(true);
 				}
 			} else if (e.getSource().equals(btnPicture)){
-				
-				
+
+
 				if (thisProductType.getPicture()==null){
-				
-				File activeFile;
-				
-				EditorFileHandler choosenfil = new EditorFileHandler(EditorFileHandler.LOAD_FUNCTION, new File(System.getProperty("user.dir")));
-				if (choosenfil.getIsOkPressed()){
-					activeFile = choosenfil.getSelectedFile();
-					
-					thisProductType.setPicture(new ImageIcon(activeFile.getPath()));
-					btnPicture.setText("Fjern billede ("+activeFile.getPath()+")");
-				}
+					File activeFile;
+
+					EditorFileHandler choosenfil = new EditorFileHandler(EditorFileHandler.LOAD_FUNCTION, new File(System.getProperty("user.dir")));
+					if (choosenfil.getIsOkPressed()){
+						activeFile = choosenfil.getSelectedFile();
+
+						thisProductType.setPicture(new ImageIcon(activeFile.getPath()));
+						btnPicture.setText("Fjern billede ("+activeFile.getPath()+")");
+					}
 				} else {
 					thisProductType.setPicture(null);
 					btnPicture.setText("Tilknyt et billede");
 				}
-				
-				
+
+
 			} else if (e.getSource().equals(btnDeleteProcess)){
-				
+
 				int index = listProcesses.getSelectedIndex();
-				
+
 				if (index>=0){
-					
-					
+
+
 					listProcessesModel.remove(index);
 					thisProductType.getProcessLine().getProcesses().remove(index);
-					
+
 					if (listProcessesModel.size()<1){
 						CreateProductTypeFrame.this.setProcessBtns(false);
 					}
-					
+
 				}
-				
-				
-				
+
+
+
 			} else if (e.getSource().equals(btnMoveDown)){
 				int index = listProcesses.getSelectedIndex();
 
@@ -327,10 +312,10 @@ public class CreateProductTypeFrame extends JDialog {
 
 					thisProductType.getProcessLine().getProcesses().set(index, elementBottom);
 					listProcessesModel.set(index, elementBottom);
-					
+
 					listProcesses.setSelectedIndex(index+1);
 				}
-				
+
 			} else if (e.getSource().equals(btnMoveUp)){
 
 				int index = listProcesses.getSelectedIndex();

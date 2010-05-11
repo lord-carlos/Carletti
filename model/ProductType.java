@@ -66,5 +66,9 @@ public class ProductType {
     public void removeIntermediateProduct(IntermediateProduct intermediateProduct){
     	this.intermediateProducts.remove(intermediateProduct);
     }
+    
+    public String toString() {
+    	return this.name;
+    }
 
 }
