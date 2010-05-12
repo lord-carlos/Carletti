@@ -13,7 +13,7 @@ public class MainFrameApp {
 		}
 
 		MainFrame frame = new MainFrame();
-		frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH);
+		frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH); //Maximer framet hved starten
 
 		frame.setVisible(true);
 	}

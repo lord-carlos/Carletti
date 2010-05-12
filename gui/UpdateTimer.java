@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
@@ -45,13 +44,13 @@ public class UpdateTimer extends java.util.Timer {
 						long currentTime = System.currentTimeMillis()-log.getStartTime().getTime();
 						if ((drying.getIdealTime()+(drying.getMaxTime()-drying.getIdealTime())/2)<currentTime && drying.getMaxTime()>currentTime && !logsRecievedAnWarning.contains(log)){
 							logsRecievedAnWarning.add(log);
-							JDialog dialogWarning = new JOptionPane("Mellemvaren "+intermediateProducts.get(i)+" på placeringengen "+log.getStoringSpace().getDepot()+" "+log.getStoringSpace()+" har snat overskredet sin tørretid!",JOptionPane.WARNING_MESSAGE,JOptionPane.CLOSED_OPTION).createDialog("Advarsel");
+							JDialog dialogWarning = new JOptionPane("Mellemvaren "+intermediateProducts.get(i)+" pÃ¥ placeringengen "+log.getStoringSpace().getDepot()+" "+log.getStoringSpace()+" har snat overskredet sin tÃ¸rretid!",JOptionPane.WARNING_MESSAGE,JOptionPane.CLOSED_OPTION).createDialog("Advarsel");
 							dialogWarning.setModal(false);
 							dialogWarning.setAlwaysOnTop(true);
 							dialogWarning.setVisible(true);
 						} else if (drying.getMaxTime()<currentTime && !logsToOld.contains(log)) {
 							logsToOld.add(log);
-							JDialog dialogToOld = new JOptionPane("Mellemvaren "+intermediateProducts.get(i)+" på placeringengen "+log.getStoringSpace().getDepot()+" "+log.getStoringSpace()+" har overskredet sin tørretid!",JOptionPane.ERROR_MESSAGE,JOptionPane.CLOSED_OPTION).createDialog("Advarsel");
+							JDialog dialogToOld = new JOptionPane("Mellemvaren "+intermediateProducts.get(i)+" pÃ¥ placeringengen "+log.getStoringSpace().getDepot()+" "+log.getStoringSpace()+" har overskredet sin tÃ¸rretid!",JOptionPane.ERROR_MESSAGE,JOptionPane.CLOSED_OPTION).createDialog("Advarsel");
 							dialogToOld.setModal(false);
 							dialogToOld.setAlwaysOnTop(true);
 							dialogToOld.setVisible(true);
