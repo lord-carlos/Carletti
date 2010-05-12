@@ -28,12 +28,14 @@ public class UpdateTimer extends java.util.Timer {
 		@Override
 		public void run() {
 
+			// opdatere prograssbars
 			for (int i = 0; i < intermediateProductPanels.size(); i++) {
 				intermediateProductPanels.get(i).updateTime();
 			}
 
 			List<IntermediateProduct> intermediateProducts = service.Service.getService().getActiveIntermediateProducts();
 
+			//leder efter mellemvare hvor der skal gives en advarsel
 			for (int i = 0; i < intermediateProducts.size(); i++) {
 
 				if (intermediateProducts.get(i).getActivProcessLog()!=null){

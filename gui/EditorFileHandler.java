@@ -26,6 +26,7 @@ public class EditorFileHandler extends JFileChooser{
 	 * @throws RuntimeException
 	 */
 	public EditorFileHandler(int function, File f) throws RuntimeException{
+		this.removeChoosableFileFilter(this.getChoosableFileFilters()[0]);
 		this.setFileFilter(new EditorFileFilter());
 		if (function == LOAD_FUNCTION){
 			this.setCurrentDirectory(f);

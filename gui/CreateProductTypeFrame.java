@@ -362,6 +362,10 @@ public class CreateProductTypeFrame extends JDialog {
 
 	}
 
+	/**
+	 * returnere den producttype som vi laver. Vil returnere null, hvis vi annullere
+	 * @return
+	 */
 	public ProductType getProductType(){
 		return productTypeToReturn;
 	}
