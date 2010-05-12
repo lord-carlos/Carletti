@@ -450,11 +450,11 @@ public class MainFrame extends JFrame {
 						selectedIntermediateProduct.sendToNextProcess(null);
 					} else if (selectedIntermediateProduct.getNextProcess().getClass().equals(model.Drying.class)){
 						if (intermediateProductPanelSelected==null){
-							JOptionPane.showMessageDialog(null, "Vælg et lagerplads hvor mellemvaren skal lægges", "Fejl", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "VÃ¦lg et lagerplads hvor mellemvaren skal lÃ¦gges", "Fejl", JOptionPane.ERROR_MESSAGE);
 						} else if (intermediateProductPanelSelected.getStoringSpace().getIntermediateProduct()!=null){
-							JOptionPane.showMessageDialog(null, "Der ligger allerede en mellemvare på den valgte placering", "Fejl", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Der ligger allerede en mellemvare paa den valgte placering", "Fejl", JOptionPane.ERROR_MESSAGE);
 						} else if (!((model.Drying)selectedIntermediateProduct.getNextProcess()).getDepots().contains(intermediateProductPanelSelected.getStoringSpace().getDepot())){
-							JOptionPane.showMessageDialog(null, "Mellemvaren kan ikke ligge på det valgte lager", "Fejl", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Mellemvaren kan ikke ligge pÃ¥ det valgte lager", "Fejl", JOptionPane.ERROR_MESSAGE);
 						} else {						
 							selectedIntermediateProduct.sendToNextProcess(intermediateProductPanelSelected.getStoringSpace());
 						}
