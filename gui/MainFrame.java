@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -33,6 +34,7 @@ import javax.swing.event.ListSelectionListener;
 
 import model.Depot;
 import model.IntermediateProduct;
+import model.Process;
 import model.StoringSpace;
 import service.Service;
 
@@ -59,17 +61,23 @@ public class MainFrame extends JFrame {
 	private JMenu mnuView;
 	private JMenu mnuCreate;
 	private JMenu jMenu1;
-	private JPanel pnlIntermediateProductMap;
+
 	private JList lstIntermediateProducts;
 	private JButton btnCreateIntermediateProduct;
 	private JMenuItem mnuViewDepot;
 	private JButton btnSendToNextProcess;
 	private JButton btnDeleteIntermediateProduct;
+
+	private JPanel pnlIntermediateProductMap;
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
-	private GridLayout intermediateProductMapLayout = new GridLayout();
+	private GridLayout lytIntermediateProductMap = new GridLayout();
+
 	private JPanel pnlInformation;
+
 	private JScrollPane scpProcesses;
-	private JCheckBoxList cbxLstProcesses;	
+	private JPanel pnlProcessOverView;
+	private ArrayList<ProcessPanel> processPanels = new ArrayList<ProcessPanel>();
+	private GridLayout lytProcessOverView = new GridLayout();	
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
 	private JTextField txfProductType;
@@ -85,7 +93,7 @@ public class MainFrame extends JFrame {
 	private JLabel lblInformation;
 	private JPanel pnlEast;
 	private ArrayList<JMenuItem> mitDepots = new ArrayList<JMenuItem>();
-	private IntermediateProductPanel intermediateProductPanelSelected = null;
+	private IntermediateProductPanel selectedIntermediateProductPanel = null;
 	private CreateProductTypeFrame createProductTypeFrame;
 	private CreateIntermediateProduct createIntermediateProduct;
 	private Controller controller = new Controller();
@@ -104,7 +112,7 @@ public class MainFrame extends JFrame {
 		{
 			pnlWest = new JPanel();
 			getContentPane().add(pnlWest, BorderLayout.WEST);
-			pnlWest.setPreferredSize(new Dimension(140,500));
+			pnlWest.setPreferredSize(new Dimension(140,600));
 			pnlWest.setLayout(new FlowLayout());
 			{	
 				{
@@ -122,7 +130,7 @@ public class MainFrame extends JFrame {
 				{
 					scpIntermediateProducts = new JScrollPane();
 					pnlWest.add(scpIntermediateProducts);
-					scpIntermediateProducts.setPreferredSize(new Dimension(130,300));
+					scpIntermediateProducts.setPreferredSize(new Dimension(130,200));
 
 					{
 						ListModel lstIntermediateProductsModel = new DefaultListModel();
@@ -151,7 +159,7 @@ public class MainFrame extends JFrame {
 				pnlInformation = new JPanel();
 				pnlEast.add(pnlInformation);
 				pnlInformation.setLayout(new FlowLayout());
-				pnlInformation.setBounds(0,0,140,500);
+				pnlInformation.setBounds(0,0,140,700);
 				{
 					lblInformation = new JLabel();
 					pnlInformation.add(lblInformation);
@@ -220,6 +228,16 @@ public class MainFrame extends JFrame {
 					txfCoordinates.setEditable(false);
 				}
 				{
+					scpProcesses = new JScrollPane();
+					pnlInformation.add(scpProcesses);
+					scpProcesses.setPreferredSize(new Dimension(140,200));
+					{
+						pnlProcessOverView = new JPanel();
+						pnlProcessOverView.setLayout(lytProcessOverView);
+						scpProcesses.setViewportView(pnlProcessOverView);
+					}
+				}
+				{
 					btnSendToNextProcess = new JButton();
 					pnlInformation.add(btnSendToNextProcess);
 					btnSendToNextProcess.setText("Viderbehandle");
@@ -234,22 +252,13 @@ public class MainFrame extends JFrame {
 					btnDeleteIntermediateProduct.addActionListener(controller);
 				}
 			}
-			{
-				scpProcesses = new JScrollPane();
-				pnlInformation.add(scpProcesses);
-				scpProcesses.setPreferredSize(new Dimension(130,100));
-				{
-					cbxLstProcesses = new JCheckBoxList();
-					scpProcesses.setViewportView(cbxLstProcesses);
-				}
-			}
 		}
 		{
 			pnlIntermediateProductMap = new JPanel();
 			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
-			intermediateProductMapLayout.setHgap(5);
-			intermediateProductMapLayout.setVgap(5);
-			pnlIntermediateProductMap.setLayout(intermediateProductMapLayout);
+			lytIntermediateProductMap.setHgap(5);
+			lytIntermediateProductMap.setVgap(5);
+			pnlIntermediateProductMap.setLayout(lytIntermediateProductMap);
 			pnlIntermediateProductMap.setBorder(BorderFactory.createEtchedBorder());
 			pnlIntermediateProductMap.setPreferredSize(new java.awt.Dimension(452, 539));
 		}
@@ -320,8 +329,8 @@ public class MainFrame extends JFrame {
 		pnlIntermediateProductMap.removeAll();
 		intermediateProductPanels.clear();
 		pnlIntermediateProductMap.updateUI();
-		intermediateProductMapLayout.setColumns(depot.getMaxX());
-		intermediateProductMapLayout.setRows(depot.getMaxY());
+		lytIntermediateProductMap.setColumns(depot.getMaxX());
+		lytIntermediateProductMap.setRows(depot.getMaxY());
 
 		for (StoringSpace storingSpace : depot.getStoringSpaces()) {
 			IntermediateProductPanel intermediateProductPanel = new IntermediateProductPanel(storingSpace);
@@ -336,12 +345,12 @@ public class MainFrame extends JFrame {
 	 * @param intermediateProductPanel
 	 */
 	public void updateInfoFromPanel(IntermediateProductPanel intermediateProductPanel) {
-		if (intermediateProductPanelSelected != intermediateProductPanel) {
-			if (intermediateProductPanelSelected != null) { //unselecter den gamle storingspace
-				intermediateProductPanelSelected.setSelected(false); 
+		if (selectedIntermediateProductPanel != intermediateProductPanel) {
+			if (selectedIntermediateProductPanel != null) { //unselecter den gamle storingspace
+				selectedIntermediateProductPanel.setSelected(false); 
 			}
 			intermediateProductPanel.setSelected(true);
-			intermediateProductPanelSelected = intermediateProductPanel;
+			selectedIntermediateProductPanel = intermediateProductPanel;
 			lstIntermediateProducts.setSelectedValue(intermediateProductPanel.getStoringSpace().getIntermediateProduct(), true);
 			updateInfo();
 		}
@@ -368,10 +377,28 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-	private void updateInfo(){
+	private void updateProcessOverView(IntermediateProduct intermediateProduct) {
+		System.out.println(pnlProcessOverView.getHeight());
+		pnlProcessOverView.removeAll();
+		processPanels.clear();
+		pnlProcessOverView.updateUI();
+		pnlProcessOverView.setSize(new Dimension(160,lytProcessOverView.getRows()*25));		
+		lytProcessOverView.setRows(intermediateProduct.getProductType().getProcessLine().getProcesses().size());
+		lytProcessOverView.setColumns(1);
+		
+	
+		for (Process process : intermediateProduct.getProductType().getProcessLine().getProcesses()) {
+			ProcessPanel processPanel = new ProcessPanel(intermediateProduct, process);
+			processPanel.addMouseListener(controller);
+			processPanels.add(processPanel);
+			pnlProcessOverView.add(processPanel);
+		}
+	}
+	private void updateInfo() {
 		if((IntermediateProduct)lstIntermediateProducts.getSelectedValue() != null) {
 			IntermediateProduct intermediateProduct = (IntermediateProduct)lstIntermediateProducts.getSelectedValue();
-			cbxLstProcesses.setListData(intermediateProduct.getProcessLogs().toArray());
+			updateProcessOverView(intermediateProduct);
+
 			btnDeleteIntermediateProduct.setVisible(true);
 			btnSendToNextProcess.setVisible(true);
 			txfID.setText(intermediateProduct.getId());
@@ -432,29 +459,29 @@ public class MainFrame extends JFrame {
 
 				if (selectedIntermediateProduct!=null){
 					Depot currentDepot =null;
-					if (intermediateProductPanelSelected!=null){
-						currentDepot = intermediateProductPanelSelected.getStoringSpace().getDepot();
+					if (selectedIntermediateProductPanel!=null){
+						currentDepot = selectedIntermediateProductPanel.getStoringSpace().getDepot();
 					}
 
 					if (selectedIntermediateProduct.getNextProcess()==null){
 						if (selectedIntermediateProduct.getActivProcessLog().getProcess().getClass().equals(model.Drying.class)){
-							intermediateProductPanelSelected=null;
+							selectedIntermediateProductPanel=null;
 						}
 						selectedIntermediateProduct.sendToNextProcess(null);
 					} else if (selectedIntermediateProduct.getNextProcess().getClass().equals(model.SubProcess.class)){
 						if (selectedIntermediateProduct.getActivProcessLog().getProcess().getClass().equals(model.Drying.class)){
-							intermediateProductPanelSelected=null;
+							selectedIntermediateProductPanel=null;
 						}
 						selectedIntermediateProduct.sendToNextProcess(null);
 					} else if (selectedIntermediateProduct.getNextProcess().getClass().equals(model.Drying.class)){
-						if (intermediateProductPanelSelected==null){
+						if (selectedIntermediateProductPanel==null){
 							JOptionPane.showMessageDialog(null, "Vælg et lagerplads hvor mellemvaren skal lægges", "Fejl", JOptionPane.ERROR_MESSAGE);
-						} else if (intermediateProductPanelSelected.getStoringSpace().getIntermediateProduct()!=null){
+						} else if (selectedIntermediateProductPanel.getStoringSpace().getIntermediateProduct()!=null){
 							JOptionPane.showMessageDialog(null, "Der ligger allerede en mellemvare paa den valgte placering", "Fejl", JOptionPane.ERROR_MESSAGE);
-						} else if (!((model.Drying)selectedIntermediateProduct.getNextProcess()).getDepots().contains(intermediateProductPanelSelected.getStoringSpace().getDepot())){
+						} else if (!((model.Drying)selectedIntermediateProduct.getNextProcess()).getDepots().contains(selectedIntermediateProductPanel.getStoringSpace().getDepot())){
 							JOptionPane.showMessageDialog(null, "Mellemvaren kan ikke ligge på det valgte lager", "Fejl", JOptionPane.ERROR_MESSAGE);
 						} else {						
-							selectedIntermediateProduct.sendToNextProcess(intermediateProductPanelSelected.getStoringSpace());
+							selectedIntermediateProduct.sendToNextProcess(selectedIntermediateProductPanel.getStoringSpace());
 						}
 
 					}
@@ -465,7 +492,7 @@ public class MainFrame extends JFrame {
 					updateInfo();
 					lstIntermediateProducts.setSelectedValue(selectedIntermediateProduct, true);
 					updateInfo();
-					
+
 				} else {
 					JOptionPane.showMessageDialog(null, "Ingen mellemvare valgt", "Fejl", JOptionPane.ERROR_MESSAGE);
 				}
@@ -489,7 +516,9 @@ public class MainFrame extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			updateInfoFromPanel((IntermediateProductPanel)e.getSource());
+			if(e.getSource().getClass().equals(IntermediateProductPanel.class)) {
+				updateInfoFromPanel((IntermediateProductPanel)e.getSource());
+			}
 		}
 
 		@Override
