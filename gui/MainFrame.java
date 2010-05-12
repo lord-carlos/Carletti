@@ -22,6 +22,7 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -223,7 +224,7 @@ public class MainFrame extends JFrame {
 				{
 					btnSendToNextProcess = new JButton();
 					pnlInformation.add(btnSendToNextProcess);
-					btnSendToNextProcess.setText("Viderbehandling");
+					btnSendToNextProcess.setText("Viderbehandle");
 					btnSendToNextProcess.setPreferredSize(new Dimension(130,25));
 					btnSendToNextProcess.addActionListener(controller);
 				}
@@ -436,22 +437,43 @@ public class MainFrame extends JFrame {
 				}
 			} else if (e.getSource().equals(btnSendToNextProcess)){
 				IntermediateProduct selectedIntermediateProduct=(IntermediateProduct)lstIntermediateProducts.getSelectedValue();
+
 				if (selectedIntermediateProduct!=null){
+					Depot currentDepot =null;
+					if (intermediateProductPanelSelected!=null){
+						currentDepot = intermediateProductPanelSelected.getStoringSpace().getDepot();
+					}
+
 					if (selectedIntermediateProduct.getNextProcess()==null){
+						if (selectedIntermediateProduct.getActivProcessLog().getProcess().getClass().equals(model.Drying.class)){
+							intermediateProductPanelSelected=null;
+						}
 						selectedIntermediateProduct.sendToNextProcess(null);
-					} else if (selectedIntermediateProduct.getNextProcess().getClass().equals(model.Drying.class) && intermediateProductPanelSelected.getStoringSpace()!=null){
-						if (intermediateProductPanelSelected.getStoringSpace().getIntermediateProduct()==null){
+					} else if (selectedIntermediateProduct.getNextProcess().getClass().equals(model.SubProcess.class)){
+						if (selectedIntermediateProduct.getActivProcessLog().getProcess().getClass().equals(model.Drying.class)){
+							intermediateProductPanelSelected=null;
+						}
+						selectedIntermediateProduct.sendToNextProcess(null);
+					} else if (selectedIntermediateProduct.getNextProcess().getClass().equals(model.Drying.class)){
+						if (intermediateProductPanelSelected==null){
+							JOptionPane.showMessageDialog(null, "Vælg et lagerplads hvor mellemvaren skal lægges", "Fejl", JOptionPane.ERROR_MESSAGE);
+						} else if (intermediateProductPanelSelected.getStoringSpace().getIntermediateProduct()!=null){
+							JOptionPane.showMessageDialog(null, "Der ligger allerede en mellemvare på den valgte placering", "Fejl", JOptionPane.ERROR_MESSAGE);
+						} else if (!((model.Drying)selectedIntermediateProduct.getNextProcess()).getDepots().contains(intermediateProductPanelSelected.getStoringSpace().getDepot())){
+							JOptionPane.showMessageDialog(null, "Mellemvaren kan ikke ligge på det valgte lager", "Fejl", JOptionPane.ERROR_MESSAGE);
+						} else {						
 							selectedIntermediateProduct.sendToNextProcess(intermediateProductPanelSelected.getStoringSpace());
 						}
-					} else if (selectedIntermediateProduct.getNextProcess().getClass().equals(model.SubProcess.class)){
-						selectedIntermediateProduct.sendToNextProcess(null);
+
 					}
 					fillLstIntermediateProducts();
-					if (intermediateProductPanelSelected.getStoringSpace()!=null){
-						updateDepotMap(intermediateProductPanelSelected.getStoringSpace().getDepot());
+					if (currentDepot!=null){
+						updateDepotMap(currentDepot);
 					}
-					updateInfo(null);
+					updateInfo(selectedIntermediateProduct);
 					lstIntermediateProducts.setSelectedValue(selectedIntermediateProduct, true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Ingen mellemvare valgt", "Fejl", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 

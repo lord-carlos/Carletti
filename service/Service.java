@@ -108,7 +108,7 @@ public class Service {
 		d1.addDepot(depot1); d1.addDepot(depot2); 
 		plSkumbananer.createSubProcess(3, "Tilsaet chokolade", "siger sig selv", 1, 100);
 		Drying d2 = plSkumbananer.createDrying(4, 1, 2*60*1000, 3*60*1000);
-		d2.addDepot(depot1); d2.addDepot(depot2); 
+		d2.addDepot(depot2); 
 		
 		ProductType pteChokoKaramelLys = createProductType("Choko Karamel Lys");
 		pteChokoKaramelLys.setPicture(new ImageIcon("gui/icons/choko karamel lys.jpg"));
