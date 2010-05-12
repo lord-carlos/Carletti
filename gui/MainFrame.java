@@ -409,7 +409,9 @@ public class MainFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == mitCreateProductType) {
 				createProductTypeFrame = new CreateProductTypeFrame();
-				Service.getService().storeProductType(createProductTypeFrame.getProductType());
+				if (createProductTypeFrame.getProductType()!=null){
+					Service.getService().storeProductType(createProductTypeFrame.getProductType());
+				}
 			}
 
 			else if (e.getSource() == mitCreateIntermediateProduct || e.getSource() == btnCreateIntermediateProduct) {
