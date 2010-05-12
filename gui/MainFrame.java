@@ -396,14 +396,6 @@ public class MainFrame extends JFrame {
 				txfCoordinates.setText("N/A");
 			}
 		}
-		else {
-			btnDeleteIntermediateProduct.setVisible(false);//delete btn skal ikke vises hvis man trykker paa et tomt feld
-			btnSendToNextProcess.setVisible(false);
-			txfID.setText("N/A");
-			txfQuantity.setText("N/A");
-			txfProductType.setText("N/A");
-			txfQuantity.setText("N/A");
-		}
 	}
 	private class Controller implements ActionListener, ListSelectionListener, MouseListener, DocumentListener {
 
