@@ -36,11 +36,11 @@ public class IntermediateProductPanel extends JPanel{
 			{	
 				lblName = new JLabel();
 				lblName.setAlignmentX(Component.CENTER_ALIGNMENT);
-				panel.add(lblName, BorderLayout.CENTER);
+				panel.add(lblName);
 			}
 			{
 				progressBar = new JProgressBar();
-				panel.add(progressBar, BorderLayout.CENTER);
+				panel.add(progressBar);
 			}
 			{
 				panel.add(Box.createRigidArea(new Dimension(5,5)));
@@ -48,7 +48,7 @@ public class IntermediateProductPanel extends JPanel{
 			{
 				lblIcon = new JLabel();
 				lblIcon.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-				panel.add(lblIcon, BorderLayout.CENTER);		
+				panel.add(lblIcon);		
 			}
 		}
 
