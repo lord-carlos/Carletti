@@ -463,13 +463,8 @@ public class MainFrame extends JFrame {
 						currentDepot = selectedIntermediateProductPanel.getStoringSpace().getDepot();
 					}
 
-					if (selectedIntermediateProduct.getNextProcess()==null){
-						if (selectedIntermediateProduct.getActivProcessLog().getProcess().getClass().equals(model.Drying.class)){
-							selectedIntermediateProductPanel=null;
-						}
-						selectedIntermediateProduct.sendToNextProcess(null);
-					} else if (selectedIntermediateProduct.getNextProcess().getClass().equals(model.SubProcess.class)){
-						if (selectedIntermediateProduct.getActivProcessLog().getProcess().getClass().equals(model.Drying.class)){
+					if (selectedIntermediateProduct.getNextProcess()==null || selectedIntermediateProduct.getNextProcess().getClass().equals(model.SubProcess.class)){
+						if (selectedIntermediateProduct.getActivProcessLog()!=null && selectedIntermediateProduct.getActivProcessLog().getProcess().getClass().equals(model.Drying.class)){
 							selectedIntermediateProductPanel=null;
 						}
 						selectedIntermediateProduct.sendToNextProcess(null);
