@@ -135,7 +135,7 @@ public class Service {
 		d6.addDepot(depot1); d6.addDepot(depot2); 
 		
 		ProductType pteCitronDrage = createProductType("Citron Drage");
-		pteCitronDrage.setPicture(new ImageIcon("gui/icons/citron dragé.jpg"));
+		pteCitronDrage.setPicture(new ImageIcon("gui/icons/citron drage.jpg"));
 		ProcessLine plCitronDrage = new ProcessLine("Citron Dragé", "ild", pteCitronDrage);
 		plCitronDrage.createSubProcess(1, "Tilsaetter citron", "press en eller to citroner og put dem i",21, -45);
 		Drying d7 = plCitronDrage.createDrying(2, 1*60*1000, 2*60*1000, 3*60*1000);
