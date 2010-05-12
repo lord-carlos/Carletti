@@ -426,6 +426,8 @@ public class MainFrame extends JFrame {
 						updateDepotMap(selectedIntermediateProductDepot);
 					}
 					updateInfo(null);
+				} else {
+					JOptionPane.showMessageDialog(null, "Ingen mellemvare valgt", "Fejl", JOptionPane.ERROR_MESSAGE);
 				}
 			} else if (e.getSource().equals(btnSendToNextProcess)){
 				IntermediateProduct selectedIntermediateProduct=(IntermediateProduct)lstIntermediateProducts.getSelectedValue();
