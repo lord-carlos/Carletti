@@ -15,7 +15,6 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -343,9 +342,8 @@ public class MainFrame extends JFrame {
 			}
 			intermediateProductPanel.setSelected(true);
 			intermediateProductPanelSelected = intermediateProductPanel;
-
-			updateInfo(intermediateProductPanel.getStoringSpace().getIntermediateProduct());
 			lstIntermediateProducts.setSelectedValue(intermediateProductPanel.getStoringSpace().getIntermediateProduct(), true);
+			updateInfo();
 		}
 	}
 
@@ -361,17 +359,18 @@ public class MainFrame extends JFrame {
 					}
 				}
 				else {
-					updateInfo(intermediateProduct);
+					updateInfo();
 				}
 			}
 			else {
-				updateInfo(intermediateProduct);
+				updateInfo();
 			}
 		}
 	}
 
-	private void updateInfo(IntermediateProduct intermediateProduct){
-		if(intermediateProduct != null) {
+	private void updateInfo(){
+		if((IntermediateProduct)lstIntermediateProducts.getSelectedValue() != null) {
+			IntermediateProduct intermediateProduct = (IntermediateProduct)lstIntermediateProducts.getSelectedValue();
 			cbxLstProcesses.setListData(intermediateProduct.getProcessLogs().toArray());
 			btnDeleteIntermediateProduct.setVisible(true);
 			btnSendToNextProcess.setVisible(true);
@@ -386,6 +385,14 @@ public class MainFrame extends JFrame {
 				txfDepot.setText("N/A");
 				txfCoordinates.setText("N/A");
 			}
+		}
+		else {
+			btnDeleteIntermediateProduct.setVisible(false);//delete btn skal ikke vises hvis man trykker paa et tomt feld
+			btnSendToNextProcess.setVisible(false);
+			txfID.setText("N/A");
+			txfQuantity.setText("N/A");
+			txfProductType.setText("N/A");
+			txfQuantity.setText("N/A");
 		}
 	}
 	private class Controller implements ActionListener, ListSelectionListener, MouseListener, DocumentListener {
@@ -416,7 +423,7 @@ public class MainFrame extends JFrame {
 					if (selectedIntermediateProductDepot!=null){
 						updateDepotMap(selectedIntermediateProductDepot);
 					}
-					updateInfo(null);
+					updateInfo();
 				} else {
 					JOptionPane.showMessageDialog(null, "Ingen mellemvare valgt", "Fejl", JOptionPane.ERROR_MESSAGE);
 				}
@@ -455,7 +462,7 @@ public class MainFrame extends JFrame {
 					if (currentDepot!=null){
 						updateDepotMap(currentDepot);
 					}
-					updateInfo(selectedIntermediateProduct);
+					updateInfo();
 					lstIntermediateProducts.setSelectedValue(selectedIntermediateProduct, true);
 				} else {
 					JOptionPane.showMessageDialog(null, "Ingen mellemvare valgt", "Fejl", JOptionPane.ERROR_MESSAGE);
