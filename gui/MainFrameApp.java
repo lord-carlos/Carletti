@@ -1,4 +1,5 @@
 package gui;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 public class MainFrameApp {
@@ -12,6 +13,8 @@ public class MainFrameApp {
 		}
 
 		MainFrame frame = new MainFrame();
+		frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH);
+
 		frame.setVisible(true);
 	}
 }
