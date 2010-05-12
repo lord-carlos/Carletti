@@ -134,7 +134,7 @@ public class Service {
 		Drying d6 = plChokoladelinser.createDrying(4, 1*60*1000, 2*60*1000, 2*60*1000);
 		d6.addDepot(depot1); d6.addDepot(depot2); 
 		
-		ProductType pteCitronDrage = createProductType("Citron Dragé");
+		ProductType pteCitronDrage = createProductType("Citron Drage");
 		pteCitronDrage.setPicture(new ImageIcon("gui/icons/citron dragé.jpg"));
 		ProcessLine plCitronDrage = new ProcessLine("Citron Dragé", "ild", pteCitronDrage);
 		plCitronDrage.createSubProcess(1, "Tilsaetter citron", "press en eller to citroner og put dem i",21, -45);
