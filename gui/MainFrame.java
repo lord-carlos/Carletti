@@ -64,7 +64,6 @@ public class MainFrame extends JFrame {
 	private JList lstIntermediateProducts;
 	private JButton btnCreateIntermediateProduct;
 	private JMenuItem mnuViewDepot;
-	private JButton btnCreateDrying;
 	private JButton btnSendToNextProcess;
 	private JButton btnDeleteIntermediateProduct;
 	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
@@ -235,12 +234,6 @@ public class MainFrame extends JFrame {
 					btnDeleteIntermediateProduct.setPreferredSize(new Dimension(130,25));
 					btnDeleteIntermediateProduct.addActionListener(controller);
 				}
-				{
-					btnCreateDrying = new JButton();
-					pnlInformation.add(btnCreateDrying);
-					btnCreateDrying.setVisible(false);
-					btnCreateDrying.setText("Opret Toering");
-				}
 			}
 			{
 				scpProcesses = new JScrollPane();
@@ -368,7 +361,6 @@ public class MainFrame extends JFrame {
 					}
 				}
 				else {
-					btnCreateDrying.setVisible(true);
 					updateInfo(intermediateProduct);
 				}
 			}
@@ -383,7 +375,6 @@ public class MainFrame extends JFrame {
 			cbxLstProcesses.setListData(intermediateProduct.getProcessLogs().toArray());
 			btnDeleteIntermediateProduct.setVisible(true);
 			btnSendToNextProcess.setVisible(true);
-			btnCreateDrying.setVisible(false);
 			txfID.setText(intermediateProduct.getId());
 			txfProductType.setText(intermediateProduct.getProductType().getName());
 			txfQuantity.setText(intermediateProduct.getQuantity()+ ""); 
