@@ -166,6 +166,10 @@ public class CreateSubProcess extends JDialog {
 		return lblName;
 	}
 
+	/**
+	 * returnere den delbehandling som vi laver. Vil returnere null, hvis vi annullere
+	 * @return
+	 */
 	public SubProcess getSubProcess(){
 		return thisSubProcess;
 	}

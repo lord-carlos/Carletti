@@ -17,10 +17,16 @@ public class IntermediateProduct {
 		this.setQuantity(quantity);
 	}
 
+	/**
+	 * @return returnere true hvis mellemvaren er færdig
+	 */
 	public boolean isFinished(){
 		return this.finished;
 	}
 
+	/**
+	 * @return returnere true hvis mellemvaren er blevet kaseret
+	 */
 	public boolean isDiscarded(){
 		return this.discarded;
 	}
@@ -107,6 +113,11 @@ public class IntermediateProduct {
 		return id+" "+productType.getName();
 	}
 
+	/**
+	 * metode til at starte, vidresende og afslutte behandlingerne
+	 * sætter desuden storingspace og isfinished alt efter hvor i forløbet den er
+	 * @param storingSpace hvis den næste process skal tilknyttes en lagerplads, som ved tørring, sættes denne variabel.
+	 */
 	public void sendToNextProcess(StoringSpace storingSpace){
 		if (!isDiscarded() && !isFinished()){
 			if (processLogs.size()==0){
@@ -144,6 +155,9 @@ public class IntermediateProduct {
 		}
 	}
 
+	/**
+	 * @return returnere den processlog som er i gang, vil returnere null hvis vi ikker har sat mellemvaren i gang med nogle processer
+	 */
 	public ProcessLog getActivProcessLog(){
 
 		if (processLogs.size()==0 || isFinished() || isDiscarded()) {
@@ -153,6 +167,9 @@ public class IntermediateProduct {
 		}
 	}
 
+	/**
+	 * @return returnere den næste process i række. vil være null hvis vi er i gang med den sidste process
+	 */
 	public Process getNextProcess(){
 		if (processLogs.size()>=this.productType.getProcessLine().getProcesses().size() || isFinished() || isDiscarded()) {
 			return null;
@@ -162,6 +179,9 @@ public class IntermediateProduct {
 
 	}
 
+	/**
+	 * kassere denne mellemvare
+	 */
 	public void discardThisIntermediateProduct(){
 		if (!isDiscarded() && !isFinished()){
 			discarded = true;

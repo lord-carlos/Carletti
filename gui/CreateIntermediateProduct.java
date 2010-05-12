@@ -65,6 +65,10 @@ public class CreateIntermediateProduct extends JDialog {
 		setSize(442, 273);
 	}
 
+	/**
+	 * sætter infoen som er tilknyttet den valgte produkttype.
+	 * sætter desuden størrelsen på tekstfeltet alt efter om producttypen er tilknyttet et billed
+	 */
 	private void setInfo(){
 		ProductType thisProductType = (ProductType) cmbProductType.getSelectedItem();
 
@@ -241,6 +245,10 @@ public class CreateIntermediateProduct extends JDialog {
 		}
 	}
 	
+	/**
+	 * returnere den mellemvare som vi laver. Vil returnere null, hvis vi annullere
+	 * @return
+	 */
 	public IntermediateProduct getIntermediateProduct() {
 		return thisProduct;
 	}

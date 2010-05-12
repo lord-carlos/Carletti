@@ -48,7 +48,7 @@ public class CreateDrying extends JDialog {
 	}
 
 	private void initComponents() {
-		setTitle("Opret Tørreing");
+		setTitle("Opret Tï¿½rreing");
 		setLayout(null);
 		add(getLblMinTime());
 		add(getLblIdealTime());
@@ -93,7 +93,7 @@ public class CreateDrying extends JDialog {
 	private JButton getBtnCreate() {
 		if (btnCreate == null) {
 			btnCreate = new JButton();
-			btnCreate.setText("Opret tørring");
+			btnCreate.setText("Opret tï¿½rring");
 			btnCreate.addActionListener(btnController);
 			btnCreate.setLocation(12, 174);
 			btnCreate.setSize(170, 25);
@@ -104,7 +104,7 @@ public class CreateDrying extends JDialog {
 	private JLabel getLblDepot() {
 		if (lblDepot == null) {
 			lblDepot = new JLabel();
-			lblDepot.setText("Lagre hvor tørringen skal foregå:");
+			lblDepot.setText("Lagre hvor tï¿½rringen skal foregï¿½:");
 			lblDepot.setLocation(194, 12);
 			lblDepot.setSize(190, 20);
 		}
@@ -123,7 +123,7 @@ public class CreateDrying extends JDialog {
 	private JLabel getLblMaxTime() {
 		if (lblMaxTime == null) {
 			lblMaxTime = new JLabel();
-			lblMaxTime.setText("Maximum tørretid (timer):");
+			lblMaxTime.setText("Maximum tï¿½rretid (timer):");
 			lblMaxTime.setLocation(12, 120);
 			lblMaxTime.setSize(170, 20);
 		}
@@ -142,7 +142,7 @@ public class CreateDrying extends JDialog {
 	private JLabel getLblIdealTime() {
 		if (lblIdealTime == null) {
 			lblIdealTime = new JLabel();
-			lblIdealTime.setText("Ideal tørretid (timer):");
+			lblIdealTime.setText("Ideal tï¿½rretid (timer):");
 			lblIdealTime.setLocation(12, 66);
 			lblIdealTime.setSize(170, 20);
 		}
@@ -161,13 +161,17 @@ public class CreateDrying extends JDialog {
 	private JLabel getLblMinTime() {
 		if (lblMinTime == null) {
 			lblMinTime = new JLabel();
-			lblMinTime.setText("Minimums tørretid (timer):");
+			lblMinTime.setText("Minimums tï¿½rretid (timer):");
 			lblMinTime.setLocation(12, 12);
 			lblMinTime.setSize(170, 20);
 		}
 		return lblMinTime;
 	}
 
+	/**
+	 * returnere den drying som vi laver. Vil returnere null, hvis vi annullere
+	 * @return
+	 */
 	public Drying getDrying(){
 		return thisDrying;
 	}
@@ -182,7 +186,7 @@ public class CreateDrying extends JDialog {
 			} else if (e.getSource().equals(btnCreate)){
 
 				if (msl.getSelectedElements().isEmpty()){
-					JOptionPane.showMessageDialog(null,"Tørringsprocessen skal være tilknyttet mindst et lager!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Tï¿½rringsprocessen skal vï¿½re tilknyttet mindst et lager!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
 				} else {
 					long minTime;
 					long idealTime;
@@ -203,10 +207,10 @@ public class CreateDrying extends JDialog {
 						CreateDrying.this.setVisible(false);
 					}
 					catch (NumberFormatException exception){
-						JOptionPane.showMessageDialog(null,"Tørringentiderne kan ikke godtages!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Tï¿½rringentiderne kan ikke godtages!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
 					}
 					catch (RuntimeException exception){
-						JOptionPane.showMessageDialog(null,"Tørringentiderne kan ikke godtages!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Tï¿½rringentiderne kan ikke godtages!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

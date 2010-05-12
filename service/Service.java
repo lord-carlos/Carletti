@@ -95,6 +95,9 @@ public class Service {
 		dao.delete(productType);
 	}
 	
+	/**
+	 * oprettelse af test data
+	 */
 	public void createTestData() {
 
 		Depot depot1 = createDepot("Lager 1","Hovedlageret",5,8);
@@ -167,21 +170,6 @@ public class Service {
 			Service.getService().getAllIntermediateProducts().get(i).sendToNextProcess(depot2.getStoringSpaces().get(i-5));
 		}
 
-	}
-	
-	public void getFinishedIntermediateProducts() {
-		ArrayList<IntermediateProduct> result = new ArrayList<IntermediateProduct>();
-		
-		for (IntermediateProduct intermediateProduct : Service.getService().getAllIntermediateProducts()) {
-			if(intermediateProduct.getStoringSpace() == null){
-				System.out.println("intermediaProdukt without storingspace: "+ intermediateProduct);
-//				intermediateProduct.
-				System.out.println(intermediateProduct.getProductType().getProcessLine().getProcesses());
-			}
-		}
-		
-//		return result;
-		
 	}
 
 }

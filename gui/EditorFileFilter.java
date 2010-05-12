@@ -5,8 +5,8 @@ import java.io.File;
 import javax.swing.filechooser.FileFilter;
 
 /**
- * gør os i stand til kun at se .java filer
- * @author M. C. Høj
+ * gï¿½r os i stand til kun at se .java filer
+ * @author M. C. Hï¿½j
  *
  */
 public class EditorFileFilter extends FileFilter{
