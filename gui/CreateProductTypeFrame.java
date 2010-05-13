@@ -269,7 +269,7 @@ public class CreateProductTypeFrame extends JDialog {
 				if (thisProductType.getPicture()==null){
 					File activeFile;
 
-					EditorFileHandler choosenfil = new EditorFileHandler(EditorFileHandler.LOAD_FUNCTION, new File(System.getProperty("user.dir")));
+					EditorFileHandler choosenfil = new EditorFileHandler(EditorFileHandler.LOAD_FUNCTION, new File(System.getProperty("user.dir")+"\\gui\\icons"));
 					if (choosenfil.getIsOkPressed()){
 						activeFile = choosenfil.getSelectedFile();
 
