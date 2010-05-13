@@ -48,7 +48,7 @@ public class CreateDrying extends JDialog {
 	}
 
 	private void initComponents() {
-		setTitle("Opret T�rreing");
+		setTitle("Opret Toerreing");
 		setLayout(null);
 		add(getLblMinTime());
 		add(getLblIdealTime());
@@ -93,7 +93,7 @@ public class CreateDrying extends JDialog {
 	private JButton getBtnCreate() {
 		if (btnCreate == null) {
 			btnCreate = new JButton();
-			btnCreate.setText("Opret t�rring");
+			btnCreate.setText("Opret toerring");
 			btnCreate.addActionListener(btnController);
 			btnCreate.setLocation(12, 174);
 			btnCreate.setSize(170, 25);
@@ -104,7 +104,7 @@ public class CreateDrying extends JDialog {
 	private JLabel getLblDepot() {
 		if (lblDepot == null) {
 			lblDepot = new JLabel();
-			lblDepot.setText("Lagre hvor t�rringen skal foreg�:");
+			lblDepot.setText("Lagre hvor toerringen skal foregaa:");
 			lblDepot.setLocation(194, 12);
 			lblDepot.setSize(190, 20);
 		}
@@ -123,7 +123,7 @@ public class CreateDrying extends JDialog {
 	private JLabel getLblMaxTime() {
 		if (lblMaxTime == null) {
 			lblMaxTime = new JLabel();
-			lblMaxTime.setText("Maximum t�rretid (timer):");
+			lblMaxTime.setText("Maximum toerretid (timer):");
 			lblMaxTime.setLocation(12, 120);
 			lblMaxTime.setSize(170, 20);
 		}
@@ -142,7 +142,7 @@ public class CreateDrying extends JDialog {
 	private JLabel getLblIdealTime() {
 		if (lblIdealTime == null) {
 			lblIdealTime = new JLabel();
-			lblIdealTime.setText("Ideal t�rretid (timer):");
+			lblIdealTime.setText("Ideal toerretid (timer):");
 			lblIdealTime.setLocation(12, 66);
 			lblIdealTime.setSize(170, 20);
 		}
@@ -161,7 +161,7 @@ public class CreateDrying extends JDialog {
 	private JLabel getLblMinTime() {
 		if (lblMinTime == null) {
 			lblMinTime = new JLabel();
-			lblMinTime.setText("Minimums t�rretid (timer):");
+			lblMinTime.setText("Minimums toerretid (timer):");
 			lblMinTime.setLocation(12, 12);
 			lblMinTime.setSize(170, 20);
 		}
@@ -186,7 +186,7 @@ public class CreateDrying extends JDialog {
 			} else if (e.getSource().equals(btnCreate)){
 
 				if (msl.getSelectedElements().isEmpty()){
-					JOptionPane.showMessageDialog(null,"T�rringsprocessen skal v�re tilknyttet mindst et lager!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Toerringsprocessen skal v�re tilknyttet mindst et lager!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
 				} else {
 					long minTime;
 					long idealTime;
@@ -207,10 +207,10 @@ public class CreateDrying extends JDialog {
 						CreateDrying.this.setVisible(false);
 					}
 					catch (NumberFormatException exception){
-						JOptionPane.showMessageDialog(null,"T�rringentiderne kan ikke godtages!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Toerringentiderne kan ikke godtages!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
 					}
 					catch (RuntimeException exception){
-						JOptionPane.showMessageDialog(null,"T�rringentiderne kan ikke godtages!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Toerringentiderne kan ikke godtages!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

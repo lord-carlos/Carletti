@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -33,6 +34,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.Depot;
+import model.Drying;
 import model.IntermediateProduct;
 import model.Process;
 import model.StoringSpace;
@@ -77,7 +79,6 @@ public class MainFrame extends JFrame {
 	private JScrollPane scpProcesses;
 	private JPanel pnlProcessOverView;
 	private ArrayList<ProcessPanel> processPanels = new ArrayList<ProcessPanel>();
-	private GridLayout lytProcessOverView = new GridLayout();	
 	private JMenuItem mitCreateIntermediateProduct;
 	private JMenuItem mitCreateProductType;
 	private JTextField txfProductType;
@@ -94,6 +95,7 @@ public class MainFrame extends JFrame {
 	private JPanel pnlEast;
 	private ArrayList<JMenuItem> mitDepots = new ArrayList<JMenuItem>();
 	private IntermediateProductPanel selectedIntermediateProductPanel = null;
+	private ProcessPanel selectedProcessPanel = null;
 	private CreateProductTypeFrame createProductTypeFrame;
 	private CreateIntermediateProduct createIntermediateProduct;
 	private Controller controller = new Controller();
@@ -233,7 +235,9 @@ public class MainFrame extends JFrame {
 					scpProcesses.setPreferredSize(new Dimension(140,200));
 					{
 						pnlProcessOverView = new JPanel();
-						pnlProcessOverView.setLayout(lytProcessOverView);
+						pnlProcessOverView.setPreferredSize(new Dimension(140,200));
+						@SuppressWarnings("unused")
+						BoxLayout lytProcessOverView = new BoxLayout(pnlProcessOverView, BoxLayout.Y_AXIS);
 						scpProcesses.setViewportView(pnlProcessOverView);
 					}
 				}
@@ -378,20 +382,17 @@ public class MainFrame extends JFrame {
 	}
 
 	private void updateProcessOverView(IntermediateProduct intermediateProduct) {
-		System.out.println(pnlProcessOverView.getHeight());
 		pnlProcessOverView.removeAll();
 		processPanels.clear();
 		pnlProcessOverView.updateUI();
-		pnlProcessOverView.setSize(new Dimension(160,lytProcessOverView.getRows()*25));		
-		lytProcessOverView.setRows(intermediateProduct.getProductType().getProcessLine().getProcesses().size());
-		lytProcessOverView.setColumns(1);
-		
-	
+
 		for (Process process : intermediateProduct.getProductType().getProcessLine().getProcesses()) {
 			ProcessPanel processPanel = new ProcessPanel(intermediateProduct, process);
 			processPanel.addMouseListener(controller);
 			processPanels.add(processPanel);
 			pnlProcessOverView.add(processPanel);
+			pnlProcessOverView.setMaximumSize(new Dimension(130,200));
+			processPanel.setMaximumSize(new Dimension(120,25));			
 		}
 	}
 	private void updateInfo() {
@@ -478,8 +479,8 @@ public class MainFrame extends JFrame {
 							JOptionPane.showMessageDialog(null, "Vælg et lagerplads hvor mellemvaren skal lægges", "Fejl", JOptionPane.ERROR_MESSAGE);
 						} else if (selectedIntermediateProductPanel.getStoringSpace().getIntermediateProduct()!=null){
 							JOptionPane.showMessageDialog(null, "Der ligger allerede en mellemvare paa den valgte placering", "Fejl", JOptionPane.ERROR_MESSAGE);
-						} else if (!((model.Drying)selectedIntermediateProduct.getNextProcess()).getDepots().contains(selectedIntermediateProductPanel.getStoringSpace().getDepot())){
-							JOptionPane.showMessageDialog(null, "Mellemvaren kan ikke ligge på det valgte lager", "Fejl", JOptionPane.ERROR_MESSAGE);
+						} else if (!((Drying)selectedIntermediateProduct.getNextProcess()).getDepots().contains(selectedIntermediateProductPanel.getStoringSpace().getDepot())){
+							JOptionPane.showMessageDialog(null, "Mellemvaren kan ikke ligge på det valgte lager,følgende lagre er gyldige "+((Drying)selectedIntermediateProduct.getNextProcess()).getDepots(), "Fejl", JOptionPane.ERROR_MESSAGE);
 						} else {						
 							selectedIntermediateProduct.sendToNextProcess(selectedIntermediateProductPanel.getStoringSpace());
 						}

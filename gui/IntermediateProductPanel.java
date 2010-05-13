@@ -93,16 +93,12 @@ public class IntermediateProductPanel extends JPanel{
 	}
 
 	public void setSelected(Boolean bool) {
-		if(bool) {
+		if (bool) {
 			this.setBorder(BorderFactory.createLineBorder(Color.orange, 3));
 		}
 		else {
 			this.setBorder(BorderFactory.createLineBorder(Color.black));	
 		}
-	}
-
-	public Boolean isSelected() {
-		return this.selected;
 	}
 
 	public StoringSpace getStoringSpace() {
