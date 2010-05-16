@@ -12,6 +12,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import sun.util.calendar.CalendarDate;
 import model.Drying;
 import model.IntermediateProduct;
 import model.Process;
@@ -36,10 +38,33 @@ public class ProcessPanel extends JPanel {
 		this.setPreferredSize(new Dimension(130, 25));
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		if (process.getClass().equals(Drying.class)) {
-			Date minTime = new Date(((Drying)process).getMinTime()+System.currentTimeMillis());
 			
-			this.setToolTipText("<html>"+process+":<br>" + 
-					"Minimums toerretid: "+minTime.toString()+"</html>");
+			boolean found = false;
+			long startTime = 0;
+			for (ProcessLog processLog : process.getProcessLogs()) {
+				if (processLog.getIntermediateProduct().equals(intermediateProduct)) {
+					startTime = processLog.getStartTime().getTime();
+					found = true;
+				}
+			}
+			if (found)  {
+				System.out.println("det virkede");
+				
+				this.setToolTipText("<html>"+process+":<br>"+
+						"Minimums toerretid: "+longDateToString(((Drying)process).getMinTime())+"<br>"+
+						"Ideal torretid: "+longDateToString(((Drying)process).getIdealTime()+((Drying)process).getMinTime())+"<br>"+
+						"Maximal torretid: "+longDateToString(((Drying)process).getMaxTime()+startTime)+"<br>"+
+						"</html>");
+			}
+			else {
+				System.out.println("det virker ikke");
+				this.setToolTipText("<html>"+process+":<br>"+
+						"Minimums toerretid: "+longDateToString(((Drying)process).getMinTime())+"<br>"+
+						"Ideal torretid: "+longDateToString(((Drying)process).getIdealTime())+"<br>"+
+						"Maximal torretid: "+longDateToString(((Drying)process).getMaxTime())+"<br>"+
+						"</html>");
+			}
+		
 		}
 		else {
 			
@@ -87,6 +112,15 @@ public class ProcessPanel extends JPanel {
 		else if (found == false) {
 			cbxComplete.setSelected(false);
 		}
+	}
+	
+	public String longDateToString(long date) {
+		Calendar.getInstance().setTimeInMillis(date);
+		return Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+"/"+
+							Calendar.getInstance().get(Calendar.MONTH)+
+							"/"+Calendar.getInstance().get(Calendar.YEAR)+" "+
+							Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+":"+
+							Calendar.getInstance().get(Calendar.MINUTE);
 	}
 }
 
