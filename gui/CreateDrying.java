@@ -123,7 +123,7 @@ public class CreateDrying extends JDialog {
 	private JLabel getLblMaxTime() {
 		if (lblMaxTime == null) {
 			lblMaxTime = new JLabel();
-			lblMaxTime.setText("Maximum toerretid (timer):");
+			lblMaxTime.setText("Maximum toerretid (dage):");
 			lblMaxTime.setLocation(12, 120);
 			lblMaxTime.setSize(170, 20);
 		}
@@ -142,7 +142,7 @@ public class CreateDrying extends JDialog {
 	private JLabel getLblIdealTime() {
 		if (lblIdealTime == null) {
 			lblIdealTime = new JLabel();
-			lblIdealTime.setText("Ideal toerretid (timer):");
+			lblIdealTime.setText("Ideal toerretid (dage):");
 			lblIdealTime.setLocation(12, 66);
 			lblIdealTime.setSize(170, 20);
 		}
@@ -161,7 +161,7 @@ public class CreateDrying extends JDialog {
 	private JLabel getLblMinTime() {
 		if (lblMinTime == null) {
 			lblMinTime = new JLabel();
-			lblMinTime.setText("Minimums toerretid (timer):");
+			lblMinTime.setText("Minimums toerretid (dage):");
 			lblMinTime.setLocation(12, 12);
 			lblMinTime.setSize(170, 20);
 		}
@@ -192,9 +192,9 @@ public class CreateDrying extends JDialog {
 					long idealTime;
 					long maxTime;
 					try {
-						minTime = Long.valueOf(getTxfMinTime().getText())*60*60*1000;
-						idealTime = Long.valueOf(getTxfIdealTime().getText())*60*60*1000;
-						maxTime = Long.valueOf(getTxfMaxTime().getText())*60*60*1000;
+						minTime = Long.valueOf(getTxfMinTime().getText())*24*60*60*1000;
+						idealTime = Long.valueOf(getTxfIdealTime().getText())*24*60*60*1000;
+						maxTime = Long.valueOf(getTxfMaxTime().getText())*24*60*60*1000;
 
 						thisDrying = pl.createDrying(0, minTime, idealTime, maxTime);
 

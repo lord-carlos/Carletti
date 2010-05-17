@@ -32,16 +32,11 @@ public class ProductType {
 	}
 
     /**
-     * newer call this method
+     * not recomended to call this method
      * @param processLine
-     * @throws RuntimeException
      */
-    public void setProcessLine(ProcessLine processLine) throws RuntimeException{
-    	if (this.processLine!=null){
-    		throw new RuntimeException("processLine is already set");
-    	} else {
+    public void setProcessLine(ProcessLine processLine){
     		this.processLine=processLine;
-    	}
     }
 
     public ArrayList<IntermediateProduct> getIntermediateProducts(){
