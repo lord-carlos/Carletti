@@ -102,9 +102,6 @@ public class MainFrame extends JFrame {
 	private UpdateTimer updateTimer;
 
 	public MainFrame() {
-		Service.getService().createTestData();
-
-
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Carletti v0.7");
 		BorderLayout thisLayout = new BorderLayout();
@@ -447,6 +444,7 @@ public class MainFrame extends JFrame {
 						selectedIntermediateProductDepot = selectedIntermediateProduct.getStoringSpace().getDepot();
 					}
 					selectedIntermediateProduct.discardThisIntermediateProduct();
+					Service.getService().StoreIntermediateProduct(selectedIntermediateProduct);
 					fillLstIntermediateProducts();
 					if (selectedIntermediateProductDepot!=null){
 						updateDepotMap(selectedIntermediateProductDepot);
@@ -469,6 +467,7 @@ public class MainFrame extends JFrame {
 							selectedIntermediateProductPanel=null;
 						}
 						selectedIntermediateProduct.sendToNextProcess(null);
+						Service.getService().StoreIntermediateProduct(selectedIntermediateProduct);
 					} else if (selectedIntermediateProduct.getNextProcess().getClass().equals(model.Drying.class)){
 						if (selectedIntermediateProductPanel==null){
 							JOptionPane.showMessageDialog(null, "Vælg et lagerplads hvor mellemvaren skal lægges", "Fejl", JOptionPane.ERROR_MESSAGE);
@@ -478,6 +477,7 @@ public class MainFrame extends JFrame {
 							JOptionPane.showMessageDialog(null, "Mellemvaren kan ikke ligge på det valgte lager,følgende lagre er gyldige "+((Drying)selectedIntermediateProduct.getNextProcess()).getDepots(), "Fejl", JOptionPane.ERROR_MESSAGE);
 						} else {						
 							selectedIntermediateProduct.sendToNextProcess(selectedIntermediateProductPanel.getStoringSpace());
+							Service.getService().StoreIntermediateProduct(selectedIntermediateProduct);
 						}
 
 					}
@@ -485,7 +485,6 @@ public class MainFrame extends JFrame {
 					if (currentDepot!=null){
 						updateDepotMap(currentDepot);
 					}
-					updateInfo();
 					lstIntermediateProducts.setSelectedValue(selectedIntermediateProduct, true);
 					updateInfo();
 

@@ -1,5 +1,6 @@
 package service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -13,6 +14,7 @@ import model.*;
 import model.Process;
 
 import dao.Dao;
+import dao.DaoDb4o;
 import dao.DaoList;
 
 public class Service {
@@ -20,7 +22,12 @@ public class Service {
 	private Dao dao = null;
 	
 	private Service() {
+		// listDao
 		dao = DaoList.getDao();
+		createTestListData();
+		// DB4o
+		// dao = DaoDb4o.getDao();
+		// void createTestDB40Data();
 	}
 	
 	public static Service getService() {
@@ -98,7 +105,7 @@ public class Service {
 	/**
 	 * oprettelse af test data
 	 */
-	public void createTestData() {
+	public void createTestListData() {
 
 		Depot depot1 = createDepot("Lager 1","Hovedlageret",5,8);
 		Depot depot2 = createDepot("Lager 2","Lager til lort",4,5);
@@ -170,6 +177,13 @@ public class Service {
 			Service.getService().getAllIntermediateProducts().get(i).sendToNextProcess(depot2.getStoringSpaces().get(i-5));
 		}
 
+	}
+	
+	public void createTestDB40Data() {
+		if (!(new File("db.db4o").exists())){
+			Depot depot1 = createDepot("Lager 1","Hovedlageret",5,8);
+			Depot depot2 = createDepot("Lager 2","Lager til lort",4,5);
+		}
 	}
 
 }
