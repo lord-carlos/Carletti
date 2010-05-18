@@ -27,7 +27,7 @@ public class Service {
 		createTestListData();
 		// DB4o
 		// dao = DaoDb4o.getDao();
-		// void createTestDB40Data();
+		// createTestDB40Data();
 	}
 	
 	public static Service getService() {
@@ -168,13 +168,13 @@ public class Service {
 		
 		
 		for (int i = 0; i < 5; i++) {
-			Service.getService().getAllIntermediateProducts().get(i).sendToNextProcess(null);
-			Service.getService().getAllIntermediateProducts().get(i).sendToNextProcess(depot1.getStoringSpaces().get(i));
+			getAllIntermediateProducts().get(i).sendToNextProcess(null);
+			getAllIntermediateProducts().get(i).sendToNextProcess(depot1.getStoringSpaces().get(i));
 		}
 		
 		for (int i = 5; i < 10; i++) {
-			Service.getService().getAllIntermediateProducts().get(i).sendToNextProcess(null);
-			Service.getService().getAllIntermediateProducts().get(i).sendToNextProcess(depot2.getStoringSpaces().get(i-5));
+			getAllIntermediateProducts().get(i).sendToNextProcess(null);
+			getAllIntermediateProducts().get(i).sendToNextProcess(depot2.getStoringSpaces().get(i-5));
 		}
 
 	}

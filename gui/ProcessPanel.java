@@ -1,11 +1,8 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -13,7 +10,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import sun.util.calendar.CalendarDate;
 import model.Drying;
 import model.IntermediateProduct;
 import model.Process;
@@ -38,7 +34,7 @@ public class ProcessPanel extends JPanel {
 		this.setPreferredSize(new Dimension(130, 25));
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		if (process.getClass().equals(Drying.class)) {
-			
+
 			boolean found = false;
 			long startTime = 0;
 			for (ProcessLog processLog : process.getProcessLogs()) {
@@ -47,27 +43,24 @@ public class ProcessPanel extends JPanel {
 					found = true;
 				}
 			}
-			if (found)  {
-				System.out.println("det virkede");
-				
+			if (found)  {				
 				this.setToolTipText("<html>"+process+":<br>"+
-						"Minimums toerretid: "+longDateToString(((Drying)process).getMinTime())+"<br>"+
-						"Ideal torretid: "+longDateToString(((Drying)process).getIdealTime()+((Drying)process).getMinTime())+"<br>"+
+						"Minimums toerretid: "+longDateToString(((Drying)process).getMinTime()+startTime)+"<br>"+
+						"Ideal torretid: "+longDateToString(((Drying)process).getIdealTime()+startTime)+"<br>"+
 						"Maximal torretid: "+longDateToString(((Drying)process).getMaxTime()+startTime)+"<br>"+
-						"</html>");
+				"</html>");
 			}
 			else {
-				System.out.println("det virker ikke");
 				this.setToolTipText("<html>"+process+":<br>"+
-						"Minimums toerretid: "+longDateToString(((Drying)process).getMinTime())+"<br>"+
-						"Ideal torretid: "+longDateToString(((Drying)process).getIdealTime())+"<br>"+
-						"Maximal torretid: "+longDateToString(((Drying)process).getMaxTime())+"<br>"+
-						"</html>");
+						"Minimums toerretid: "+longPeriodToString(((Drying)process).getMinTime())+"<br>"+
+						"Ideal torretid: "+longPeriodToString(((Drying)process).getIdealTime())+"<br>"+
+						"Maximal torretid: "+longPeriodToString(((Drying)process).getMaxTime())+"<br>"+
+				"</html>");
 			}
-		
+
 		}
 		else {
-			
+
 		}
 		{
 			panel = new JPanel();
@@ -113,14 +106,24 @@ public class ProcessPanel extends JPanel {
 			cbxComplete.setSelected(false);
 		}
 	}
-	
+
 	public String longDateToString(long date) {
-		Calendar.getInstance().setTimeInMillis(date);
-		return Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+"/"+
-							Calendar.getInstance().get(Calendar.MONTH)+
-							"/"+Calendar.getInstance().get(Calendar.YEAR)+" "+
-							Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+":"+
-							Calendar.getInstance().get(Calendar.MINUTE);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(date);
+		return calendar.get(Calendar.DAY_OF_MONTH)+"/"+
+		calendar.get(Calendar.MONTH)+
+		"/"+calendar.get(Calendar.YEAR)+" "+
+		calendar.get(Calendar.HOUR_OF_DAY)+":"+
+		calendar.get(Calendar.MINUTE); 
 	}
+	
+	public String longPeriodToString(long date) {
+		int dateInSeconds = (int) date/1000;
+		int days = dateInSeconds/(60*60*24);
+		int hours = (dateInSeconds % (60*60*24)) / (60*60);
+		int minutes = ((dateInSeconds % (60*60*24)) % (60*60)) / 60;
+		return days+" dage, "+hours+" timer,"+minutes+" minutter";	
+	}
+	
 }
 

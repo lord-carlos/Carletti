@@ -95,7 +95,6 @@ public class MainFrame extends JFrame {
 	private JPanel pnlEast;
 	private ArrayList<JMenuItem> mitDepots = new ArrayList<JMenuItem>();
 	private IntermediateProductPanel selectedIntermediateProductPanel = null;
-	private ProcessPanel selectedProcessPanel = null;
 	private CreateProductTypeFrame createProductTypeFrame;
 	private CreateIntermediateProduct createIntermediateProduct;
 	private Controller controller = new Controller();
