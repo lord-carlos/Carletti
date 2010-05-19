@@ -20,7 +20,7 @@ public class UpdateTimer extends java.util.Timer {
 	private ArrayList<ProcessLog> logsToOld = new ArrayList<ProcessLog>();
 
 	public UpdateTimer(int updateIntervalInSeconds, ArrayList<IntermediateProductPanel> intermediateProductPanels){
-		this.schedule(timerAction, 0l, updateIntervalInSeconds*1000l);
+		this.schedule(timerAction, 100l, updateIntervalInSeconds*1000l);
 		this.intermediateProductPanels = intermediateProductPanels;
 	}
 
