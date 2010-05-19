@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,7 @@ import model.IntermediateProduct;
 import model.Process;
 import model.StoringSpace;
 import service.Service;
+import sun.awt.WindowClosingListener;
 
 public class MainFrame extends JFrame {
 
@@ -101,7 +104,7 @@ public class MainFrame extends JFrame {
 	private UpdateTimer updateTimer;
 
 	public MainFrame() {
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.addWindowListener(controller);
 		this.setTitle("Carletti v0.7");
 		BorderLayout thisLayout = new BorderLayout();
 		getContentPane().setLayout(thisLayout);
@@ -419,7 +422,7 @@ public class MainFrame extends JFrame {
 			txfQuantity.setText("N/A");
 		}
 	}
-	private class Controller implements ActionListener, ListSelectionListener, MouseListener, DocumentListener {
+	private class Controller implements ActionListener, ListSelectionListener, MouseListener, DocumentListener, WindowListener {
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == mitCreateProductType) {
@@ -567,6 +570,41 @@ public class MainFrame extends JFrame {
 				}
 			}
 			lstIntermediateProducts.setListData(searchedIntermediateProducts.toArray());
+		}
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void windowClosing(WindowEvent e) {
+			service.Service.getService().closeDao();
+			System.exit(0);
+		}
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 }
