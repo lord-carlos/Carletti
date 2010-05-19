@@ -20,7 +20,7 @@ import model.ProductType;
 import service.Service;
 
 
-public class CreateIntermediateProduct extends JDialog {
+public class CreateIntermediateProductFrame extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel lblProduktType;
@@ -37,7 +37,7 @@ public class CreateIntermediateProduct extends JDialog {
 	private BtnController btnController = new BtnController();	
 	private IntermediateProduct thisProduct = null;
 	
-	public CreateIntermediateProduct() {
+	public CreateIntermediateProductFrame() {
 		initComponents();
 
 		this.setModal(true);
@@ -216,7 +216,7 @@ public class CreateIntermediateProduct extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 
 			if (e.getSource().equals(btnChancel)){
-				CreateIntermediateProduct.this.setVisible(false);
+				CreateIntermediateProductFrame.this.setVisible(false);
 
 			} else if (e.getSource().equals(btnCreate)){
 
@@ -226,7 +226,7 @@ public class CreateIntermediateProduct extends JDialog {
 						JOptionPane.showMessageDialog(null,"Mellemvaren skal have en id","Fejl!!!",JOptionPane.ERROR_MESSAGE);
 					} else {
 						thisProduct = new IntermediateProduct(txfId.getText(), (ProductType) cmbProductType.getSelectedItem(), Double.valueOf(txfQuantity.getText()));
-						CreateIntermediateProduct.this.setVisible(false);
+						CreateIntermediateProductFrame.this.setVisible(false);
 					}
 					
 				}catch (NumberFormatException exception){

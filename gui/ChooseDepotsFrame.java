@@ -12,12 +12,12 @@ import javax.swing.*;
 /**
  * Shows an Jlist that can be edited by the push of a button<br>
  * the selcteble List will be handled as an ArrayList
- * @author M. C. Høj
+ * @author M. C. HÃ¸j
  */
 @SuppressWarnings("serial")
-public class MultiSelectebleList extends Container{
+public class ChooseDepotsFrame extends Container{
 
-	private JButton btnCloseWindow, btnValgVTilE, btnFjernFraE, btnOpenMiniFrame, btnVaelgAlle, btnVaelgIngen;
+	private JButton btnOk, btnValgVTilE, btnFjernFraE, btnOpenMiniFrame, btnVaelgAlle, btnVaelgIngen;
 	private JLabel lblSelectebleElements, lblSelctedElements;
 	private JScrollPane scSelctedElements, scSelctedElementsMF, scSelectebleElementsMF;
 	private JList jlSelectedElements, jlSelectedElementsMF, jlSelectebleElementsMF;
@@ -59,7 +59,7 @@ public class MultiSelectebleList extends Container{
 	 * the constructer sets the grafical interface for the MultiSelectableList
 	 * @param ElementNavn The names of the elements
 	 */
-	public MultiSelectebleList(String ElementNavn){
+	public ChooseDepotsFrame(String ElementNavn){
 		JFrameSetup(ElementNavn);
 
 		jlSelectedElements = new JList(selectedElementsNames);
@@ -70,7 +70,7 @@ public class MultiSelectebleList extends Container{
 		scSelctedElements.setLocation(0, 0);
 		this.add(scSelctedElements);
 
-		btnOpenMiniFrame = new JButton("Vælg "+ ElementNavn);
+		btnOpenMiniFrame = new JButton("Vaelg "+ ElementNavn);
 		btnOpenMiniFrame.setSize(150, 25);
 		btnOpenMiniFrame.setLocation(0, 75);
 		btnOpenMiniFrame.addActionListener(btnController);
@@ -284,15 +284,15 @@ public class MultiSelectebleList extends Container{
 	// ****************************** actionListner setup ***************************************
 
 	public void addActionToClose(ActionListener a){
-		btnCloseWindow.addActionListener(a);
+		btnOk.addActionListener(a);
 	}
 
 	public void removeActionFromClose(ActionListener a){
-		btnCloseWindow.removeActionListener(a);
+		btnOk.removeActionListener(a);
 	}
 	
 	public JButton getBtnCloseWindow(){
-		return btnCloseWindow;
+		return btnOk;
 	}
 
 
@@ -316,7 +316,7 @@ public class MultiSelectebleList extends Container{
 		miniFrame.toFront();
 
 
-		lblSelectebleElements = new JLabel("Tilgængelige "+ ElementNavn);
+		lblSelectebleElements = new JLabel("Tilgaengelige "+ ElementNavn);
 		Font LabelFontH1 = new Font(lblSelectebleElements.getFont().getName(),Font.BOLD,13);
 		lblSelectebleElements.setFont(LabelFontH1);
 		lblSelectebleElements.setSize(190, 25);
@@ -329,12 +329,12 @@ public class MultiSelectebleList extends Container{
 		lblSelctedElements.setLocation(250, 25);
 		miniFrame.add(lblSelctedElements);
 
-		btnCloseWindow = new JButton("Luk winduet");
-		btnCloseWindow.setName("btnCloseWindow");
-		btnCloseWindow.setSize(150, 25);
-		btnCloseWindow.setLocation(140, 240);
-		btnCloseWindow.addActionListener(btnController);
-		miniFrame.add(btnCloseWindow);
+		btnOk = new JButton("Ok");
+		btnOk.setName("btnOk");
+		btnOk.setSize(150, 25);
+		btnOk.setLocation(140, 240);
+		btnOk.addActionListener(btnController);
+		miniFrame.add(btnOk);
 
 		btnValgVTilE = new JButton(">>");
 		btnValgVTilE.setName("btnValgVTilE");
@@ -358,7 +358,7 @@ public class MultiSelectebleList extends Container{
 		scSelectebleElementsMF.setLocation(20, 50);
 		miniFrame.add(scSelectebleElementsMF);
 
-		btnVaelgAlle = new JButton("Vælg Alle");
+		btnVaelgAlle = new JButton("Vaelg Alle");
 		btnVaelgAlle.setName("btnCloseWindow");
 		btnVaelgAlle.setSize(170, 25);
 		btnVaelgAlle.setLocation(20, 205);
@@ -373,7 +373,7 @@ public class MultiSelectebleList extends Container{
 		scSelctedElementsMF.setLocation(250, 50);
 		miniFrame.add(scSelctedElementsMF);
 
-		btnVaelgIngen = new JButton("Vælg Ingen");
+		btnVaelgIngen = new JButton("Vaelg Ingen");
 		btnVaelgIngen.setName("btnCloseWindow");
 		btnVaelgIngen.setSize(170, 25);
 		btnVaelgIngen.setLocation(250, 205);
@@ -394,7 +394,7 @@ public class MultiSelectebleList extends Container{
 				miniFrame.setVisible(true);
 			}
 
-			if (e.getSource() == btnCloseWindow) {
+			if (e.getSource() == btnOk) {
 				miniFrame.setVisible(false);
 			}
 

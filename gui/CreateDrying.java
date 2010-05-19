@@ -33,7 +33,7 @@ public class CreateDrying extends JDialog {
 	private ProcessLine pl;
 	private Drying thisDrying;
 	private BtnController btnController = new BtnController();
-	private MultiSelectebleList msl;
+	private ChooseDepotsFrame msl;
 	
 	public CreateDrying(ProcessLine pl) {
 		initComponents();
@@ -63,9 +63,9 @@ public class CreateDrying extends JDialog {
 		setSize(400, 235);
 	}
 
-	private MultiSelectebleList getMsl() {
+	private ChooseDepotsFrame getMsl() {
 		if (msl == null) {
-			msl = new MultiSelectebleList("Lagre");
+			msl = new ChooseDepotsFrame("Lagre");
 			msl.setLocation(194, 34);
 			msl.setSize(190, 127);
 
@@ -186,7 +186,7 @@ public class CreateDrying extends JDialog {
 			} else if (e.getSource().equals(btnCreate)){
 
 				if (msl.getSelectedElements().isEmpty()){
-					JOptionPane.showMessageDialog(null,"Toerringsprocessen skal v�re tilknyttet mindst et lager!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Toerringsprocessen skal vaere tilknyttet mindst et lager!!!","Fejl!!!",JOptionPane.ERROR_MESSAGE);
 				} else {
 					long minTime;
 					long idealTime;
