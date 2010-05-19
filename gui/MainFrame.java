@@ -234,7 +234,7 @@ public class MainFrame extends JFrame {
 				{
 					btnSendToNextProcess = new JButton();
 					pnlEast.add(btnSendToNextProcess);
-					btnSendToNextProcess.setText("Viderbehandle");
+					btnSendToNextProcess.setText("Viderebehandle");
 					btnSendToNextProcess.setPreferredSize(new Dimension(160,25));
 					btnSendToNextProcess.addActionListener(controller);
 				}
