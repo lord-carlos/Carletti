@@ -3,8 +3,8 @@ package model;
 import java.sql.Date;
 
 public class ProcessLog{
-	private Date startTime;
-	private Date endTime;
+	private long startTime=0;
+	private long endTime=0;
 	private Process process;
 	private StoringSpace storingSpace;
 	private IntermediateProduct intermediateProduct;
@@ -20,24 +20,24 @@ public class ProcessLog{
 				this.setStoringSpace(storingSpace);
 			}
 			this.intermediateProduct=intermediateProduct;
-			this.startTime = new Date(System.currentTimeMillis());
+			this.startTime =System.currentTimeMillis();
 		}
 	}
 
 	public Date getStartTime(){
-		return this.startTime;
+		return  new Date(this.startTime);
 	}
 
 	public Date getEndTime(){
-		return this.endTime;
+		return  new Date(this.endTime);
 	}
 
 	public void endProcess(){
-		this.endTime = new Date(System.currentTimeMillis());
+		this.endTime = System.currentTimeMillis();
 	}
 
 	public boolean isActive(){
-		return this.endTime==null;
+		return this.endTime==0;
 	}
 
 	public Process getProcess(){
