@@ -149,7 +149,7 @@ public class Service {
 		Drying d5 = plChokoladelinser.createDrying(2, 30*10000, 60*10000, 120*10000);
 		d5.addDepot(depot1); d5.addDepot(depot2); 
 		plChokoladelinser.createSubProcess(3, "Tilsaetter linser", "Tilsaetter linser fra optikkeren", 3, 13);
-		Drying d6 = plChokoladelinser.createDrying(4, 1*60*10000, 2*60*10000, 2*60*10000);
+		Drying d6 = plChokoladelinser.createDrying(4, 1*60*10000, 2*60*10000, 3*60*10000);
 		d6.addDepot(depot1); d6.addDepot(depot2); 
 
 		ProductType pteCitronDrage = createProductType("Citron Drage");
@@ -228,7 +228,7 @@ public class Service {
 		Drying d5 = plChokoladelinser.createDrying(2, 30*1000, 60*1000, 120*1000);
 		d5.addDepot(depot1); d5.addDepot(depot2); 
 		plChokoladelinser.createSubProcess(3, "Tilsaetter linser", "Tilsaetter linser fra optikkeren", 3, 13);
-		Drying d6 = plChokoladelinser.createDrying(4, 1*60*1000, 2*60*1000, 2*60*1000);
+		Drying d6 = plChokoladelinser.createDrying(4, 1*60*1000, 2*60*1000, 3*60*1000);
 		d6.addDepot(depot1); d6.addDepot(depot2); 
 
 		storeProductType(pteChokoladelinser);
