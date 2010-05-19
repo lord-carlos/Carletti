@@ -22,15 +22,15 @@ public class Service {
 	private Dao dao = null;
 
 	private Service() {
-		// listDao
-		//dao = DaoList.getDao();
-		//createTestListData();
-		// DB4o
-		boolean isCreated = new File("db.db4o").exists();
-		dao = DaoDb4o.getDao();
-		if (!isCreated){
-			createTestDB40Data();
-		}
+
+		dao = DaoList.getDao();
+		createTestListData();
+
+//		boolean isCreated = new File("db.db4o").exists();
+//		dao = DaoDb4o.getDao();
+//		if (!isCreated) {
+//			createTestListData();
+//		}
 
 	}
 
@@ -149,7 +149,7 @@ public class Service {
 		Drying d5 = plChokoladelinser.createDrying(2, 30*10000, 60*10000, 120*10000);
 		d5.addDepot(depot1); d5.addDepot(depot2); 
 		plChokoladelinser.createSubProcess(3, "Tilsaetter linser", "Tilsaetter linser fra optikkeren", 3, 13);
-		Drying d6 = plChokoladelinser.createDrying(4, 1*60*10000, 2*60*10000, 2*60*10000);
+		Drying d6 = plChokoladelinser.createDrying(4, 1*60*10000, 2*60*10000, 3*60*10000);
 		d6.addDepot(depot1); d6.addDepot(depot2); 
 
 		ProductType pteCitronDrage = createProductType("Citron Drage");

@@ -21,7 +21,6 @@ public class ProcessPanel extends JPanel {
 	private JCheckBox cbxComplete;
 	private Boolean selected;
 	private Process process;
-	private JPanel panel;
 	private IntermediateProduct intermediateProduct;
 
 
@@ -29,12 +28,12 @@ public class ProcessPanel extends JPanel {
 
 		this.process = process;
 		this.intermediateProduct = intermediateProduct;
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));	
+		this.setLayout(null);	
 		this.setOpaque(true);
-		this.setBorder(BorderFactory.createLineBorder(Color.red));
-	//	this.setSize(150,25);
+		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		this.setSize(150,25);
 		this.setAlignmentX(LEFT_ALIGNMENT);
-		
+
 		if (process.getClass().equals(Drying.class)) {
 
 			//TOOLTIPS!
@@ -65,68 +64,62 @@ public class ProcessPanel extends JPanel {
 		else {
 
 		}
-		{
-			panel = new JPanel();
-			panel.setAlignmentX(LEFT_ALIGNMENT);
-			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-//			panel.setLayout(new FlowLayout());
-			panel.setSize(new Dimension(160,25));
-			panel.setOpaque(true);
-			this.add(panel);
-			{
-				{
-					cbxComplete = new JCheckBox();
-					panel.add(cbxComplete);	
-					cbxComplete.setEnabled(false);
-				}
-				{
-					lblName = new JLabel();
-					panel.add(lblName);
-					lblName.setText(process.toString());
-				}
-			}
 
+		{
+			cbxComplete = new JCheckBox();
+			this.add(cbxComplete);	
+			cbxComplete.setEnabled(false);
 		}
-		//De processor der er færdige
-		boolean found = false;
-		for (ProcessLog processLog : intermediateProduct.getProcessLogs()) {
-			if (processLog.getProcess() == process && processLog.isActive() != true) {
-				cbxComplete.setSelected(true);
-				found = true;
-				break;
-			}
+		{
+			lblName = new JLabel();
+			this.add(lblName);
+			lblName.setText(process.toString());
 		}
-		//Aktive processor
-		if (found == false && intermediateProduct.getActivProcessLog().getProcess() == process) {
+	
+
+
+	//De processor der er færdige
+	boolean found = false;
+	for (ProcessLog processLog : intermediateProduct.getProcessLogs()) {
+		if (processLog.getProcess() == process && processLog.isActive() != true) {
+			cbxComplete.setSelected(true);
+			found = true;
+			break;
+		}
+	}
+	//Aktive processor
+	if (found == false && intermediateProduct.getActivProcessLog() != null) {
+		if(intermediateProduct.getActivProcessLog().getProcess() == process) {
 			cbxComplete.setSelected(false);
 			cbxComplete.setBackground(Color.green);
 			//this.setBackground(Color.green);
-			panel.setBackground(Color.green);
+			this.setBackground(Color.green);
 			found = true;
 		}
-		//De processor der ikke er begyndt som ikke er færdige
-		else if (found == false) {
-			cbxComplete.setSelected(false);
-		}
 	}
+	//De processor der ikke er begyndt som ikke er færdige
+	else if (found == false) {
+		cbxComplete.setSelected(false);
+	}
+}
 
-	public String longDateToString(long date) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(date);
-		return calendar.get(Calendar.DAY_OF_MONTH)+"/"+
-		calendar.get(Calendar.MONTH)+
-		"/"+calendar.get(Calendar.YEAR)+" "+
-		calendar.get(Calendar.HOUR_OF_DAY)+":"+
-		calendar.get(Calendar.MINUTE); 
-	}
-	
-	public String longPeriodToString(long date) {
-		int dateInSeconds = (int) date/1000;
-		int days = dateInSeconds/(60*60*24);
-		int hours = (dateInSeconds % (60*60*24)) / (60*60);
-		int minutes = ((dateInSeconds % (60*60*24)) % (60*60)) / 60;
-		return days+" dage, "+hours+" timer,"+minutes+" minutter";	
-	}
-	
+public String longDateToString(long date) {
+	Calendar calendar = Calendar.getInstance();
+	calendar.setTimeInMillis(date);
+	return calendar.get(Calendar.DAY_OF_MONTH)+"/"+
+	calendar.get(Calendar.MONTH)+
+	"/"+calendar.get(Calendar.YEAR)+" "+
+	calendar.get(Calendar.HOUR_OF_DAY)+":"+
+	calendar.get(Calendar.MINUTE); 
+}
+
+public String longPeriodToString(long date) {
+	int dateInSeconds = (int) date/1000;
+	int days = dateInSeconds/(60*60*24);
+	int hours = (dateInSeconds % (60*60*24)) / (60*60);
+	int minutes = ((dateInSeconds % (60*60*24)) % (60*60)) / 60;
+	return days+" dage, "+hours+" timer,"+minutes+" minutter";	
+}
+
 }
 

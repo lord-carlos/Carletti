@@ -65,8 +65,6 @@ public class MainFrame extends JFrame {
 	private JScrollPane scpIntermediateProducts;
 	private JMenu mnuView;
 	private JMenu mnuCreate;
-	private JMenu jMenu1;
-
 	private JList lstIntermediateProducts;
 	private JButton btnCreateIntermediateProduct;
 	private JMenuItem mnuViewDepot;
@@ -263,11 +261,6 @@ public class MainFrame extends JFrame {
 			mnbBar = new JMenuBar();
 			setJMenuBar(mnbBar);
 			{
-				jMenu1 = new JMenu();
-				mnbBar.add(jMenu1);
-				jMenu1.setText("jMenu1");
-			}
-			{
 				mnuCreate = new JMenu();
 				mnbBar.add(mnuCreate);
 				mnuCreate.setText("Opret");
@@ -375,15 +368,17 @@ public class MainFrame extends JFrame {
 	}
 
 	private void updateProcessOverView(IntermediateProduct intermediateProduct) {
-		pnlProcessOverView.removeAll();
-		processPanels.clear();
-		pnlProcessOverView.updateUI();
+		if(intermediateProduct != null) {
+			pnlProcessOverView.removeAll();
+			processPanels.clear();
+			pnlProcessOverView.updateUI();
 
-		for (Process process : intermediateProduct.getProductType().getProcessLine().getProcesses()) {
-			ProcessPanel processPanel = new ProcessPanel(intermediateProduct, process);
-			processPanel.addMouseListener(controller);
-			processPanels.add(processPanel);
-			pnlProcessOverView.add(processPanel);
+			for (Process process : intermediateProduct.getProductType().getProcessLine().getProcesses()) {
+				ProcessPanel processPanel = new ProcessPanel(intermediateProduct, process);
+				processPanel.addMouseListener(controller);
+				processPanels.add(processPanel);
+				pnlProcessOverView.add(processPanel);
+			}
 		}
 	}
 	private void updateInfo() {
@@ -566,12 +561,12 @@ public class MainFrame extends JFrame {
 		@Override
 		public void windowActivated(WindowEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 		@Override
 		public void windowClosed(WindowEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 		@Override
 		public void windowClosing(WindowEvent e) {
@@ -581,22 +576,22 @@ public class MainFrame extends JFrame {
 		@Override
 		public void windowDeactivated(WindowEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 		@Override
 		public void windowDeiconified(WindowEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 		@Override
 		public void windowIconified(WindowEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 		@Override
 		public void windowOpened(WindowEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 }
