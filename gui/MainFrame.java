@@ -96,7 +96,7 @@ public class MainFrame extends JFrame {
 	private ArrayList<JMenuItem> mitDepots = new ArrayList<JMenuItem>();
 	private IntermediateProductPanel selectedIntermediateProductPanel = null;
 	private CreateProductTypeFrame createProductTypeFrame;
-	private CreateIntermediateProduct createIntermediateProduct;
+	private CreateIntermediateProductFrame createIntermediateProduct;
 	private Controller controller = new Controller();
 	private UpdateTimer updateTimer;
 
@@ -110,25 +110,25 @@ public class MainFrame extends JFrame {
 		{
 			pnlWest = new JPanel();
 			getContentPane().add(pnlWest, BorderLayout.WEST);
-			pnlWest.setPreferredSize(new Dimension(140,600));
+			pnlWest.setPreferredSize(new Dimension(170,700));
 			pnlWest.setLayout(new FlowLayout());
 			{	
 				{
 					lblIntermediateProduct = new JLabel("Mellemvarer:");
 					lblIntermediateProduct.setFont(lblIntermediateProduct.getFont().deriveFont(lblIntermediateProduct.getFont().getStyle() ^ Font.BOLD));
-					lblIntermediateProduct.setPreferredSize(new Dimension(130,25));
+					lblIntermediateProduct.setPreferredSize(new Dimension(160,25));
 					pnlWest.add(lblIntermediateProduct);
 				}
 				{
 					txfSearch = new JTextField();
-					txfSearch.setPreferredSize(new Dimension(130,25));
+					txfSearch.setPreferredSize(new Dimension(160,25));
 					txfSearch.getDocument().addDocumentListener(controller);
 					pnlWest.add(txfSearch);
 				}
 				{
 					scpIntermediateProducts = new JScrollPane();
 					pnlWest.add(scpIntermediateProducts);
-					scpIntermediateProducts.setPreferredSize(new Dimension(130,200));
+					scpIntermediateProducts.setPreferredSize(new Dimension(160,200));
 
 					{
 						ListModel lstIntermediateProductsModel = new DefaultListModel();
@@ -141,7 +141,7 @@ public class MainFrame extends JFrame {
 				{
 					btnCreateIntermediateProduct = new JButton();
 					btnCreateIntermediateProduct.setText("Opret Mellemvare");
-					btnCreateIntermediateProduct.setPreferredSize(new Dimension(130,30));
+					btnCreateIntermediateProduct.setPreferredSize(new Dimension(160,25));
 					btnCreateIntermediateProduct.addActionListener(controller);
 					pnlWest.add(btnCreateIntermediateProduct);		
 				}
@@ -151,104 +151,98 @@ public class MainFrame extends JFrame {
 		{
 			pnlEast = new JPanel();
 			getContentPane().add(pnlEast, BorderLayout.EAST);
-			pnlEast.setPreferredSize(new Dimension(140, 700));
-			pnlEast.setLayout(null);
+			pnlEast.setPreferredSize(new Dimension(170, 700));
+			pnlEast.setLayout(new FlowLayout());
 			{
-				pnlInformation = new JPanel();
-				pnlEast.add(pnlInformation);
-				pnlInformation.setLayout(new FlowLayout());
-				pnlInformation.setBounds(0,0,140,700);
 				{
 					lblInformation = new JLabel();
-					pnlInformation.add(lblInformation);
+					pnlEast.add(lblInformation);
 					lblInformation.setFont(lblInformation.getFont().deriveFont(lblInformation.getFont().getStyle() ^ Font.BOLD));
 					lblInformation.setText("Information:");
-					lblInformation.setPreferredSize(new Dimension(130,25));
+					lblInformation.setPreferredSize(new Dimension(160,25));
 				}
 				{
 					lblID = new JLabel();
-					pnlInformation.add(lblID);
+					pnlEast.add(lblID);
 					lblID.setText("ID:");
-					lblID.setPreferredSize(new Dimension(60,25));
+					lblID.setPreferredSize(new Dimension(80,25));
 				}
 				{
 					txfID = new JTextField();
-					pnlInformation.add(txfID);
-					txfID.setPreferredSize(new Dimension(70,25));
+					pnlEast.add(txfID);
+					txfID.setPreferredSize(new Dimension(80,25));
 					txfID.setEditable(false);
 				}
 				{
 					lblQuantity = new JLabel();
-					pnlInformation.add(lblQuantity);
+					pnlEast.add(lblQuantity);
 					lblQuantity.setText("Antal:");
-					lblQuantity.setPreferredSize(new Dimension(60,25));
+					lblQuantity.setPreferredSize(new Dimension(80,25));
 				}
 				{
 					txfQuantity = new JTextField();
-					pnlInformation.add(txfQuantity);
-					txfQuantity.setPreferredSize(new Dimension(70,25));
+					pnlEast.add(txfQuantity);
+					txfQuantity.setPreferredSize(new Dimension(80,25));
 					txfQuantity.setEditable(false);
 				}
 				{
 					lblProductType = new JLabel();
-					pnlInformation.add(lblProductType);
+					pnlEast.add(lblProductType);
 					lblProductType.setText("Produkt type:");
-					lblProductType.setPreferredSize(new Dimension(130,25));
+					lblProductType.setPreferredSize(new Dimension(160,25));
 				}
 				{
 					txfProductType = new JTextField();
-					pnlInformation.add(txfProductType);
-					txfProductType.setPreferredSize(new Dimension(130,25));
+					pnlEast.add(txfProductType);
+					txfProductType.setPreferredSize(new Dimension(160,25));
 					txfProductType.setEditable(false);
 				}
 				{
 					lblDepot = new JLabel();
-					pnlInformation.add(lblDepot);
+					pnlEast.add(lblDepot);
 					lblDepot.setText("Lager:");
-					lblDepot.setPreferredSize(new Dimension(60,25));
+					lblDepot.setPreferredSize(new Dimension(80,25));
 				}
 				{
 					txfDepot = new JTextField();
-					pnlInformation.add(txfDepot);
-					txfDepot.setPreferredSize(new Dimension(70,25));
+					pnlEast.add(txfDepot);
+					txfDepot.setPreferredSize(new Dimension(80,25));
 					txfDepot.setEditable(false);
 				}
 				{
 					lblCoordinates = new JLabel();
-					pnlInformation.add(lblCoordinates);
+					pnlEast.add(lblCoordinates);
 					lblCoordinates.setText("Position:");
-					lblCoordinates.setPreferredSize(new Dimension (60,25));
+					lblCoordinates.setPreferredSize(new Dimension (80,25));
 				}
 				{
 					txfCoordinates = new JTextField();
-					pnlInformation.add(txfCoordinates);
-					txfCoordinates.setPreferredSize(new Dimension(70,25));
+					pnlEast.add(txfCoordinates);
+					txfCoordinates.setPreferredSize(new Dimension(80,25));
 					txfCoordinates.setEditable(false);
 				}
 				{
 					scpProcesses = new JScrollPane();
-					pnlInformation.add(scpProcesses);
-					scpProcesses.setPreferredSize(new Dimension(140,200));
+					pnlEast.add(scpProcesses);
+					scpProcesses.setPreferredSize(new Dimension(160,200));
 					{
-						pnlProcessOverView = new JPanel();
-						pnlProcessOverView.setPreferredSize(new Dimension(140,200));
-						@SuppressWarnings("unused")
-						BoxLayout lytProcessOverView = new BoxLayout(pnlProcessOverView, BoxLayout.Y_AXIS);
+						pnlProcessOverView = new JPanel();	
+						pnlProcessOverView.setLayout(new BoxLayout(pnlProcessOverView, BoxLayout.Y_AXIS));
 						scpProcesses.setViewportView(pnlProcessOverView);
 					}
 				}
 				{
 					btnSendToNextProcess = new JButton();
-					pnlInformation.add(btnSendToNextProcess);
+					pnlEast.add(btnSendToNextProcess);
 					btnSendToNextProcess.setText("Viderbehandle");
-					btnSendToNextProcess.setPreferredSize(new Dimension(130,25));
+					btnSendToNextProcess.setPreferredSize(new Dimension(160,25));
 					btnSendToNextProcess.addActionListener(controller);
 				}
 				{
 					btnDeleteIntermediateProduct = new JButton();
-					pnlInformation.add(btnDeleteIntermediateProduct);
+					pnlEast.add(btnDeleteIntermediateProduct);
 					btnDeleteIntermediateProduct.setText("Kassere mellemvare");
-					btnDeleteIntermediateProduct.setPreferredSize(new Dimension(130,25));
+					btnDeleteIntermediateProduct.setPreferredSize(new Dimension(160,25));
 					btnDeleteIntermediateProduct.addActionListener(controller);
 				}
 			}
@@ -387,8 +381,6 @@ public class MainFrame extends JFrame {
 			processPanel.addMouseListener(controller);
 			processPanels.add(processPanel);
 			pnlProcessOverView.add(processPanel);
-			pnlProcessOverView.setMaximumSize(new Dimension(130,200));
-			processPanel.setMaximumSize(new Dimension(120,25));			
 		}
 	}
 	private void updateInfo() {
@@ -430,7 +422,7 @@ public class MainFrame extends JFrame {
 			}
 
 			else if (e.getSource() == mitCreateIntermediateProduct || e.getSource() == btnCreateIntermediateProduct) {
-				createIntermediateProduct = new CreateIntermediateProduct();
+				createIntermediateProduct = new CreateIntermediateProductFrame();
 				if (createIntermediateProduct.getIntermediateProduct()!=null){
 					Service.getService().StoreIntermediateProduct(createIntermediateProduct.getIntermediateProduct());
 				}

@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
@@ -30,11 +31,13 @@ public class ProcessPanel extends JPanel {
 		this.intermediateProduct = intermediateProduct;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));	
 		this.setOpaque(true);
-		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		this.setPreferredSize(new Dimension(130, 25));
+		this.setBorder(BorderFactory.createLineBorder(Color.red));
+	//	this.setSize(150,25);
 		this.setAlignmentX(LEFT_ALIGNMENT);
+		
 		if (process.getClass().equals(Drying.class)) {
 
+			//TOOLTIPS!
 			boolean found = false;
 			long startTime = 0;
 			for (ProcessLog processLog : process.getProcessLogs()) {
@@ -66,7 +69,8 @@ public class ProcessPanel extends JPanel {
 			panel = new JPanel();
 			panel.setAlignmentX(LEFT_ALIGNMENT);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-			panel.setPreferredSize(new Dimension(130,25));
+//			panel.setLayout(new FlowLayout());
+			panel.setSize(new Dimension(160,25));
 			panel.setOpaque(true);
 			this.add(panel);
 			{
@@ -79,7 +83,6 @@ public class ProcessPanel extends JPanel {
 					lblName = new JLabel();
 					panel.add(lblName);
 					lblName.setText(process.toString());
-					lblName.setBounds(25, 0, 100, 25);
 				}
 			}
 
@@ -97,7 +100,7 @@ public class ProcessPanel extends JPanel {
 		if (found == false && intermediateProduct.getActivProcessLog().getProcess() == process) {
 			cbxComplete.setSelected(false);
 			cbxComplete.setBackground(Color.green);
-			this.setBackground(Color.green);
+			//this.setBackground(Color.green);
 			panel.setBackground(Color.green);
 			found = true;
 		}
