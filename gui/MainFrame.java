@@ -223,14 +223,10 @@ public class MainFrame extends JFrame {
 					txfCoordinates.setEditable(false);
 				}
 				{
-					scpProcesses = new JScrollPane();
-					pnlEast.add(scpProcesses);
-					scpProcesses.setPreferredSize(new Dimension(160,200));
-					{
-						pnlProcessOverView = new JPanel();	
-						pnlProcessOverView.setLayout(new BoxLayout(pnlProcessOverView, BoxLayout.Y_AXIS));
-						scpProcesses.setViewportView(pnlProcessOverView);
-					}
+					pnlProcessOverView = new JPanel();
+					BoxLayout pnlProcessOverViewLayout = new BoxLayout(pnlProcessOverView, BoxLayout.Y_AXIS);
+					pnlProcessOverView.setLayout(pnlProcessOverViewLayout);
+					pnlEast.add(pnlProcessOverView);
 				}
 				{
 					btnSendToNextProcess = new JButton();
@@ -372,7 +368,7 @@ public class MainFrame extends JFrame {
 			pnlProcessOverView.removeAll();
 			processPanels.clear();
 			pnlProcessOverView.updateUI();
-
+			
 			for (Process process : intermediateProduct.getProductType().getProcessLine().getProcesses()) {
 				ProcessPanel processPanel = new ProcessPanel(intermediateProduct, process);
 				processPanel.addMouseListener(controller);

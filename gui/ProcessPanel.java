@@ -31,7 +31,7 @@ public class ProcessPanel extends JPanel {
 		this.setLayout(null);	
 		this.setOpaque(true);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		this.setSize(150,25);
+		this.setPreferredSize(new Dimension(160,30));
 		this.setAlignmentX(LEFT_ALIGNMENT);
 
 		if (process.getClass().equals(Drying.class)) {
@@ -69,11 +69,13 @@ public class ProcessPanel extends JPanel {
 			cbxComplete = new JCheckBox();
 			this.add(cbxComplete);	
 			cbxComplete.setEnabled(false);
+			cbxComplete.setBounds(2,2,25,26);
 		}
 		{
 			lblName = new JLabel();
 			this.add(lblName);
 			lblName.setText(process.toString());
+			lblName.setBounds(28,2,150,26);
 		}
 	
 
