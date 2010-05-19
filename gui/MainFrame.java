@@ -57,44 +57,34 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
-
+	//MENU
 	private JMenuBar mnbBar;
+	private JMenu mnuView, mnuCreate;
+	private JMenuItem mitCreateProductType, mitCreateIntermediateProduct, mitViewDepot;
+	private ArrayList<JMenuItem> mitDepots = new ArrayList<JMenuItem>();
+	// WEST
 	private JPanel pnlWest;
 	private JLabel lblIntermediateProduct;
 	private JTextField txfSearch;
 	private JScrollPane scpIntermediateProducts;
-	private JMenu mnuView;
-	private JMenu mnuCreate;
 	private JList lstIntermediateProducts;
 	private JButton btnCreateIntermediateProduct;
-	private JMenuItem mnuViewDepot;
-	private JButton btnSendToNextProcess;
-	private JButton btnDeleteIntermediateProduct;
-
+	//CENTER
+	private JPanel pnlCenter;
+	private JPanel pnlSelectedDepot;
+	private JLabel lblSelectedDepot;
 	private JPanel pnlIntermediateProductMap;
-	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
 	private GridLayout lytIntermediateProductMap = new GridLayout();
-
-	private JPanel pnlInformation;
-
-	private JScrollPane scpProcesses;
+	private ArrayList<IntermediateProductPanel> intermediateProductPanels = new ArrayList<IntermediateProductPanel>();
+	//EAST
+	private JPanel pnlEast;
+	private JLabel lblInformation;
+	private JLabel lblID, lblQuantity, lblProductType, lblDepot, lblCoordinates;
+	private JTextField txfID, txfQuantity, txfProductType, txfDepot, txfCoordinates;
 	private JPanel pnlProcessOverView;
 	private ArrayList<ProcessPanel> processPanels = new ArrayList<ProcessPanel>();
-	private JMenuItem mitCreateIntermediateProduct;
-	private JMenuItem mitCreateProductType;
-	private JTextField txfProductType;
-	private JTextField txfCoordinates;
-	private JLabel lblCoordinates;
-	private JTextField txfDepot;
-	private JLabel lblDepot;
-	private JLabel lblProductType;
-	private JTextField txfQuantity;
-	private JLabel lblQuantity;
-	private JTextField txfID;
-	private JLabel lblID;
-	private JLabel lblInformation;
-	private JPanel pnlEast;
-	private ArrayList<JMenuItem> mitDepots = new ArrayList<JMenuItem>();
+	private JButton btnSendToNextProcess, btnDeleteIntermediateProduct;
+
 	private IntermediateProductPanel selectedIntermediateProductPanel = null;
 	private CreateProductTypeFrame createProductTypeFrame;
 	private CreateIntermediateProductFrame createIntermediateProduct;
@@ -103,7 +93,7 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 		this.addWindowListener(controller);
-		this.setTitle("Carletti v0.7");
+		this.setTitle("Carletti v1.1");
 		BorderLayout thisLayout = new BorderLayout();
 		getContentPane().setLayout(thisLayout);
 		this.setResizable(true);
@@ -245,13 +235,29 @@ public class MainFrame extends JFrame {
 			}
 		}
 		{
-			pnlIntermediateProductMap = new JPanel();
-			getContentPane().add(pnlIntermediateProductMap, BorderLayout.CENTER);
-			lytIntermediateProductMap.setHgap(5);
-			lytIntermediateProductMap.setVgap(5);
-			pnlIntermediateProductMap.setLayout(lytIntermediateProductMap);
-			pnlIntermediateProductMap.setBorder(BorderFactory.createEtchedBorder());
-			pnlIntermediateProductMap.setPreferredSize(new java.awt.Dimension(452, 539));
+			pnlCenter = new JPanel();
+			getContentPane().add(pnlCenter, BorderLayout.CENTER);
+			pnlCenter.setLayout(new BorderLayout());
+			{
+				pnlSelectedDepot = new JPanel();
+				pnlCenter.add(pnlSelectedDepot, BorderLayout.NORTH);
+				pnlSelectedDepot.setLayout(new FlowLayout());
+				{
+					lblSelectedDepot = new JLabel();
+					pnlSelectedDepot.add(lblSelectedDepot, BorderLayout.NORTH);
+					lblSelectedDepot.setPreferredSize(new Dimension(100,25));
+					lblSelectedDepot.setFont(lblSelectedDepot.getFont().deriveFont(lblSelectedDepot.getFont().getStyle() ^ Font.BOLD));
+
+				}
+			}
+			{
+				pnlIntermediateProductMap = new JPanel();
+				pnlCenter.add(pnlIntermediateProductMap, BorderLayout.CENTER);
+				lytIntermediateProductMap.setHgap(4);
+				lytIntermediateProductMap.setVgap(4);
+				pnlIntermediateProductMap.setLayout(lytIntermediateProductMap);
+				pnlIntermediateProductMap.setBorder(BorderFactory.createEtchedBorder());
+			}
 		}
 		{
 			mnbBar = new JMenuBar();
@@ -278,9 +284,9 @@ public class MainFrame extends JFrame {
 				mnbBar.add(mnuView);
 				mnuView.setText("Vis");
 				{
-					mnuViewDepot = new JMenu();
-					mnuView.add(mnuViewDepot);
-					mnuViewDepot.setText("Vis lager");
+					mitViewDepot = new JMenu();
+					mnuView.add(mitViewDepot);
+					mitViewDepot.setText("Vis lager");
 					{
 						fillChooseDepotMenu();
 
@@ -295,15 +301,15 @@ public class MainFrame extends JFrame {
 
 	}
 	public void fillChooseDepotMenu() {
-		mnuViewDepot.removeAll();
+		mitViewDepot.removeAll();
 		mitDepots.clear();
-		mnuViewDepot.updateUI();
+		mitViewDepot.updateUI();
 		for (Depot depot : Service.getService().getAllDepots()) {
 			JMenuItem mitDepot = new JMenuItem();
 			mitDepot.setText(depot.getName());
 			mitDepot.addActionListener(controller);
 			mitDepots.add(mitDepot);
-			mnuViewDepot.add(mitDepot);
+			mitViewDepot.add(mitDepot);
 		}
 		if(mitDepots.size()>0) {
 			updateDepotMap(Service.getService().getAllDepots().get(0));
@@ -312,6 +318,7 @@ public class MainFrame extends JFrame {
 	}
 	// Denne metode kræver at arraylisten med StoringSpaces i depot er efter læse systemet
 	public void updateDepotMap(Depot depot) {
+		lblSelectedDepot.setText(depot.getName());
 		pnlIntermediateProductMap.removeAll();
 		intermediateProductPanels.clear();
 		pnlIntermediateProductMap.updateUI();
@@ -368,7 +375,7 @@ public class MainFrame extends JFrame {
 			pnlProcessOverView.removeAll();
 			processPanels.clear();
 			pnlProcessOverView.updateUI();
-			
+
 			for (Process process : intermediateProduct.getProductType().getProcessLine().getProcesses()) {
 				ProcessPanel processPanel = new ProcessPanel(intermediateProduct, process);
 				processPanel.addMouseListener(controller);
