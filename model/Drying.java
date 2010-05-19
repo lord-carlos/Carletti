@@ -34,6 +34,8 @@ public class Drying extends model.Process {
 	public void setIdealTime(long idealTime) throws RuntimeException{
 		if (idealTime<=0){
 			throw new RuntimeException("idealTime can't be a negative number");
+		} else if(idealTime <= minTime){
+			throw new RuntimeException("idealTime can't be less then minTime");
 		} else {
 			this.idealTime=idealTime;
 		}
@@ -46,6 +48,8 @@ public class Drying extends model.Process {
 	public void setMaxTime(long maxTime) throws RuntimeException{
 		if (maxTime<=0){
 			throw new RuntimeException("maxTime can't be a negative number");
+		} else if(maxTime <= idealTime){
+			throw new RuntimeException("maxTime can't be less then idealTime");
 		} else {
 			this.maxTime=maxTime;
 		}
