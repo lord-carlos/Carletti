@@ -2,6 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+/** 
+ * @author M. C. Høj
+ */
+
 public abstract class Process {
 	private int ProcessStep;
 	private ProcessLine processLine;

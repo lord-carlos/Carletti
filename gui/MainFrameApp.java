@@ -2,6 +2,10 @@ package gui;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
+/** 
+ * @author Brian, Carl
+ */
+
 public class MainFrameApp {
 
 	public static void main(String[] args) {

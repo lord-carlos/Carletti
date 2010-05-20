@@ -14,6 +14,7 @@ import com.db4o.config.EmbeddedConfiguration;
 /**
  * @author Brian
  */
+
 public class DaoDb4o implements Dao {
 
 	private ObjectContainer db;

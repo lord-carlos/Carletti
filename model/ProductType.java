@@ -14,6 +14,11 @@ import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
+/** 
+ * @author M. C. Høj
+ */
+
+
 public class ProductType {
     private String name;
     private ProcessLine processLine = null;
@@ -52,7 +57,7 @@ public class ProductType {
         return this.intermediateProducts;
     }
     
-    public void setPicture(ImageIcon picture) {
+    public void setPicture(ImageIcon picture) throws IOException {
     	
     	int resizeWidth = picture.getIconWidth();
     	int resizeHeight = picture.getIconHeight();
@@ -70,9 +75,6 @@ public class ProductType {
     	try {
 			encoder.encode(bi);
 		} catch (ImageFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

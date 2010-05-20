@@ -15,6 +15,10 @@ import javax.swing.JTextField;
 import model.ProcessLine;
 import model.SubProcess;
 
+/** 
+ * @author M. C. Høj
+ */
+
 public class CreateSubProcess extends JDialog {
 
 	private static final long serialVersionUID = 1L;

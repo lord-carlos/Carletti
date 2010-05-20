@@ -2,6 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+/** 
+ * @author M. C. Høj
+ */
+
 public class StoringSpace {
 	private int positionX;
 	private int positionY;

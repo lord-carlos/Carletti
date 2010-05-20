@@ -14,6 +14,10 @@ import javax.swing.JProgressBar;
 import model.Drying;
 import model.StoringSpace;
 
+/** 
+ * @author Brian
+ */
+
 public class IntermediateProductPanel extends JPanel{
 	private JPanel panel;
 	private JProgressBar progressBar;

@@ -17,6 +17,10 @@ import model.ProcessLine;
 
 import service.Service;
 
+/** 
+ * @author M. C. Høj
+ */
+
 public class CreateDrying extends JDialog {
 
 	private static final long serialVersionUID = 1L;

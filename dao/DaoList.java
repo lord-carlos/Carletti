@@ -13,6 +13,9 @@ import model.ProductType;
 import model.StoringSpace;
 import model.SubProcess;
 
+/** 
+ * @author Brian
+ */
 
 public class DaoList implements Dao {
 	private List<Depot> depots;

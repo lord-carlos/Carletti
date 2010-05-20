@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 @SuppressWarnings("serial")
 /**
  * vores jdialog som gemmer og loader filer
+ * @author M. C. Høj
  */
 public class EditorFileHandler extends JFileChooser{
 

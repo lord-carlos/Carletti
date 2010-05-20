@@ -2,6 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+/** 
+ * @author Carl
+ */
+
 public class Depot {
 	private String name;
 	private String description;

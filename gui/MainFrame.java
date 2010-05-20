@@ -45,11 +45,12 @@ import model.StoringSpace;
 import service.Service;
 import sun.awt.WindowClosingListener;
 
+/** 
+ * @author Carl, Brian
+ */
+
 public class MainFrame extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1752000392799508369L;
 	{
 		//Set Look & Feel

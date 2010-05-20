@@ -17,6 +17,10 @@ import dao.Dao;
 import dao.DaoDb4o;
 import dao.DaoList;
 
+/** 
+ * @author Brian, M. C. Høj
+ */
+
 public class Service {
 	private static Service service = null;
 	private Dao dao = null;

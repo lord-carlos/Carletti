@@ -2,6 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+/** 
+ * @author M. C. Høj
+ */
+
 public class IntermediateProduct {
 	private boolean finished = false;
 	private boolean discarded = false;

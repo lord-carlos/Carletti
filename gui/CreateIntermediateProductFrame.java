@@ -19,6 +19,9 @@ import model.IntermediateProduct;
 import model.ProductType;
 import service.Service;
 
+/** 
+ * @author M. C. Høj
+ */
 
 public class CreateIntermediateProductFrame extends JDialog {
 

@@ -2,6 +2,10 @@ package model;
 
 import java.sql.Date;
 
+/** 
+ * @author M. C. Høj
+ */
+
 public class ProcessLog{
 	private long startTime=0;
 	private long endTime=0;

@@ -11,6 +11,9 @@ import model.Drying;
 import model.IntermediateProduct;
 import model.ProcessLog;
 
+/** 
+ * @author M. C. Høj
+ */
 
 public class UpdateTimer extends java.util.Timer {
 

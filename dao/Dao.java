@@ -12,6 +12,10 @@ import model.ProductType;
 import model.StoringSpace;
 import model.SubProcess;
 
+/** 
+ * @author Brian
+ */
+
 public interface Dao {	
 	//Depot
 	public List<Depot> getAllDepots();

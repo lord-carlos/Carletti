@@ -2,6 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+/** 
+ * @author Carl
+ */
+
 public class Drying extends model.Process {
 	private long minTime;
 	private long idealTime;

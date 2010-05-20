@@ -1,5 +1,9 @@
 package model;
 
+/** 
+ * @author M. C. Høj
+ */
+
 public class SubProcess extends model.Process {
 	private String name;
 	private String description;

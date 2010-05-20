@@ -16,6 +16,10 @@ import model.IntermediateProduct;
 import model.Process;
 import model.ProcessLog;
 
+/** 
+ * @author Brian
+ */
+
 public class ProcessPanel extends JPanel {
 	private JLabel lblName;
 	private JCheckBox cbxComplete;

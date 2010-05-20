@@ -2,6 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+/** 
+ * @author M. C. Høj
+ */
+
 public class ProcessLine {
 	private String name;
 	private String description;

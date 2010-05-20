@@ -23,6 +23,10 @@ import model.Process;
 import model.ProcessLine;
 import model.ProductType;
 
+/** 
+ * @author M. C. Høj
+ */
+
 public class CreateProductTypeFrame extends JDialog {
 
 	private static final long serialVersionUID = 1L;

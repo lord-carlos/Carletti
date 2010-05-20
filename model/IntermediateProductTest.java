@@ -5,6 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/** 
+ * @author M. C. Høj
+ */
+
 public class IntermediateProductTest {
 
 	private ProductType pT;
