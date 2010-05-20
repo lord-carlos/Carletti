@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -125,6 +126,7 @@ public class MainFrame extends JFrame {
 					{
 						ListModel lstIntermediateProductsModel = new DefaultListModel();
 						lstIntermediateProducts = new JList();
+						lstIntermediateProducts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 						scpIntermediateProducts.setViewportView(lstIntermediateProducts);
 						lstIntermediateProducts.setModel(lstIntermediateProductsModel);
 						lstIntermediateProducts.addListSelectionListener(controller);
