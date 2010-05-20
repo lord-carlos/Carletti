@@ -20,17 +20,22 @@ import dao.DaoList;
 public class Service {
 	private static Service service = null;
 	private Dao dao = null;
-
+public static final int listDao = 0;
+public static final int DB4oDao = 1;
 	private Service() {
 
-		dao = DaoList.getDao();
-		createTestListData();
-
-//		boolean isCreated = new File("db.db4o").exists();
-//		dao = DaoDb4o.getDao();
-//		if (!isCreated) {
-//			createTestListData();
-//		}
+		int daoType = listDao;
+		
+		if(daoType==DB4oDao){
+			boolean isCreated = new File("db.db4o").exists();
+			dao = DaoDb4o.getDao();
+			if (!isCreated) {
+				createTestDB40Data();
+			}
+		} else if (daoType==listDao){
+			dao = DaoList.getDao();
+			createTestListData();
+		}
 
 	}
 

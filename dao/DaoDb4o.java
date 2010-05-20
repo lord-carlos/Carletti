@@ -3,8 +3,9 @@ package dao;
 
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import model.*;
-import model.Process;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
@@ -14,7 +15,7 @@ import com.db4o.config.EmbeddedConfiguration;
  * @author Brian
  */
 public class DaoDb4o implements Dao {
-	
+
 	private ObjectContainer db;
 	private static DaoDb4o dao = null;
 
@@ -22,11 +23,10 @@ public class DaoDb4o implements Dao {
 		EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
 		configuration.common().activationDepth(6);
 		configuration.common().updateDepth(6);
-	
 		db = Db4oEmbedded.openFile(configuration,"db.db4o");
-		
+
 	}
-	
+
 	public static Dao getDao(){
 		if (dao == null)
 			dao = new DaoDb4o();
@@ -47,7 +47,7 @@ public class DaoDb4o implements Dao {
 		db.delete(depot);
 		db.commit();
 	}
-	
+
 	//IntermediateProduct
 	public List<IntermediateProduct> getAllIntermediateProducts() {
 		return db.query(IntermediateProduct.class);
@@ -62,7 +62,7 @@ public class DaoDb4o implements Dao {
 		db.delete(intermediateProduct);
 		db.commit();
 	}
-	
+
 	//ProductType
 	public List<ProductType> getAllProductTypes() {
 		return db.query(ProductType.class);
@@ -78,7 +78,7 @@ public class DaoDb4o implements Dao {
 		db.commit();
 	}
 
-	
+
 	public void close(){
 		db.close();
 	}
