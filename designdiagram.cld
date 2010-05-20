@@ -1751,7 +1751,7 @@
                                 <net.java.amateras.uml.classdiagram.model.AttributeModel>
                                   <visibility class="net.java.amateras.uml.classdiagram.model.Visibility-2" reference="../../../sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.CompositeModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/children/net.java.amateras.uml.classdiagram.model.AttributeModel/visibility"/>
                                   <name>startTime</name>
-                                  <type>Date</type>
+                                  <type>long</type>
                                   <isStatic>false</isStatic>
                                   <backgroundColor reference="../../../sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.CompositeModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/children/net.java.amateras.uml.classdiagram.model.AttributeModel/backgroundColor"/>
                                   <foregroundColor reference="../../../sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.CompositeModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/children/net.java.amateras.uml.classdiagram.model.AttributeModel/foregroundColor"/>
@@ -1770,7 +1770,7 @@
                                 <net.java.amateras.uml.classdiagram.model.AttributeModel>
                                   <visibility class="net.java.amateras.uml.classdiagram.model.Visibility-2" reference="../../../sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.CompositeModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/children/net.java.amateras.uml.classdiagram.model.AttributeModel/visibility"/>
                                   <name>endTime</name>
-                                  <type>Date</type>
+                                  <type>long</type>
                                   <isStatic>false</isStatic>
                                   <backgroundColor reference="../../../sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.CompositeModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/children/net.java.amateras.uml.classdiagram.model.AttributeModel/backgroundColor"/>
                                   <foregroundColor reference="../../../sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.CompositeModel/target/sourceConnections/net.java.amateras.uml.classdiagram.model.AssociationModel/target/children/net.java.amateras.uml.classdiagram.model.AttributeModel/foregroundColor"/>
