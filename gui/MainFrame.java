@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -134,7 +135,8 @@ public class MainFrame extends JFrame {
 					btnCreateIntermediateProduct.setText("Opret Mellemvare");
 					btnCreateIntermediateProduct.setPreferredSize(new Dimension(160,25));
 					btnCreateIntermediateProduct.addActionListener(controller);
-					pnlWest.add(btnCreateIntermediateProduct);		
+					pnlWest.add(btnCreateIntermediateProduct);	
+					btnCreateIntermediateProduct.setMnemonic(KeyEvent.VK_M);
 				}
 
 			}
@@ -224,6 +226,7 @@ public class MainFrame extends JFrame {
 					btnSendToNextProcess.setText("Viderebehandle");
 					btnSendToNextProcess.setPreferredSize(new Dimension(160,25));
 					btnSendToNextProcess.addActionListener(controller);
+					btnSendToNextProcess.setMnemonic(KeyEvent.VK_I);
 				}
 				{
 					btnDeleteIntermediateProduct = new JButton();
@@ -231,6 +234,7 @@ public class MainFrame extends JFrame {
 					btnDeleteIntermediateProduct.setText("Kassere mellemvare");
 					btnDeleteIntermediateProduct.setPreferredSize(new Dimension(160,25));
 					btnDeleteIntermediateProduct.addActionListener(controller);
+					btnDeleteIntermediateProduct.setMnemonic(KeyEvent.VK_K);
 				}
 			}
 		}
@@ -266,6 +270,7 @@ public class MainFrame extends JFrame {
 				mnuCreate = new JMenu();
 				mnbBar.add(mnuCreate);
 				mnuCreate.setText("Opret");
+				mnuCreate.setMnemonic(KeyEvent.VK_O);
 				{
 					mitCreateProductType = new JMenuItem();
 					mnuCreate.add(mitCreateProductType);
@@ -283,6 +288,7 @@ public class MainFrame extends JFrame {
 				mnuView = new JMenu();
 				mnbBar.add(mnuView);
 				mnuView.setText("Vis");
+				mnuView.setMnemonic(KeyEvent.VK_V);
 				{
 					mitViewDepot = new JMenu();
 					mnuView.add(mitViewDepot);
