@@ -1,10 +1,5 @@
 package model;
 
-import java.awt.Graphics2D;
-import java.awt.Panel;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.Icon;
@@ -19,10 +14,10 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
  */
 
 
-public class ProductType {
+ublic class ProductType {
     private String name;
     private ProcessLine processLine = null;
-    private byte[] binaryPicture = null;
+    private ImageIcon picture = null;
     private ArrayList<IntermediateProduct> intermediateProducts  = new ArrayList<IntermediateProduct>();
 
     public ProductType(String name){
@@ -42,7 +37,7 @@ public class ProductType {
     }
     
     public ImageIcon getPicture() {
-		return new ImageIcon(binaryPicture);
+		return picture;
 	}
 
     /**
@@ -57,28 +52,8 @@ public class ProductType {
         return this.intermediateProducts;
     }
     
-    public void setPicture(ImageIcon picture) throws IOException {
-    	
-    	int resizeWidth = picture.getIconWidth();
-    	int resizeHeight = picture.getIconHeight();
-    	
-    	
-    	ByteArrayOutputStream buffered = new ByteArrayOutputStream();
-    	
-    	BufferedImage bi = new BufferedImage(resizeWidth, resizeHeight, BufferedImage.TYPE_INT_RGB);
-    	
-    	Panel p = new Panel();
-    	Graphics2D big = bi.createGraphics();
-    	big.drawImage(picture.getImage(), 0, 0, p);
-    	
-    	JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(buffered);
-    	try {
-			encoder.encode(bi);
-		} catch (ImageFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	this.binaryPicture = buffered.toByteArray();
+    public void setPicture(ImageIcon picture) {
+		this.picture = picture;
 	}
 
     public void addIntermediateProduct(IntermediateProduct intermediateProduct){

@@ -582,7 +582,6 @@ public class MainFrame extends JFrame {
 		}
 		@Override
 		public void windowClosing(WindowEvent e) {
-			updateTimer.cancel();
 			service.Service.getService().closeDao();
 			System.exit(0);
 		}
