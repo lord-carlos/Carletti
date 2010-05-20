@@ -1,0 +1,109 @@
+\documentclass[a4paper,danish,10pt,onepage]{scrreprt}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\setcounter{secnumdepth}{0}
+\usepackage[T1]{fontenc}
+\usepackage[top = 3 cm, left = 2 cm, right = 2 cm]{geometry}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\fancyhf{}
+\fancyhead[L]{Brian Fr\o lund\\ Carl-M Höfer \\ Morten Carl H\o j}
+\fancyhead[R]{F\o rste \AA rs Pr\o ve\\ Gruppe X \\Projekt Carletti}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{1 pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\headheight=41pt
+\topmargin=-30pt
+\textheight=680pt
+\parindent=5pt
+\pagestyle{fancy}
+\renewcommand\floatpagefraction{.9}
+\renewcommand\topfraction{.9}
+\renewcommand\bottomfraction{.9}
+\renewcommand\textfraction{.1}   
+\setcounter{totalnumber}{50}
+\setcounter{topnumber}{50}
+\setcounter{bottomnumber}{50}
+
+% ---------------------- COLOR -------------------- %
+\usepackage{color}
+\definecolor{darkgray}{rgb}{0.3,0.3,0.3}
+\definecolor{middlegray}{rgb}{0.5,0.5,0.5}
+\definecolor{lightgray}{rgb}{0.7,0.7,0.7}
+\definecolor{green}{rgb}{0.1,0.6,0.2}
+
+% ------------------- LISTINGS -------------------- %
+\usepackage{listings}
+% ---------------  BEGIN WORKAROUND --------------- %
+% for lstlistoflistings 
+% see: http://www.komascript.de/node/477
+\makeatletter% --> De-TeX-FAQ
+\renewcommand*{\lstlistoflistings}{%
+  \begingroup
+  \if@twocolumn
+  \@restonecoltrue\onecolumn
+  \else
+  \@restonecolfalse
+  \fi
+  \lol@heading
+  \setlength{\parskip}{\z@}%
+  \setlength{\parindent}{\z@}%
+  \setlength{\parfillskip}{\z@ \@plus 1fil}%
+  \@starttoc{lol}%
+  \if@restonecol\twocolumn\fi
+  \endgroup
+}
+\makeatother% --> \makeatletter
+% ----------------  END WORKAROUND ----------------- %
+% ---------------  LISTINGS VALUES ----------------- %
+\lstset{
+  language=Java,
+  numbers=left, 
+  numberstyle=\tiny,
+  breaklines=true,
+  numberblanklines=true,		  
+  frame=tlrb,
+  showtabs=false,
+  %showspace=false,
+  showstringspaces=false,
+  %backgroundcolor=\color{yellow},
+  basicstyle=\sffamily\fontsize{7}{8}\selectfont,
+  identifierstyle=\color{green}, 
+  stringstyle=\color{blue},
+  commentstyle=\color{middlegray},
+  keywordstyle=\color{black}\bfseries,                  
+  emphstyle=\color{green},
+ % caption={BasicHeaderImpl.java},
+  captionpos=t
+}
+
+% page margings etc.
+\usepackage{geometry}
+\geometry{verbose,textwidth=17cm, outer=2cm}
+
+% opening
+\title{Code-Review}
+\author{Brian Fr\o lund\\ Carl-M Höfer \\ Morten Carl H\o j}
+
+\begin{document}
+  \maketitle
+  \tableofcontents
+
+  \chapter{dao.*}
+  \input{dao/listings.tex}
+
+  \chapter{gui.*}
+  \input{gui/listings.tex}
+
+  \chapter{model.*}
+  \input{model/listings.tex}
+
+  \chapter{service.*}
+  \input{service/listings.tex}
+
+  %\addcontentsline{toc}{chapter}{Listings}
+  %\lstlistoflistings
+
+\end{document}
