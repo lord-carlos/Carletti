@@ -33,7 +33,7 @@ public class Service {
 //		boolean isCreated = new File("db.db4o").exists();
 //		dao = DaoDb4o.getDao();
 //		if (!isCreated) {
-//			createTestListData();
+//			createTestDB40Data();
 //		}
 
 	}
