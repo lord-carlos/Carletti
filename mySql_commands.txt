@@ -81,3 +81,9 @@ CREATE TABLE `carletti`.`SubProcess` (
 `treatmentTime` BIGINT NOT NULL,
 `temperature` DOUBLE NOT NULL
 ) ENGINE = INNODB;
+
+#opretter ProcessLog
+CREATE TABLE `carletti`.`ProcessLog` (
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`startTime` BIGINT NOT NULL,
+`endTime` BIGINT NOT NULL,
