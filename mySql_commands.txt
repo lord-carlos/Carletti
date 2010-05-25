@@ -46,25 +46,24 @@ PRIMARY KEY ( `name` )
 
 #opretter StoringSpace
 CREATE TABLE `carletti`.`StoringSpace` (
-`id` INT NOT NULL,
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `positionX` INT NOT NULL,
 `positionY` INT NOT NULL,
 `intermediateProduct` VARCHAR( 255 ) NOT NULL, #TODO tjek med en trigger
 `depot` VARCHAR( 255 ) NOT NULL,
 INDEX `depotIndex` (depot),
 FOREIGN KEY ( `depot` ) REFERENCES Depot(name)
-  ON DELETE CASCADE,
-PRIMARY KEY ( `id` )
+  ON DELETE CASCADE
 ) ENGINE = INNODB;
 
 #opretter Process
-CREATE TABLE `carletti`.`ProcessStep` (
+CREATE TABLE `carletti`.`Process` (
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `processStep` INT NOT NULL,
 `processLine` VARCHAR( 255 ) NOT NULL,
 INDEX `processLineIndex` (processLine),
 FOREIGN KEY (processLine) REFERENCES ProcessLine(name)
-  ON DELETE CASCADE,
-PRIMARY KEY ( `processStep` )
+  ON DELETE CASCADE
 ) ENGINE = INNODB;
 
 
