@@ -1,0 +1,70 @@
+#opretter databasen
+CREATE DATABASE  `carletti` ;
+
+#opretter Depot
+CREATE TABLE  `carletti`.`Depot` (
+`name` VARCHAR( 255 ) NOT NULL ,
+`description` TEXT NOT NULL ,
+`maxX` INT NOT NULL ,
+`maxY` INT NOT NULL ,
+PRIMARY KEY (  `name` )
+) ENGINE = INNODB;
+
+#opretter ProductType
+CREATE TABLE  `carletti`.`ProductType` (
+`name` VARCHAR( 255 ) NOT NULL , #TODO tjek med en trigger
+`processLine` VARCHAR ( 255 ) NOT NULL ,
+`picture` TEXT NOT NULL ,
+PRIMARY KEY (  `name` )
+) ENGINE = INNODB;
+
+#opretter IntermediateProduct
+CREATE TABLE `carletti`.`IntermediateProduct` (
+`id` VARCHAR( 255 ) NOT NULL ,
+PRIMARY KEY ( `id` ),
+`finished` TINYINT NOT NULL DEFAULT  '0',
+`discarded` TINYINT NOT NULL DEFAULT  '0',
+`quantity` DOUBLE NOT NULL,
+`productType` VARCHAR( 255 ) NOT NULL,
+INDEX `productTypeIndex` (productType),
+FOREIGN KEY (productType) REFERENCES ProductType(name)
+  ON DELETE CASCADE
+,
+`storingSpaceId` INT NOT NULL
+#TODO tjek med en trigger om det er lovligt
+) ENGINE = INNODB;
+
+
+#opretter ProcessLine
+CREATE TABLE `carletti`.`ProcessLine` (
+`name` VARCHAR( 255 ) NOT NULL ,
+`description` TEXT NOT NULL ,
+`productType` VARCHAR( 255 ) NOT NULL , #TODO tjek med en trigger
+PRIMARY KEY ( `name` )
+) ENGINE = INNODB;
+
+
+#opretter StoringSpace
+CREATE TABLE `carletti`.`StoringSpace` (
+`id` INT NOT NULL,
+`positionX` INT NOT NULL,
+`positionY` INT NOT NULL,
+`intermediateProduct` VARCHAR( 255 ) NOT NULL, #TODO tjek med en trigger
+`depot` VARCHAR( 255 ) NOT NULL,
+INDEX `depotIndex` (depot),
+FOREIGN KEY ( `depot` ) REFERENCES Depot(name)
+  ON DELETE CASCADE,
+PRIMARY KEY ( `id` )
+) ENGINE = INNODB;
+
+#opretter Process
+CREATE TABLE `carletti`.`ProcessStep` (
+`processStep` INT NOT NULL,
+`processLine` VARCHAR( 255 ) NOT NULL,
+INDEX `processLineIndex` (processLine),
+FOREIGN KEY (processLine) REFERENCES ProcessLine(name)
+  ON DELETE CASCADE,
+PRIMARY KEY ( `processStep` )
+) ENGINE = INNODB;
+
+
