@@ -59,6 +59,7 @@ FOREIGN KEY ( `depot` ) REFERENCES Depot(name)
 #opretter Process
 CREATE TABLE `carletti`.`Process` (
 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`pikachu` VARCHAR ( 255 ) NOT NULL,
 `processStep` INT NOT NULL,
 `processLine` VARCHAR( 255 ) NOT NULL,
 INDEX `processLineIndex` (processLine),
@@ -69,6 +70,10 @@ FOREIGN KEY (processLine) REFERENCES ProcessLine(name)
 
 #opretter Drying
 CREATE TABLE `carletti`.`Drying` (
+`id` INT NOT NULL PRIMARY KEY,
+INDEX `idIndex` (id),
+FOREIGN KEY (id) REFERENCES Process(id)
+  ON DELETE CASCADE,
 `minTime` BIGINT NOT NULL,
 `idealTime` BIGINT NOT NULL,
 `maxTime` BIGINT NOT NULL
@@ -76,6 +81,9 @@ CREATE TABLE `carletti`.`Drying` (
   
 #opretter SubProcess
 CREATE TABLE `carletti`.`SubProcess` (
+INDEX `idIndex` (id),
+FOREIGN KEY (id) REFERENCES Process(id)
+  ON DELETE CASCADE,
 `name` VARCHAR ( 255 ) NOT NULL,
 `description` TEXT NOT NULL,
 `treatmentTime` BIGINT NOT NULL,
