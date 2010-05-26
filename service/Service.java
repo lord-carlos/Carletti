@@ -16,6 +16,7 @@ import model.Process;
 import dao.Dao;
 import dao.DaoDb4o;
 import dao.DaoList;
+import dao.DaoMySql;
 
 /** 
  * @author Brian, M. C. Høj
@@ -27,14 +28,17 @@ public class Service {
 
 	private Service() {
 
-		dao = DaoList.getDao();
-		createTestListData();
+//		dao = DaoList.getDao();
+//		createTestListData();
 
 //		boolean isCreated = new File("db.db4o").exists();
 //		dao = DaoDb4o.getDao();
 //		if (!isCreated) {
 //			createTestDB40Data();
 //		}
+		
+		dao = DaoMySql.getDao();
+		createTestListData();	
 
 	}
 

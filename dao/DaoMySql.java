@@ -2,8 +2,10 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Depot;
@@ -76,14 +78,38 @@ public class DaoMySql implements Dao{
 
 	@Override
 	public List<Depot> getAllDepots() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Depot> depots = new ArrayList<Depot>();
+		try {
+			Statement statement = getConnection().createStatement();
+			ResultSet resDepots = statement.executeQuery("SELECT * FROM getdepots");
+			if(resDepots.next()) {
+				depots.add(new Depot(resDepots.getString("name"), resDepots.getString("description"), resDepots.getInt("maxx"), resDepots.getInt("maxy")));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return depots;
 	}
 
 	@Override
 	public List<IntermediateProduct> getAllIntermediateProducts() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<IntermediateProduct> intermediateProducts = new ArrayList<IntermediateProduct>();
+		try {
+			Statement statement = getConnection().createStatement();
+			ResultSet resIntermediateProducts = statement.executeQuery("SELECT * FROM getintermediateproducts");
+			if(resIntermediateProducts.next()) {
+				
+				
+				//IntermediateProduct intermediateProduct = new IntermediateProduct(resIntermediateProducts.getString("id"));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return intermediateProducts;
 	}
 
 	@Override
