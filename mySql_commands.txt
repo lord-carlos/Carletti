@@ -81,6 +81,7 @@ FOREIGN KEY (id) REFERENCES Process(id)
   
 #opretter SubProcess
 CREATE TABLE `carletti`.`SubProcess` (
+`id` INT NOT NULL PRIMARY KEY,
 INDEX `idIndex` (id),
 FOREIGN KEY (id) REFERENCES Process(id)
   ON DELETE CASCADE,
