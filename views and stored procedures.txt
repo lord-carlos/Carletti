@@ -86,7 +86,7 @@ BEGIN
 END;
 
 CREATE PROCEDURE storeproducttype
-(typename VARCHAR(255), image TEXT, linename VARCHAR(255))
+(typename VARCHAR(255), image text, linename VARCHAR(255))
 BEGIN 
 	IF ((SELECT count(*) FROM producttype where name=typename)>0) THEN
 		UPDATE producttype set processline=linename,picture=image where name=typename;
@@ -96,7 +96,7 @@ BEGIN
 END;
 
 CREATE PROCEDURE storeprocessline
-(linename VARCHAR(255), descrip TEXT, typename VARCHAR(255))
+(linename VARCHAR(255), descrip text, typename VARCHAR(255))
 BEGIN 
 	IF ((SELECT count(*) FROM processline where name=linename)>0) THEN
 		UPDATE processline set producttype=typename,description=descrip where name=linename;
