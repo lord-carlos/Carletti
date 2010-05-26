@@ -73,7 +73,7 @@ CREATE TABLE `carletti`.`Drying` (
 `idealTime` BIGINT NOT NULL,
 `maxTime` BIGINT NOT NULL
 ) ENGINE = INNODB;
-
+  
 #opretter SubProcess
 CREATE TABLE `carletti`.`SubProcess` (
 `name` VARCHAR ( 255 ) NOT NULL,
@@ -87,3 +87,16 @@ CREATE TABLE `carletti`.`ProcessLog` (
 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `startTime` BIGINT NOT NULL,
 `endTime` BIGINT NOT NULL,
+`process` INT NOT NULL,
+`storingSpace`INT NOT NULL,
+`intermediateProduct` VARCHAR ( 255 ) NOT NULL,
+INDEX `processIndex` (process),
+INDEX `storingSpaceIndex` (storingSpace),
+INDEX `intermediateProductIndex` (intermediateProduct),
+FOREIGN KEY (process) REFERENCES Process(id)
+  ON DELETE CASCADE,
+FOREIGN KEY (storingSpace) REFERENCES StoringSpace(id)
+  ON DELETE CASCADE,
+FOREIGN KEY (intermediateProduct) REFERENCES IntermediateProduct(id)
+  ON DELETE CASCADE
+) ENGINE = INNODB;
