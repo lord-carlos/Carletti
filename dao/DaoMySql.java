@@ -95,7 +95,7 @@ public class DaoMySql implements Dao{
 			Statement statement = getConnection().createStatement();
 
 			statement.executeQuery("BEGIN TRANSACTION");
-			
+
 
 			statement.executeQuery("CALL storedepot("+depot.getName()+", "+depot.getDescription()+", "+depot.getMaxX()+", "+depot.getMaxY()+")");
 			for (StoringSpace storingSpace : depot.getStoringSpaces()) {
@@ -125,8 +125,21 @@ public class DaoMySql implements Dao{
 
 	@Override
 	public void store(ProductType productType) {
-		// TODO Auto-generated method stub
+		try {
+			Statement statement = getConnection().createStatement();
 
+			statement.executeQuery("BEGIN TRANSACTION");
+			
+
+			statement.executeQuery("CALL storeproducttypew("+productType.getName()+", "+depot.getDescription()+", "+depot.getMaxX()+", "+depot.getMaxY()+")");
+			for (StoringSpace storingSpace : depot.getStoringSpaces()) {
+				statement.executeQuery("CALL storestoringspace ("+depot.getName()+", "+storingSpace.getPositionX()+", "+storingSpace.getPositionY()+")");
+			}
+			statement.executeQuery("COMMIT");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

@@ -24,8 +24,8 @@ public interface Dao {
 		
 	//IntermediateProduct
 	public List<IntermediateProduct> getAllIntermediateProducts(); 
-	public void store(IntermediateProduct interMediateProduct);		
-	public void delete(IntermediateProduct interMediateProduct); 
+	public void store(IntermediateProduct intermediateProduct);		
+	public void delete(IntermediateProduct intermediateProduct); 
 		
 	//ProductType
 	public List<ProductType> getAllProductTypes(); 
