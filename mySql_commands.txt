@@ -67,3 +67,23 @@ FOREIGN KEY (processLine) REFERENCES ProcessLine(name)
 ) ENGINE = INNODB;
 
 
+#opretter Drying
+CREATE TABLE `carletti`.`Drying` (
+`minTime` BIGINT NOT NULL,
+`idealTime` BIGINT NOT NULL,
+`maxTime` BIGINT NOT NULL
+) ENGINE = INNODB;
+
+#opretter SubProcess
+CREATE TABLE `carletti`.`SubProcess` (
+`name` VARCHAR ( 255 ) NOT NULL,
+`description` TEXT NOT NULL,
+`treatmentTime` BIGINT NOT NULL,
+`temperature` DOUBLE NOT NULL
+) ENGINE = INNODB;
+
+#opretter ProcessLog
+CREATE TABLE `carletti`.`ProcessLog` (
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`startTime` BIGINT NOT NULL,
+`endTime` BIGINT NOT NULL,
