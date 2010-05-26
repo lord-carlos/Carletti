@@ -96,7 +96,7 @@ CREATE TABLE `carletti`.`ProcessLog` (
 `startTime` BIGINT NOT NULL,
 `endTime` BIGINT NOT NULL,
 `process` INT NOT NULL,
-`storingSpace`INT NOT NULL,
+`storingSpace`VARCHAR ( 255 ) NOT NULL,
 `intermediateProduct` VARCHAR ( 255 ) NOT NULL,
 INDEX `processIndex` (process),
 INDEX `storingSpaceIndex` (storingSpace),
