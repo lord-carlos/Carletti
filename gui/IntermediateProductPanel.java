@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 
 import javax.swing.JLabel;
@@ -58,7 +59,7 @@ public class IntermediateProductPanel extends JPanel{
 
 		if(storingSpace.getIntermediateProduct() != null) {
 			lblName.setText(storingSpace.getIntermediateProduct().getProductType().getName());
-			lblIcon.setIcon(storingSpace.getIntermediateProduct().getProductType().getPicture());
+			lblIcon.setIcon(new ImageIcon(storingSpace.getIntermediateProduct().getProductType().getPicture()));
 		}
 		else {
 			progressBar.setVisible(false);

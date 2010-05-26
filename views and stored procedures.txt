@@ -8,7 +8,23 @@ SELECT S.positionX, S.positionY, S.intermediateProduct, S.depot FROM storingspac
 
 CREATE VIEW getprocesses
 AS
-SELECT P.pikachu P.processtype P.processstep, P.processline, P.processtype, D.mintime, D.idealtime, D.maxtime, S.name, S.description, S.treatmenttime, S.temperature  FROM process P left join drying D on process.id=drying.id left join on process.id=subprocess.id
+SELECT P.pikachu, P.processstep, P.processline, P.processtype, D.mintime, D.idealtime, D.maxtime, S.name, S.description, S.treatmenttime, S.temperature  FROM process P left join drying D on P.id=D.id left join on P.id=S.id
+
+CREATE VIEW getintermediateproduct
+AS
+SELECT * FROM intermediateproduct
+
+CREATE VIEW getprocessline
+AS
+SELECT * FROM processline
+
+CREATE VIEW getproducttype
+AS
+SELECT * FROM producttype
+
+CREATE VIEW getprocesslog
+AS
+SELECT PLOG.starttime, PLOG.endtime, PLOG.storingspace, PLOG.intermediateproduct, P.processstep, P.processline FROM processlog PLOG left join process P on PLOG.process=P.id
 
 
 CREATE PROCEDURE storedepot 

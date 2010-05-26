@@ -273,11 +273,11 @@ public class CreateProductTypeFrame extends JDialog {
 				if (thisProductType.getPicture()==null){
 					File activeFile;
 
-					EditorFileHandler choosenfil = new EditorFileHandler(EditorFileHandler.LOAD_FUNCTION, new File(System.getProperty("user.dir")+"\\gui\\icons"));
-					if (choosenfil.getIsOkPressed()){
-						activeFile = choosenfil.getSelectedFile();
+					EditorFileHandler choosenFile = new EditorFileHandler(EditorFileHandler.LOAD_FUNCTION, new File(System.getProperty("user.dir")+"\\gui\\icons"));
+					if (choosenFile.getIsOkPressed()){
+						activeFile = choosenFile.getSelectedFile();
 
-						thisProductType.setPicture(new ImageIcon(activeFile.getPath()));
+						thisProductType.setPicture(activeFile.getPath());
 						btnPicture.setText("Fjern billede ("+activeFile.getPath()+")");
 					}
 				} else {
