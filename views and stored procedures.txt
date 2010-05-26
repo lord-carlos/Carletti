@@ -4,7 +4,7 @@ SELECT * FROM depot;
 
 CREATE VIEW getstoringspace
 AS
-SELECT S.positionX, S.positionY, S.intermediateProduct, S.depot FROM storingspace S order by id;
+SELECT S.positionX, S.positionY, S.id, S.depot FROM storingspace S;
 
 CREATE VIEW getprocesses
 AS
@@ -56,7 +56,7 @@ BEGIN
 	ELSE
 		INSERT INTO process(processstep,processline,pikachu) values (step,line,'d');
 		DECLARE identifikation INT(11);
-		SET identifikation = (SELECT p.id FROM process P where processline=line and processstep=step);
+		SELECT p.id FROM process P where processline=line and processstep=step INTO identifikation;
 		INSERT INTO drying (id,mintime,idealtime,maxtime) values (identifikation,minimum,ideal,maximum);
 	END IF;
 END;
@@ -69,7 +69,7 @@ BEGIN
 	ELSE
 		INSERT INTO process(processstep,processline,pikachu) values (step,line,'s');
 		DECLARE identifikation INT(11);
-		SET identifikation = (SELECT p.id FROM process P where processline=line and processstep=step);
+		SELECT p.id FROM process P where processline=line and processstep=step INTO identifikation;
 		INSERT INTO subprocess (id,name,description,temperature,treatmentTime) values (identifikation,thename,descrip,temp,time);
 	END IF;
 END;
@@ -106,10 +106,10 @@ BEGIN
 END;
 
 CREATE PROCEDURE storeprocesslog
-(startt BIGINT(255),endt BIGINT(255), product VARHCHAR(255), line VARHCHAR(255), step INT(11), space VARCHAR(255))
+(startt BIGINT(20),endt BIGINT(20), product VARCHAR(255), line VARCHAR(255), step INT(11), space VARCHAR(255))
 BEGIN 
-DECLARE theprocess INT(11)
-set theprocess= SELECT id FROM process where processline=line and preocessstep=step;
+DECLARE theprocess INT(11);
+SELECT id FROM process where processline=line and processstep=step INTO theprocess;
 	IF ((SELECT count(*) FROM processlog where intermediateproduct=product and starttime=startt)>0) THEN
 		UPDATE processlog set storingspace=space,process=theprocess,endtime=endt where intermediateproduct=product and starttime=startt;
 	ELSE 
