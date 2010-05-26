@@ -1,0 +1,63 @@
+CREATE PROCEDURE storedepot 
+(depotname VARCHAR(255), depotdescription TEXT, depotmaxx INT(11), depotmaxy INT(11))
+BEGIN
+	IF ((SELECT count(*) FROM depot where name=depotname)>0) THEN
+		UPDATE depot SET description=depotdescription, maxX=depotmaxx, maxY=depotmaxy where name = depotname;
+	ELSE
+		INSERT INTO depot(name,description,maxX,maxY) values(depotname, depotdescription, depotmaxx, depotmaxy);
+	END IF;
+
+END;
+
+CREATE VIEW getdepots
+AS
+SELECT * FROM depot;
+
+
+CREATE PROCEDURE storestoringspace
+(depotname VARCHAR(255), storingspacepositionx INT(11), storingspacepositiony INT(11))
+BEGIN
+	IF ((SELECT count(*) FROM storingspace where depot=depotname and positionX=storingspacepositionx and positionY=storingspacepositiony) =0) THEN
+		INSERT INTO storingspace(depot,positionX,positionY) values (depotname,storingspacepositionx,storingspacepositiony );
+	END IF;
+
+END;
+
+
+CREATE VIEW getstoringspace
+AS
+SELECT S.positionX, S.positionY, S.intermediateProduct, S.depot FROM storingspace S order by id;
+
+
+CREATE PROCEDURE storedrying
+(step INT(11), line VARCHAR(255), min BIGINT(20), ideal BIGINT(20), max BIGINT(20))
+BEGIN
+	IF ((SELECT count(*) FROM process where processline=line and processstep=step) >0) THEN
+	UPDATE drying SET mintime=min, idealtime=ideal, maxtime=max where id = (SELECT p.id FROM process P where processline=line and processstep=step);
+ELSE
+		INSERT INTO process(processstep,processline,processtype) values (step,line,'d');
+DECLARE identifikation INT(11);
+SET identifikation = (SELECT p.id FROM process P where processline=line and processstep=step);
+INSERT INTO drying (id,mintime,idealtime,maxtime) values (identifikation,min,ideal,max);
+	END IF;
+END;
+
+CREATE PROCEDURE storedrying
+(step INT(11), line VARCHAR(255), thename VARCHAR(255), descrip VARCHAR(255), temp double, time BIGINT(20))
+BEGIN
+	IF ((SELECT count(*) FROM process where processline=line and processstep=step) >0) THEN
+	UPDATE subprocess SET name=thename, description=desrip, temperature=temp, treatmentTime=time where id = (SELECT p.id FROM process P where processline=line and processstep=step);
+ELSE
+		INSERT INTO process(processstep,processline,processtype) values (step,line,'d');
+DECLARE identifikation INT(11);
+SET identifikation = (SELECT p.id FROM process P where processline=line and processstep=step);
+INSERT INTO subprocess (id,name,description,temperature,treatmentTime) values (identifikation,thename,descrip,temp,time);
+	END IF;
+END;
+
+
+CREATE VIEW getprocesses
+AS
+SELECT P.processtype P.processstep, P.processline, P.processtype, D.mintime, D.idealtime, D.maxtime, S.name, S.description, S.treatmenttime, S.temperature  FROM process P left join drying D on process.id=drying.id left join on process.id=subprocess.id
+
+
