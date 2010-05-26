@@ -20,8 +20,7 @@ PRIMARY KEY (  `name` )
 
 #opretter IntermediateProduct
 CREATE TABLE `carletti`.`IntermediateProduct` (
-`id` VARCHAR( 255 ) NOT NULL ,
-PRIMARY KEY ( `id` ),
+`id` VARCHAR( 255 ) PRIMARY KEY NOT NULL ,
 `finished` TINYINT NOT NULL DEFAULT  '0',
 `discarded` TINYINT NOT NULL DEFAULT  '0',
 `quantity` DOUBLE NOT NULL,
@@ -108,3 +107,15 @@ FOREIGN KEY (storingSpace) REFERENCES StoringSpace(id)
 FOREIGN KEY (intermediateProduct) REFERENCES IntermediateProduct(id)
   ON DELETE CASCADE
 ) ENGINE = INNODB;
+
+#opretter en table som laver association mellem Depot og Drying
+CREATE TABLE `carletti`.`depotDryingAssociation` (
+`depot` VARCHAR ( 255 ) NOT NULL,
+`drying` INT NOT NULL,
+INDEX `depotIndex` (depot),
+INDEX `dryingIndex` (drying),
+FOREIGN KEY (depot) REFERENCES Depot(name)
+  ON DELETE CASCADE,
+FOREIGN KEY (drying) REFERENCES Drying(id)
+  ON DELETE CASCADE
+) ENIGNE = INNODB;
