@@ -1,30 +1,30 @@
 CREATE VIEW getdepots
 AS
-SELECT * FROM depot;
+SELECT * FROM Depot;
 
 CREATE VIEW getstoringspace
 AS
-SELECT S.positionX, S.positionY, S.id, S.depot FROM storingspace S;
+SELECT S.positionX, S.positionY, S.id, S.depot FROM StoringSpace S;
 
 CREATE VIEW getprocesses
 AS
-SELECT P.pikachu, P.processstep, P.processline, P.processtype, D.mintime, D.idealtime, D.maxtime, S.name, S.description, S.treatmenttime, S.temperature  FROM process P left join drying D on P.id=D.id left join on P.id=S.id
+SELECT P.pikachu, P.processStep, P.processLine, D.minTime, D.idealTime, D.maxTime, S.name, S.description, S.treatmentTime, S.temperature  FROM Process P left join Drying D on P.id=D.id left join SubProcess S on P.id=S.id;
 
 CREATE VIEW getintermediateproduct
 AS
-SELECT * FROM intermediateproduct
+SELECT * FROM IntermediateProduct;
 
 CREATE VIEW getprocessline
 AS
-SELECT * FROM processline
+SELECT * FROM ProcessLine;
 
 CREATE VIEW getproducttype
 AS
-SELECT * FROM producttype
+SELECT * FROM ProductType;
 
 CREATE VIEW getprocesslog
 AS
-SELECT PLOG.starttime, PLOG.endtime, PLOG.storingspace, PLOG.intermediateproduct, P.processstep, P.processline FROM processlog PLOG left join process P on PLOG.process=P.id
+SELECT PLOG.startTime, PLOG.endTime, PLOG.storingSpace, PLOG.intermediateProduct, P.processStep, P.processLine FROM ProcessLog PLOG left join Process P on PLOG.process=P.id;
 
 
 CREATE PROCEDURE storedepot 
@@ -51,12 +51,12 @@ END;
 CREATE PROCEDURE storedrying
 (step INT(11), line VARCHAR(255), minimum BIGINT(20), ideal BIGINT(20), maximum BIGINT(20))
 BEGIN
+DECLARE identifikation INT(11);
 	IF ((SELECT count(*) FROM process where processline=line and processstep=step) >0) THEN
 		UPDATE drying SET mintime=minimum, idealtime=ideal, maxtime=maximum where id = (SELECT p.id FROM process P where processline=line and processstep=step);
 	ELSE
 		INSERT INTO process(processstep,processline,pikachu) values (step,line,'d');
-		DECLARE identifikation INT(11);
-		SELECT p.id FROM process P where processline=line and processstep=step INTO identifikation;
+		SELECT id FROM process where processline=line and processstep=step INTO identifikation;
 		INSERT INTO drying (id,mintime,idealtime,maxtime) values (identifikation,minimum,ideal,maximum);
 	END IF;
 END;
@@ -64,12 +64,12 @@ END;
 CREATE PROCEDURE storesubprocess
 (step INT(11), line VARCHAR(255), thename VARCHAR(255), descrip TEXT, temp double, time BIGINT(20))
 BEGIN
+DECLARE identifikation INT(11);
 	IF ((SELECT count(*) FROM process where processline=line and processstep=step) >0) THEN
 		UPDATE subprocess SET name=thename, description=desrip, temperature=temp, treatmentTime=time where id = (SELECT p.id FROM process P where processline=line and processstep=step);
 	ELSE
 		INSERT INTO process(processstep,processline,pikachu) values (step,line,'s');
-		DECLARE identifikation INT(11);
-		SELECT p.id FROM process P where processline=line and processstep=step INTO identifikation;
+		SELECT id FROM process where processline=line and processstep=step INTO identifikation;
 		INSERT INTO subprocess (id,name,description,temperature,treatmentTime) values (identifikation,thename,descrip,temp,time);
 	END IF;
 END;
@@ -81,7 +81,7 @@ BEGIN
 	IF ((SELECT count(*) FROM intermediateProduct  where id=intermediateid)>0) THEN
 		UPDATE intermediateproduct set finished=isfinished, discarded=isdiscarded, quantity=thequantity, producttype=thetype, storingspace=space;
 	ELSE
-		INSERT INTO intermediateproduct (id,finished,discarded,quantity,producttype,storingspace) values (intermediateid,isfinished,isdiscarded,thequantity,producttype,space)
+		INSERT INTO intermediateproduct (id,finished,discarded,quantity,producttype,storingspace) values (intermediateid,isfinished,isdiscarded,thequantity,producttype,space);
 	END IF;
 END;
 
