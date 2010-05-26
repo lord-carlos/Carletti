@@ -7,9 +7,12 @@ import java.sql.Statement;
 import java.util.List;
 
 import model.Depot;
+import model.Drying;
 import model.IntermediateProduct;
+import model.Process;
 import model.ProductType;
 import model.StoringSpace;
+import model.SubProcess;
 
 public class DaoMySql implements Dao{
 
@@ -98,20 +101,16 @@ public class DaoMySql implements Dao{
 
 
 			statement.executeQuery("CALL storedepot("+depot.getName()+", "+
-													depot.getDescription()+", "+
-													depot.getMaxX()+", "+
-													depot.getMaxY()+")");
-			
+					depot.getDescription()+", "+
+					depot.getMaxX()+", "+
+					depot.getMaxY()+")");
+
 			for (StoringSpace storingSpace : depot.getStoringSpaces()) {
-				if (storingSpace.getIntermediateProduct() != null) {
-					statement.executeQuery("CALL storestoringspace ("+depot.getName()+", "+
-													storingSpace.getPositionX()+", "+
-													storingSpace.getPositionY()+", "+
-													storingSpace.getIntermediateProduct().getId()+")");
-				}
-				else {
-					statement.executeQuery("CALL storestoringspace ("+depot.getName()+", "+storingSpace.getPositionX()+", "+storingSpace.getPositionY()+", "+"null"+")");
-				}
+
+				statement.executeQuery("CALL storestoringspace ("+depot.getName()+", "+
+						storingSpace.getPositionX()+", "+
+						storingSpace.getPositionY()+", "+
+						storingSpace.toString()+")");
 			}
 			statement.executeQuery("COMMIT");
 		} catch (SQLException e) {
@@ -126,7 +125,19 @@ public class DaoMySql implements Dao{
 			Statement statement = getConnection().createStatement();
 
 			statement.executeQuery("BEGIN TRANSACTION");
-			statement.executeQuery("CALL storeintermediateproduct("+intermediateProduct.isFinished()+", "+intermediateProduct.isDiscarded()+", "+intermediateProduct.getId()+", "+intermediateProduct.getQuantity()+", "+intermediateProduct.getProductType().getName()+", "+intermediateProduct.getStoringSpace().getDepot().getName()+", "+intermediateProduct.getStoringSpace().getPositionX()+", "+intermediateProduct.getStoringSpace().getPositionY()+")");
+
+			String storingSpace = null;
+			if (intermediateProduct.getStoringSpace() != null) {
+				storingSpace = intermediateProduct.getStoringSpace().toString();
+			}
+
+			statement.executeQuery("CALL storeintermediateproduct("+intermediateProduct.isFinished()+", "+
+					intermediateProduct.isDiscarded()+", "+
+					intermediateProduct.getId()+", "+
+					intermediateProduct.getQuantity()+", "+
+					intermediateProduct.getProductType().getName()+", "+
+					storingSpace+")");
+
 			statement.executeQuery("COMMIT");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -141,9 +152,31 @@ public class DaoMySql implements Dao{
 			Statement statement = getConnection().createStatement();
 
 			statement.executeQuery("BEGIN TRANSACTION");
-			statement.executeQuery("CALL storeproducttype("+productType.getName()+", "+productType.getPicture()+", "+productType.getProcessLine().getName()+")");
+			statement.executeQuery("CALL storeproducttype("+productType.getName()+", "+
+					productType.getPicture()+", "+
+					productType.getProcessLine().getName()+")");			
+			statement.executeQuery("CALL storeprocessline("+productType.getProcessLine().getName()+", "+
+					productType.getProcessLine().getDescription()+", "+
+					productType.getName()+")");
 			
-			
+			for (Process process : productType.getProcessLine().getProcesses()) {
+				if (process instanceof Drying) {
+					statement.executeQuery("CALL storedrying("+process.getProcessStep()+", "+
+							process.getProcessLine().getName()+", "+
+							((Drying)process).getMinTime()+", "+
+							((Drying)process).getIdealTime()+", "+
+							((Drying)process).getMaxTime()+")");
+							
+				}
+				else {
+					statement.executeQuery("CALL storedrying("+process.getProcessStep()+", "+
+							process.getProcessLine().getName()+", "+
+							((SubProcess)process).getName()+", "+
+							((SubProcess)process).getDescription()+", "+
+							((SubProcess)process).getTemperature()+", "+
+							((SubProcess)process).getTreatmentTime()+")");
+				}
+			}
 			statement.executeQuery("COMMIT");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

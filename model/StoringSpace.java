@@ -91,7 +91,7 @@ public class StoringSpace {
 	}
 	
 	public String toString() {
-		return "("+positionX+","+positionY+")";
+		return depot.getName()+" ("+positionX+","+positionY+")";
 	}
 
 }
