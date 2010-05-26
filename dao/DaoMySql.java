@@ -23,7 +23,7 @@ public class DaoMySql implements Dao{
 
 	private DaoMySql() {
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://81.89.108.201:2525/carletti", "root", "MortenErSej!");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost/carletti", "root", "2495");	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,7 +98,7 @@ public class DaoMySql implements Dao{
 		ArrayList<IntermediateProduct> intermediateProducts = new ArrayList<IntermediateProduct>();
 		try {
 			Statement statement = getConnection().createStatement();
-			ResultSet resIntermediateProducts = statement.executeQuery("SELECT * FROM getintermediateproducts");
+			ResultSet resIntermediateProducts = statement.executeQuery("SELECT * FROM getintermediateproduct");
 			if(resIntermediateProducts.next()) {
 				
 				
@@ -179,8 +179,8 @@ public class DaoMySql implements Dao{
 
 	//		statement.executeQuery("BEGIN TRANSACTION");
 			statement.executeQuery("CALL storeproducttype('"+productType.getName()+"', '"+
-					productType.getPicture()+"', '"+
-					productType.getProcessLine().getName()+"')");			
+					productType.getProcessLine().getName()+"', '"+
+					productType.getPicture()+"')");			
 			statement.executeQuery("CALL storeprocessline('"+productType.getProcessLine().getName()+"', '"+
 					productType.getProcessLine().getDescription()+"', '"+
 					productType.getName()+"')");
@@ -195,7 +195,7 @@ public class DaoMySql implements Dao{
 							
 				}
 				else {
-					statement.executeQuery("CALL storedrying("+process.getProcessStep()+", '"+
+					statement.executeQuery("CALL storesubprocess("+process.getProcessStep()+", '"+
 							process.getProcessLine().getName()+"', '"+
 							((SubProcess)process).getName()+"', '"+
 							((SubProcess)process).getDescription()+"', "+

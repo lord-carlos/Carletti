@@ -126,7 +126,7 @@ public class Service {
 		Depot depot1 = createDepot("Lager 1","Hovedlageret",5,8);
 		Depot depot2 = createDepot("Lager 2","Lager til lort",4,5);
 
-		ProductType pteSkumbananer = createProductType("Skumbananer");
+		ProductType pteSkumbananer = new ProductType("Skumbananer");
 		pteSkumbananer.setPicture("gui/icons/skumbananer.jpg");
 		ProcessLine plSkumbananer = new ProcessLine("Skumbananer", "Skum", pteSkumbananer);
 		plSkumbananer.createSubProcess(1, "Tilfoej skum", "siger sig selv", 2, 24);
@@ -136,21 +136,27 @@ public class Service {
 		Drying d2 = plSkumbananer.createDrying(4, 1, 2*60*10000, 3*60*10000);
 		d2.addDepot(depot2); 
 
-		ProductType pteChokoKaramelLys = createProductType("Choko Karamel Lys");
+		storeProductType(pteSkumbananer);
+		
+		ProductType pteChokoKaramelLys = new ProductType("Choko Karamel Lys");
 		pteChokoKaramelLys.setPicture("gui/icons/choko karamel lys.jpg");
 		ProcessLine plChokoKaramelLys = new ProcessLine("Choko Karamel Lys", "asdf", pteChokoKaramelLys);
 		plChokoKaramelLys.createSubProcess(1, "Tilsaet karamel", "Lys karamel", 1, 2);
 		Drying d3 = plChokoKaramelLys.createDrying(21, 1*60*10000, 2*60*10000, 3*60*10000);
 		d3.addDepot(depot1); d3.addDepot(depot2);
 
-		ProductType pteChokoKaramelMoerk = createProductType("Choko Karamel Moerk");
+		storeProductType(pteChokoKaramelLys);
+		
+		ProductType pteChokoKaramelMoerk = new ProductType("Choko Karamel Moerk");
 		pteChokoKaramelMoerk.setPicture("gui/icons/choko karamel moerk.jpg");
 		ProcessLine plChokoKaramelMoerk = new ProcessLine("Choko Karamel Moerk", "asdf2", pteChokoKaramelMoerk);
 		plChokoKaramelMoerk.createSubProcess(1, "Tilsaet karamel", "Moerk karamel", 1, 2);
 		Drying d4 = plChokoKaramelMoerk.createDrying(2, 3*60*10000, 4*60*10000, 5*60*10000);
 		d4.addDepot(depot1); d4.addDepot(depot2);
 
-		ProductType pteChokoladelinser = createProductType("Chokoladelinser");
+		storeProductType(pteChokoKaramelMoerk);
+		
+		ProductType pteChokoladelinser = new ProductType("Chokoladelinser");
 		pteChokoladelinser.setPicture("gui/icons/chokoladelinser.jpg");
 		ProcessLine plChokoladelinser = new ProcessLine("Chokoladelinser", "nam", pteChokoladelinser);
 		plChokoladelinser.createSubProcess(1, "Tilsaetter chokolade", "tilfoejer chokolade",24, -3);
@@ -160,7 +166,9 @@ public class Service {
 		Drying d6 = plChokoladelinser.createDrying(4, 1*60*10000, 2*60*10000, 3*60*10000);
 		d6.addDepot(depot1); d6.addDepot(depot2); 
 
-		ProductType pteCitronDrage = createProductType("Citron Drage");
+		storeProductType(pteChokoladelinser);
+		
+		ProductType pteCitronDrage = new ProductType("Citron Drage");
 		pteCitronDrage.setPicture("gui/icons/citron drage.jpg");
 		ProcessLine plCitronDrage = new ProcessLine("Citron Dragé", "ild", pteCitronDrage);
 		plCitronDrage.createSubProcess(1, "Tilsaetter citron", "press en eller to citroner og put dem i",21, -45);
@@ -170,6 +178,8 @@ public class Service {
 		Drying d8 = plCitronDrage.createDrying(4, 4*60*10000, 7*60*10000, 8*60*10000);
 		d8.addDepot(depot1); d8.addDepot(depot2); 
 
+		storeProductType(pteCitronDrage);
+		
 		createIntermediateProduct("011", pteSkumbananer, 80);
 		createIntermediateProduct("012", pteCitronDrage, 80);
 		createIntermediateProduct("013", pteChokoladelinser, 100);
@@ -186,12 +196,15 @@ public class Service {
 		for (int i = 0; i < 5; i++) {
 			getAllIntermediateProducts().get(i).sendToNextProcess(null);
 			getAllIntermediateProducts().get(i).sendToNextProcess(depot1.getStoringSpaces().get(i));
+		StoreIntermediateProduct(getAllIntermediateProducts().get(i));
 		}
 
 		for (int i = 5; i < 10; i++) {
 			getAllIntermediateProducts().get(i).sendToNextProcess(null);
 			getAllIntermediateProducts().get(i).sendToNextProcess(depot2.getStoringSpaces().get(i-5));
+			StoreIntermediateProduct(getAllIntermediateProducts().get(i));
 		}
+		
 
 	}
 
