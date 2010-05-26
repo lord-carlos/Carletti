@@ -17,7 +17,7 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 public class ProductType {
 	private String name;
 	private ProcessLine processLine = null;
-	private ImageIcon picture = null;
+	private String picture = null;
 	private ArrayList<IntermediateProduct> intermediateProducts  = new ArrayList<IntermediateProduct>();
 
 	public ProductType(String name){
@@ -36,7 +36,7 @@ public class ProductType {
 		return this.processLine;
 	}
 
-	public ImageIcon getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 
@@ -52,7 +52,7 @@ public class ProductType {
 		return this.intermediateProducts;
 	}
 
-	public void setPicture(ImageIcon picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
 	}
 

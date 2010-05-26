@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -32,7 +33,7 @@ public class CreateIntermediateProductFrame extends JDialog {
 	private JTextField txfQuantity;
 	private JLabel lblId;
 	private JTextField txfId;
-	private JLabel img;
+	private JLabel image;
 	private JScrollPane scpInfo;
 	private JTextArea txaInfo;
 	private JButton btnCreate;
@@ -77,17 +78,17 @@ public class CreateIntermediateProductFrame extends JDialog {
 
 		if (thisProductType.getPicture()==null){
 
-			img.setVisible(false);
+			image.setVisible(false);
 			scpInfo.setBounds(174, 12, 250, 226);
 
 		} else {
 
-			img.setVisible(true);
+			image.setVisible(true);
 			scpInfo.setBounds(174, 124, 250, 114);
 
 		}
 
-		img.setIcon(thisProductType.getPicture());
+		image.setIcon(new ImageIcon(thisProductType.getPicture()));
 
 	String pInfo = "Beskrivelse:\n";
 	pInfo = pInfo+thisProductType.getProcessLine().getDescription();
@@ -141,11 +142,11 @@ public class CreateIntermediateProductFrame extends JDialog {
 	}
 
 	private JLabel getImg() {
-		if (img == null) {
-			img = new JLabel();
-			img.setBounds(229, 12, 140, 100);
+		if (image == null) {
+			image = new JLabel();
+			image.setBounds(229, 12, 140, 100);
 		}
-		return img;
+		return image;
 	}
 	
 	private JTextField getTxfQuantity() {
