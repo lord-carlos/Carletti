@@ -46,10 +46,9 @@ PRIMARY KEY ( `name` )
 
 #opretter StoringSpace
 CREATE TABLE `carletti`.`StoringSpace` (
-`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`id` VARCHAR ( 255 ) NOT NULL PRIMARY KEY ,
 `positionX` INT NOT NULL,
 `positionY` INT NOT NULL,
-`intermediateProduct` VARCHAR( 255 ) NOT NULL, #TODO tjek med en trigger
 `depot` VARCHAR( 255 ) NOT NULL,
 INDEX `depotIndex` (depot),
 FOREIGN KEY ( `depot` ) REFERENCES Depot(name)
