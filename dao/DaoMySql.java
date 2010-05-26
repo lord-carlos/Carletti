@@ -95,10 +95,11 @@ public class DaoMySql implements Dao{
 			Statement statement = getConnection().createStatement();
 
 			statement.executeQuery("BEGIN TRANSACTION");
+			
 
-			statement.executeQuery("EXEC storedepot "+depot.getName()+", "+depot.getDescription()+", "+depot.getMaxX()+", "+depot.getMaxY());
+			statement.executeQuery("CALL storedepot("+depot.getName()+", "+depot.getDescription()+", "+depot.getMaxX()+", "+depot.getMaxY()+")");
 			for (StoringSpace storingSpace : depot.getStoringSpaces()) {
-				statement.executeQuery("EXEC storestoringspace "+depot.getName()+", "+storingSpace.getPositionX()+", "+storingSpace.getPositionY());
+				statement.executeQuery("CALL storestoringspace ("+depot.getName()+", "+storingSpace.getPositionX()+", "+storingSpace.getPositionY()+")");
 			}
 			statement.executeQuery("COMMIT");
 		} catch (SQLException e) {
@@ -108,8 +109,17 @@ public class DaoMySql implements Dao{
 	}
 
 	@Override
-	public void store(IntermediateProduct interMediateProduct) {
-		// TODO Auto-generated method stub
+	public void store(IntermediateProduct intermediateProduct) {
+		try {
+			Statement statement = getConnection().createStatement();
+
+			statement.executeQuery("BEGIN TRANSACTION");
+			statement.executeQuery("CALL storeintermediateproduct("+intermediateProduct.isFinished()+", "+intermediateProduct.isDiscarded()+", "+intermediateProduct.getId()+", "+intermediateProduct.getQuantity()+", "+intermediateProduct.getProductType().getName()+", "+intermediateProduct.getStoringSpace().getDepot().getName()+", "+intermediateProduct.getStoringSpace().getPositionX()+", "+intermediateProduct.getStoringSpace().getPositionY()+")");
+			statement.executeQuery("COMMIT");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
