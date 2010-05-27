@@ -248,7 +248,13 @@ public class DaoMySql implements Dao{
 					IntermediateProduct iP = new IntermediateProduct(resIntermediateProducts.getString("id"), findProductType(resIntermediateProducts.getString("productType")),resIntermediateProducts.getDouble("quantity"));
 					iP.setStoringSpace(findStoringSpace(resDepots.getString("storingspaceid")));
 
+					Statement statementProcessLog = getConnection().createStatement();
+					ResultSet resProcessLog = statementProcessLog.executeQuery("SELECT * FROM getprocessLog where intermediateProduct='"+iP.getId()+"' order by startTime");
 					
+					while (resProcessLog.next()){
+						Process process = iP.getProductType().getProcessLine().getProcesses().get(resProcessLog.getInt("processStep")-1);
+						iP.createProcessLog(process, findStoringSpace(resProcessLog.getString("storingSpace")));
+					}
 					
 				}
 
@@ -292,8 +298,6 @@ public class DaoMySql implements Dao{
 					}
 				}
 				i++;
-
-
 			}
 			return found;
 		}
