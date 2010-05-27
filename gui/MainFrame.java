@@ -364,7 +364,7 @@ public class MainFrame extends JFrame {
 				if(intermediateProduct.getActivProcessLog().getProcess().getClass().getName().equals("model.Drying")) {
 					updateDepotMap(intermediateProduct.getStoringSpace().getDepot());
 					for (IntermediateProductPanel intermediateProductPanel : intermediateProductPanels) {
-						if (intermediateProductPanel.getStoringSpace().getIntermediateProduct() == intermediateProduct) {
+						if (intermediateProductPanel.getStoringSpace().getIntermediateProduct().equals(intermediateProduct)) {
 							updateInfoFromPanel(intermediateProductPanel);
 						}
 					}
