@@ -274,4 +274,13 @@ public class IntermediateProduct {
 			}
 		}
 	}
+	
+	public boolean equals(IntermediateProduct intermediateProduct) {
+		if (this.id.equals(intermediateProduct.getId())) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
