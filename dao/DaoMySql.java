@@ -13,6 +13,7 @@ import model.Drying;
 import model.IntermediateProduct;
 import model.Process;
 import model.ProcessLine;
+import model.ProcessLog;
 import model.ProductType;
 import model.StoringSpace;
 import model.SubProcess;
@@ -130,7 +131,20 @@ public class DaoMySql implements Dao{
 					intermediateProduct.getProductType().getName()+"', '"+
 					storingSpace+"')");
 
-			//TODO få store processlog til at virke
+			for (int i = 0;i<intermediateProduct.getProcessLogs().size();i++){
+				ProcessLog pLog = intermediateProduct.getProcessLogs().get(i);
+				String storingSpaceId = null;
+				if (pLog.getStoringSpace()!=null){
+					storingSpaceId = pLog.getStoringSpace().toString();
+				}
+				statement.executeQuery("CALL storeprocessLog ("+pLog.getStartTime()+", " +
+						pLog.getEndTime()+", '" +
+						intermediateProduct.getId()+"', '" +
+						pLog.getProcess().getProcessLine().getName()+"', " +
+						pLog.getProcess().getProcessStep()+", '" +
+						storingSpaceId+"')");
+			}
+
 
 			statement.executeQuery("COMMIT");
 		} catch (SQLException e) {
@@ -160,7 +174,12 @@ public class DaoMySql implements Dao{
 							((Drying)process).getIdealTime()+", "+
 							((Drying)process).getMaxTime()+")");
 
-					//TODO få associationen mellem dryings og depoter til at virke
+					Drying d = (Drying)process;
+					for (int i = 0;i<d.getDepots().size();i++){
+						statement.executeQuery("CALL storedepotdryingassociation ('"+d.getDepots().get(i).toString()+"', '" +
+								d.getProcessLine().getName()+"', " +
+								d.getProcessStep()+")");
+					}
 
 				}
 				else {
@@ -230,11 +249,17 @@ public class DaoMySql implements Dao{
 				Statement statementDepots = getConnection().createStatement();
 				ResultSet resDepots = statementDepots.executeQuery("SELECT * FROM getdepots");
 				while (resDepots.next()) {
-					depots.add(new Depot(resDepots.getString("name"), resDepots.getString("description"), resDepots.getInt("maxx"), resDepots.getInt("maxy")));
+					Depot d = new Depot(resDepots.getString("name"), resDepots.getString("description"), resDepots.getInt("maxx"), resDepots.getInt("maxy"));
+					depots.add(d);
+
+					Statement statementDDAsociation = getConnection().createStatement();
+					ResultSet resDDAsociation = statementDDAsociation.executeQuery("SELECT * FROM getdepotdryingassociation where depot='"+d.toString()+"'");
+
+					while (resDDAsociation.next()) {
+						d.addDrying(findDrying(resDDAsociation.getString("processLine"), resDDAsociation.getInt("processStep")));
+					}
+
 				}
-
-				//TODO få associationen mellem dryings og depoter til at virke
-
 
 				//mellemvare
 				Statement statementIntermediateProducts = getConnection().createStatement();
@@ -292,6 +317,28 @@ public class DaoMySql implements Dao{
 						found=s;
 					} else {
 						j++;
+					}
+				}
+				i++;
+			}
+			return found;
+		}
+
+		private Drying findDrying(String processLine, int processStep){
+			Drying found = null;
+			int i = 0;
+			while (found!=null && i<productType.size()){
+				int j = 0;
+
+				if (productType.get(i).getProcessLine().getName().equals(processLine)){
+					while(found!=null && i<productType.get(i).getProcessLine().getProcesses().size()){
+						Process p = productType.get(i).getProcessLine().getProcesses().get(j);
+
+						if (p.getProcessStep()==processStep){
+							found=(Drying) p;
+						} else {
+							j++;
+						}
 					}
 				}
 				i++;

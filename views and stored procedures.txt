@@ -110,7 +110,7 @@ BEGIN
 END;
 
 CREATE PROCEDURE storeprocesslog
-(startt BIGINT(20),endt BIGINT(20), product VARCHAR(255), theprocess VARCHAR(255), step INT(11), space VARCHAR(255))
+(startt BIGINT(20),endt BIGINT(20), product VARCHAR(255), line VARCHAR(255), step INT(11), space VARCHAR(255))
 BEGIN 
 DECLARE theprocess INT(11);
 SELECT id FROM process where processline=line and processstep=step INTO theprocess;
