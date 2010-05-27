@@ -66,7 +66,7 @@ CREATE PROCEDURE storesubprocess
 BEGIN
 DECLARE identifikation INT(11);
 	IF ((SELECT count(*) FROM process where processline=line and processstep=step) >0) THEN
-		UPDATE subprocess SET name=thename, description=desrip, temperature=temp, treatmentTime=time where id = (SELECT p.id FROM process P where processline=line and processstep=step);
+		UPDATE subprocess SET name=thename, description=descrip, temperature=temp, treatmentTime=time where id = (SELECT p.id FROM process P where processline=line and processstep=step);
 	ELSE
 		INSERT INTO process(processstep,processline,pikachu) values (step,line,'s');
 		SELECT id FROM process where processline=line and processstep=step INTO identifikation;
@@ -106,7 +106,7 @@ BEGIN
 END;
 
 CREATE PROCEDURE storeprocesslog
-(startt BIGINT(20),endt BIGINT(20), product VARCHAR(255), line VARCHAR(255), step INT(11), space VARCHAR(255))
+(startt BIGINT(20),endt BIGINT(20), product VARCHAR(255), theprocess VARCHAR(255), step INT(11), space VARCHAR(255))
 BEGIN 
 DECLARE theprocess INT(11);
 SELECT id FROM process where processline=line and processstep=step INTO theprocess;

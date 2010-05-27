@@ -30,7 +30,7 @@ public class DaoMySql implements Dao{
 		}
 	}
 
-	private Connection getConnection() {
+	private static Connection getConnection() {
 		try {
 			if (connection==null || !connection.isValid(10000)) {
 				connection = DriverManager.getConnection("jdbc:mysql://localhost/carletti", "root", "2495");	
@@ -78,44 +78,17 @@ public class DaoMySql implements Dao{
 
 	@Override
 	public List<Depot> getAllDepots() {
-		ArrayList<Depot> depots = new ArrayList<Depot>();
-		try {
-			Statement statement = getConnection().createStatement();
-			ResultSet resDepots = statement.executeQuery("SELECT * FROM getdepots");
-			if(resDepots.next()) {
-				depots.add(new Depot(resDepots.getString("name"), resDepots.getString("description"), resDepots.getInt("maxx"), resDepots.getInt("maxy")));
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return depots;
+		return Databaselists.getDatabaselists().getDepots();
 	}
 
 	@Override
 	public List<IntermediateProduct> getAllIntermediateProducts() {
-		ArrayList<IntermediateProduct> intermediateProducts = new ArrayList<IntermediateProduct>();
-		try {
-			Statement statement = getConnection().createStatement();
-			ResultSet resIntermediateProducts = statement.executeQuery("SELECT * FROM getintermediateproduct");
-			if(resIntermediateProducts.next()) {
-				
-				
-				//IntermediateProduct intermediateProduct = new IntermediateProduct(resIntermediateProducts.getString("id"));
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return intermediateProducts;
+		return Databaselists.getDatabaselists().getIntermediateProducts();
 	}
 
 	@Override
 	public List<ProductType> getAllProductTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return Databaselists.getDatabaselists().getProductTypes();
 	}
 
 	@Override
@@ -184,7 +157,7 @@ public class DaoMySql implements Dao{
 			statement.executeQuery("CALL storeprocessline('"+productType.getProcessLine().getName()+"', '"+
 					productType.getProcessLine().getDescription()+"', '"+
 					productType.getName()+"')");
-			
+
 			for (Process process : productType.getProcessLine().getProcesses()) {
 				if (process instanceof Drying) {
 					statement.executeQuery("CALL storedrying("+process.getProcessStep()+", '"+
@@ -192,7 +165,7 @@ public class DaoMySql implements Dao{
 							((Drying)process).getMinTime()+", "+
 							((Drying)process).getIdealTime()+", "+
 							((Drying)process).getMaxTime()+")");
-							
+
 				}
 				else {
 					statement.executeQuery("CALL storesubprocess("+process.getProcessStep()+", '"+
@@ -210,6 +183,74 @@ public class DaoMySql implements Dao{
 		}
 	}
 
+	private static class Databaselists{
 
+		private ArrayList<Depot> depots = new ArrayList<Depot>();
+		private ArrayList<IntermediateProduct> intermediatateProducts = new ArrayList<IntermediateProduct>();
+		private ArrayList<ProductType> productType = new ArrayList<ProductType>();
+		private static Databaselists databaselists= null;
+
+		private Databaselists(){
+			runUpdate();
+		}
+
+		public static Databaselists getDatabaselists(){
+			if (databaselists==null){
+				databaselists= new Databaselists();
+			}
+			return databaselists;
+		}
+
+		private void runUpdate(){
+			depots.clear();
+			productType.clear();
+			intermediatateProducts.clear();
+
+
+			try {
+				Statement statementDepots = getConnection().createStatement();
+
+				ResultSet resDepots = statementDepots.executeQuery("SELECT * FROM getdepots");
+				if(resDepots.next()) {
+					depots.add(new Depot(resDepots.getString("name"), resDepots.getString("description"), resDepots.getInt("maxx"), resDepots.getInt("maxy")));
+				}
+
+				Statement statementIntermediateProducts = getConnection().createStatement();
+
+				ResultSet resIntermediateProducts = statementIntermediateProducts.executeQuery("SELECT * FROM getintermediateproduct");
+				if(resIntermediateProducts.next()) {
+
+
+					//IntermediateProduct intermediateProduct = new IntermediateProduct(resIntermediateProducts.getString("id"));
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+		}
+
+		public ArrayList<Depot> getDepots(){
+			runUpdate();
+			return depots;
+		}
+
+		public ArrayList<ProductType> getProductTypes(){
+			runUpdate();
+			return productType;
+		}
+
+		public ArrayList<IntermediateProduct> getIntermediateProducts(){
+			runUpdate();
+			return intermediatateProducts;
+		}
+
+
+	}
 
 }
