@@ -23,17 +23,13 @@ public class DaoMySql implements Dao{
 	private static DaoMySql dao = null;
 
 	private DaoMySql() {
-		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/carletti", "root", "2495");	
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		connection = getConnection();
 	}
 
 	private static Connection getConnection() {
 		try {
 			if (connection==null || !connection.isValid(10000)) {
-				connection = DriverManager.getConnection("jdbc:mysql://localhost/carletti", "root", "2495");	
+				connection = DriverManager.getConnection("jdbc:mysql://81.89.108.201:3306/carletti", "root", "MortenErSej!");	
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -250,12 +246,13 @@ public class DaoMySql implements Dao{
 
 					Statement statementProcessLog = getConnection().createStatement();
 					ResultSet resProcessLog = statementProcessLog.executeQuery("SELECT * FROM getprocessLog where intermediateProduct='"+iP.getId()+"' order by startTime");
-					
+
 					while (resProcessLog.next()){
 						Process process = iP.getProductType().getProcessLine().getProcesses().get(resProcessLog.getInt("processStep")-1);
 						iP.createProcessLog(process, findStoringSpace(resProcessLog.getString("storingSpace")));
 					}
-					
+					intermediatateProducts.add(iP);
+
 				}
 
 			} catch (SQLException e) {
