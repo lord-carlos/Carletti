@@ -92,4 +92,12 @@ public class ProcessLog{
 		return process.toString();
 	}
 
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+
 }
