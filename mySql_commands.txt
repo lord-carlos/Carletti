@@ -29,7 +29,7 @@ INDEX `productTypeIndex` (productType),
 FOREIGN KEY (productType) REFERENCES ProductType(name)
   ON DELETE CASCADE
 ,
-`storingSpaceId` INT NOT NULL
+`storingSpaceId` VARCHAR( 255 ) NOT NULL
 #TODO tjek med en trigger om det er lovligt
 ) ENGINE = INNODB;
 
@@ -98,11 +98,8 @@ CREATE TABLE `carletti`.`ProcessLog` (
 `storingSpace`VARCHAR ( 255 ) NOT NULL,
 `intermediateProduct` VARCHAR ( 255 ) NOT NULL,
 INDEX `processIndex` (process),
-INDEX `storingSpaceIndex` (storingSpace),
 INDEX `intermediateProductIndex` (intermediateProduct),
 FOREIGN KEY (process) REFERENCES Process(id)
-  ON DELETE CASCADE,
-FOREIGN KEY (storingSpace) REFERENCES StoringSpace(id)
   ON DELETE CASCADE,
 FOREIGN KEY (intermediateProduct) REFERENCES IntermediateProduct(id)
   ON DELETE CASCADE

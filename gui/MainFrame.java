@@ -364,8 +364,10 @@ public class MainFrame extends JFrame {
 				if(intermediateProduct.getActivProcessLog().getProcess().getClass().getName().equals("model.Drying")) {
 					updateDepotMap(intermediateProduct.getStoringSpace().getDepot());
 					for (IntermediateProductPanel intermediateProductPanel : intermediateProductPanels) {
-						if (intermediateProductPanel.getStoringSpace().getIntermediateProduct().equals(intermediateProduct)) {
-							updateInfoFromPanel(intermediateProductPanel);
+						if (intermediateProductPanel.getStoringSpace().getIntermediateProduct()!=null){
+							if (intermediateProductPanel.getStoringSpace().getIntermediateProduct().equals(intermediateProduct)) {
+								updateInfoFromPanel(intermediateProductPanel);
+							}
 						}
 					}
 				}
@@ -474,9 +476,12 @@ public class MainFrame extends JFrame {
 							JOptionPane.showMessageDialog(null, "Vælg et lagerplads hvor mellemvaren skal lægges", "Fejl", JOptionPane.ERROR_MESSAGE);
 						} else if (selectedIntermediateProductPanel.getStoringSpace().getIntermediateProduct()!=null){
 							JOptionPane.showMessageDialog(null, "Der ligger allerede en mellemvare paa den valgte placering", "Fejl", JOptionPane.ERROR_MESSAGE);
-						} else if (!((Drying)selectedIntermediateProduct.getNextProcess()).getDepots().contains(selectedIntermediateProductPanel.getStoringSpace().getDepot())){
+						} 
+						/* contain kan ikke sammenligne objecter rigtig når vi bruger mysql
+						else if (!((Drying)selectedIntermediateProduct.getNextProcess()).getDepots().contains(selectedIntermediateProductPanel.getStoringSpace().getDepot())){
 							JOptionPane.showMessageDialog(null, "Mellemvaren kan ikke ligge på det valgte lager,følgende lagre er gyldige "+((Drying)selectedIntermediateProduct.getNextProcess()).getDepots(), "Fejl", JOptionPane.ERROR_MESSAGE);
-						} else {						
+						}*/
+						else {						
 							selectedIntermediateProduct.sendToNextProcess(selectedIntermediateProductPanel.getStoringSpace());
 							Service.getService().StoreIntermediateProduct(selectedIntermediateProduct);
 						}

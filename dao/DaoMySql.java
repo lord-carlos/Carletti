@@ -30,7 +30,8 @@ public class DaoMySql implements Dao{
 	private static Connection getConnection() {
 		try {
 			if (connection==null || !connection.isValid(10000)) {
-				connection = DriverManager.getConnection("jdbc:mysql://81.89.108.201:3306/carletti", "root", "MortenErSej!");	
+				connection = DriverManager.getConnection("jdbc:mysql://localhost/carletti", "root", "2495");	
+				//	connection = DriverManager.getConnection("jdbc:mysql://81.89.108.201:3306/carletti", "root", "MortenErSej!");	
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -137,8 +138,8 @@ public class DaoMySql implements Dao{
 				if (pLog.getStoringSpace()!=null){
 					storingSpaceId = pLog.getStoringSpace().toString();
 				}
-				statement.executeQuery("CALL storeprocessLog ("+pLog.getStartTime()+", " +
-						pLog.getEndTime()+", '" +
+				statement.executeQuery("CALL storeprocessLog ("+pLog.getStartTime().getTime()+", " +
+						pLog.getEndTime().getTime()+", '" +
 						intermediateProduct.getId()+"', '" +
 						pLog.getProcess().getProcessLine().getName()+"', " +
 						pLog.getProcess().getProcessStep()+", '" +
@@ -160,8 +161,8 @@ public class DaoMySql implements Dao{
 
 			statement.executeQuery("BEGIN WORK");
 			statement.executeQuery("CALL storeproducttype('"+productType.getName()+"', '"+
-					productType.getProcessLine().getName()+"', '"+
-					productType.getPicture()+"')");			
+					productType.getPicture()+"', '"+
+					productType.getProcessLine().getName()+"')");			
 			statement.executeQuery("CALL storeprocessline('"+productType.getProcessLine().getName()+"', '"+
 					productType.getProcessLine().getDescription()+"', '"+
 					productType.getName()+"')");
@@ -224,22 +225,21 @@ public class DaoMySql implements Dao{
 			try {
 				//producttyper
 				Statement statementTypes = getConnection().createStatement();
-				ResultSet resTypes = statementTypes.executeQuery("SELECT P.name,P.processine,P.picture,L.description FROM getproducttype P left join getprocessline L on P.name=L.producttype");
+				ResultSet resTypes = statementTypes.executeQuery("SELECT P.name,P.processline,P.picture,L.description FROM getproducttype P left join getprocessline L on P.name=L.producttype");
 
 				while (resTypes.next()){
 					ProductType p = new ProductType(resTypes.getString("name"));
 					productType.add(p);
 					p.setPicture(resTypes.getString("picture"));
-					ProcessLine l = new ProcessLine(resTypes.getString("processline"), resTypes.getString("description"), p);
+					ProcessLine pL = new ProcessLine(resTypes.getString("processline"), resTypes.getString("description"), p);
 
 					Statement statementProcesses = getConnection().createStatement();
-					ResultSet resProcesses = statementProcesses.executeQuery("SELECT * FROM getprocesses where processline='"+l.getName()+"' order by processStep");
-
+					ResultSet resProcesses = statementProcesses.executeQuery("SELECT * FROM getprocesses where processLine='"+pL.getName()+"' order by processStep");
 					while (resProcesses.next()){
-						if (resProcesses.getString("pikachu")=="s"){
-							l.createSubProcess(resProcesses.getInt("processStep"), resProcesses.getString("name"), resProcesses.getString("description"), resProcesses.getLong("treatmentTime"), resProcesses.getDouble("temperature"));
-						} else if(resProcesses.getString("pikachu")=="d"){
-							l.createDrying(resProcesses.getInt("processStep"), resProcesses.getLong("minTime"), resProcesses.getLong("idealTime"), resProcesses.getLong("maxTime"));
+						if (resProcesses.getString("pikachu").equals("s")){
+							pL.createSubProcess(resProcesses.getInt("processStep"), resProcesses.getString("name"), resProcesses.getString("description"), resProcesses.getLong("treatmentTime"), resProcesses.getDouble("temperature"));
+						} else if(resProcesses.getString("pikachu").equals("d")){
+							pL.createDrying(resProcesses.getInt("processStep"), resProcesses.getLong("minTime"), resProcesses.getLong("idealTime"), resProcesses.getLong("maxTime"));
 						}
 					}
 				}
@@ -267,14 +267,22 @@ public class DaoMySql implements Dao{
 				while (resIntermediateProducts.next()) {
 
 					IntermediateProduct iP = new IntermediateProduct(resIntermediateProducts.getString("id"), findProductType(resIntermediateProducts.getString("productType")),resIntermediateProducts.getDouble("quantity"));
-					iP.setStoringSpace(findStoringSpace(resDepots.getString("storingspaceid")));
+					StoringSpace iPSpace = findStoringSpace(resIntermediateProducts.getString("storingSpaceId"));
+					if (iPSpace!=null){
+						iP.setStoringSpace(iPSpace);
+					}
 
+					iP.setFinished(resIntermediateProducts.getBoolean("finished"));
+					iP.setDiscarded(resIntermediateProducts.getBoolean("discarded"));
+					
 					Statement statementProcessLog = getConnection().createStatement();
 					ResultSet resProcessLog = statementProcessLog.executeQuery("SELECT * FROM getprocessLog where intermediateProduct='"+iP.getId()+"' order by startTime");
 
 					while (resProcessLog.next()){
 						Process process = iP.getProductType().getProcessLine().getProcesses().get(resProcessLog.getInt("processStep")-1);
-						iP.createProcessLog(process, findStoringSpace(resProcessLog.getString("storingSpace")));
+						ProcessLog pLog=iP.createProcessLog(process, findStoringSpace(resProcessLog.getString("storingSpace")));
+						pLog.setStartTime(resProcessLog.getLong("starttime"));
+						pLog.setEndTime(resProcessLog.getLong("endtime"));
 					}
 					intermediatateProducts.add(iP);
 
@@ -292,7 +300,7 @@ public class DaoMySql implements Dao{
 		private ProductType findProductType(String name){
 			ProductType found = null;
 			int i = 0;
-			while (found!=null && i<productType.size()){
+			while (found==null && i<productType.size()){
 				ProductType p = productType.get(i);
 
 				if (p.getName().equals(name)){
@@ -308,9 +316,9 @@ public class DaoMySql implements Dao{
 		private StoringSpace findStoringSpace(String name){
 			StoringSpace found = null;
 			int i = 0;
-			while (found!=null && i<depots.size()){
+			while (found==null && i<depots.size()){
 				int j = 0;
-				while(found!=null && i<depots.get(i).getStoringSpaces().size()){
+				while(found==null && j<depots.get(i).getStoringSpaces().size()){
 					StoringSpace s = depots.get(i).getStoringSpaces().get(j);
 
 					if (s.toString().equals(name)){
@@ -327,11 +335,10 @@ public class DaoMySql implements Dao{
 		private Drying findDrying(String processLine, int processStep){
 			Drying found = null;
 			int i = 0;
-			while (found!=null && i<productType.size()){
+			while (found==null && i<productType.size()){
 				int j = 0;
-
 				if (productType.get(i).getProcessLine().getName().equals(processLine)){
-					while(found!=null && i<productType.get(i).getProcessLine().getProcesses().size()){
+					while(found==null && j<productType.get(i).getProcessLine().getProcesses().size()){
 						Process p = productType.get(i).getProcessLine().getProcesses().get(j);
 
 						if (p.getProcessStep()==processStep){
