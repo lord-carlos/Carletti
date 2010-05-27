@@ -26,6 +26,10 @@ CREATE VIEW getprocesslog
 AS
 SELECT PLOG.startTime, PLOG.endTime, PLOG.storingSpace, PLOG.intermediateProduct, P.processStep, P.processLine FROM ProcessLog PLOG left join Process P on PLOG.process=P.id;
 
+CREATE VIEW getdepotdryingassociation
+AS
+SELECT D.depot, P.processStep, P.processLine FROM depotdryingassociation D left join process P on D.drying=P.id;
+
 
 CREATE PROCEDURE storedepot 
 (depotname VARCHAR(255), depotdescription TEXT, depotmaxx INT(11), depotmaxy INT(11))
@@ -114,5 +118,15 @@ SELECT id FROM process where processline=line and processstep=step INTO theproce
 		UPDATE processlog set storingspace=space,process=theprocess,endtime=endt where intermediateproduct=product and starttime=startt;
 	ELSE 
 		INSERT INTO processlog (starttime,endtime,process,storingspace,intermediateproduct) values (startt,endt,theprocess,space,product);
+	END IF;
+END;
+
+CREATE PROCEDURE storedepotdryingassociation
+(thedepot VARCHAR(255), line VARCHAR(255), step INT(11))
+BEGIN 
+DECLARE theprocess INT(11);
+SELECT id FROM process where processline=line and processstep=step INTO theprocess;
+	IF ((SELECT count(*) FROM depotdryingassociation where depot=thedepot and drying=theprocess)=0) THEN
+		INSERT INTO depotdryingassociation (depot,drying) values (thedepot,theprocess);
 	END IF;
 END;
