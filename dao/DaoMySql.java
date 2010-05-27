@@ -12,6 +12,7 @@ import model.Depot;
 import model.Drying;
 import model.IntermediateProduct;
 import model.Process;
+import model.ProcessLine;
 import model.ProductType;
 import model.StoringSpace;
 import model.SubProcess;
@@ -25,7 +26,6 @@ public class DaoMySql implements Dao{
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost/carletti", "root", "2495");	
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -36,7 +36,6 @@ public class DaoMySql implements Dao{
 				connection = DriverManager.getConnection("jdbc:mysql://localhost/carletti", "root", "2495");	
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 		return connection;
@@ -52,7 +51,6 @@ public class DaoMySql implements Dao{
 		try {
 			getConnection().close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -113,7 +111,6 @@ public class DaoMySql implements Dao{
 			}
 			statement.executeQuery("COMMIT");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -137,9 +134,10 @@ public class DaoMySql implements Dao{
 					intermediateProduct.getProductType().getName()+"', '"+
 					storingSpace+"')");
 
+			//TODO få store processlog til at virke
+
 			statement.executeQuery("COMMIT");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -166,6 +164,8 @@ public class DaoMySql implements Dao{
 							((Drying)process).getIdealTime()+", "+
 							((Drying)process).getMaxTime()+")");
 
+					//TODO få associationen mellem dryings og depoter til at virke
+
 				}
 				else {
 					statement.executeQuery("CALL storesubprocess("+process.getProcessStep()+", '"+
@@ -178,7 +178,6 @@ public class DaoMySql implements Dao{
 			}
 			statement.executeQuery("COMMIT");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -208,31 +207,95 @@ public class DaoMySql implements Dao{
 
 
 			try {
-				Statement statementDepots = getConnection().createStatement();
+				//producttyper
+				Statement statementTypes = getConnection().createStatement();
+				ResultSet resTypes = statementTypes.executeQuery("SELECT P.name,P.processine,P.picture,L.description FROM getproducttype P left join getprocessline L on P.name=L.producttype");
 
+				while (resTypes.next()){
+					ProductType p = new ProductType(resTypes.getString("name"));
+					productType.add(p);
+					p.setPicture(resTypes.getString("picture"));
+					ProcessLine l = new ProcessLine(resTypes.getString("processline"), resTypes.getString("description"), p);
+
+					Statement statementProcesses = getConnection().createStatement();
+					ResultSet resProcesses = statementProcesses.executeQuery("SELECT * FROM getprocesses where processline='"+l.getName()+"' order by processStep");
+
+					while (resProcesses.next()){
+						if (resProcesses.getString("pikachu")=="s"){
+							l.createSubProcess(resProcesses.getInt("processStep"), resProcesses.getString("name"), resProcesses.getString("description"), resProcesses.getLong("treatmentTime"), resProcesses.getDouble("temperature"));
+						} else if(resProcesses.getString("pikachu")=="d"){
+							l.createDrying(resProcesses.getInt("processStep"), resProcesses.getLong("minTime"), resProcesses.getLong("idealTime"), resProcesses.getLong("maxTime"));
+						}
+					}
+				}
+
+
+				//depoter
+				Statement statementDepots = getConnection().createStatement();
 				ResultSet resDepots = statementDepots.executeQuery("SELECT * FROM getdepots");
-				if(resDepots.next()) {
+				while (resDepots.next()) {
 					depots.add(new Depot(resDepots.getString("name"), resDepots.getString("description"), resDepots.getInt("maxx"), resDepots.getInt("maxy")));
 				}
 
+				//TODO få associationen mellem dryings og depoter til at virke
+
+
+				//mellemvare
 				Statement statementIntermediateProducts = getConnection().createStatement();
-
 				ResultSet resIntermediateProducts = statementIntermediateProducts.executeQuery("SELECT * FROM getintermediateproduct");
-				if(resIntermediateProducts.next()) {
+				while (resIntermediateProducts.next()) {
 
+					IntermediateProduct iP = new IntermediateProduct(resIntermediateProducts.getString("id"), findProductType(resIntermediateProducts.getString("productType")),resIntermediateProducts.getDouble("quantity"));
+					iP.setStoringSpace(findStoringSpace(resDepots.getString("storingspaceid")));
 
-					//IntermediateProduct intermediateProduct = new IntermediateProduct(resIntermediateProducts.getString("id"));
+					
+					
 				}
 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 
+		}
+
+		private ProductType findProductType(String name){
+			ProductType found = null;
+			int i = 0;
+			while (found!=null && i<productType.size()){
+				ProductType p = productType.get(i);
+
+				if (p.getName().equals(name)){
+					found=p;
+				} else {
+					i++;
+				}
+
+			}
+			return found;
+		}
+
+		private StoringSpace findStoringSpace(String name){
+			StoringSpace found = null;
+			int i = 0;
+			while (found!=null && i<depots.size()){
+				int j = 0;
+				while(found!=null && i<depots.get(i).getStoringSpaces().size()){
+					StoringSpace s = depots.get(i).getStoringSpaces().get(j);
+
+					if (s.toString().equals(name)){
+						found=s;
+					} else {
+						j++;
+					}
+				}
+				i++;
+
+
+			}
+			return found;
 		}
 
 		public ArrayList<Depot> getDepots(){
