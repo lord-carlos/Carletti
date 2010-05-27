@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class IntermediateProduct {
+	
 	private boolean finished = false;
 	private boolean discarded = false;
 	private String id;
@@ -282,5 +283,13 @@ public class IntermediateProduct {
 		else {
 			return false;
 		}
+	}
+	
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
+
+	public void setDiscarded(boolean discarded) {
+		this.discarded = discarded;
 	}
 }

@@ -83,7 +83,7 @@ CREATE PROCEDURE storeintermediateproduct
 (isfinished tinyint, isdiscarded tinyint, intermediateid VARCHAR(255), thequantity double, thetype VARCHAR(255),space VARCHAR(255))
 BEGIN 
 	IF ((SELECT count(*) FROM intermediateProduct  where id=intermediateid)>0) THEN
-		UPDATE intermediateproduct set finished=isfinished, discarded=isdiscarded, quantity=thequantity, producttype=thetype, storingspaceid=space;
+		UPDATE intermediateproduct set finished=isfinished, discarded=isdiscarded, quantity=thequantity, producttype=thetype, storingspaceid=space where id=intermediateid;
 	ELSE
 		INSERT INTO intermediateproduct (id,finished,discarded,quantity,producttype,storingspaceid) values (intermediateid,isfinished,isdiscarded,thequantity,thetype,space);
 	END IF;
@@ -95,7 +95,7 @@ BEGIN
 	IF ((SELECT count(*) FROM producttype where name=typename)>0) THEN
 		UPDATE producttype set processline=linename,picture=image where name=typename;
 	ELSE 
-		INSERT INTO producttype (name,processline,picture) values (typename,image,linename);
+		INSERT INTO producttype (name,processline,picture) values (typename,linename,image);
 	END IF;
 END;
 
