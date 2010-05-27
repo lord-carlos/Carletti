@@ -123,7 +123,7 @@ public class DaoMySql implements Dao{
 		try {
 			Statement statement = getConnection().createStatement();
 
-		//	statement.executeQuery("BEGIN TRANSACTION");
+			statement.executeQuery("BEGIN WORK");
 
 
 			statement.executeQuery("CALL storedepot('"+depot.getName()+"', '"+
@@ -138,7 +138,7 @@ public class DaoMySql implements Dao{
 						storingSpace.getPositionY()+", '"+
 						storingSpace.toString()+"')");
 			}
-		//	statement.executeQuery("COMMIT");
+			statement.executeQuery("COMMIT");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -150,7 +150,7 @@ public class DaoMySql implements Dao{
 		try {
 			Statement statement = getConnection().createStatement();
 
-		//	statement.executeQuery("BEGIN TRANSACTION");
+			statement.executeQuery("BEGIN WORK");
 
 			String storingSpace = null;
 			if (intermediateProduct.getStoringSpace() != null) {
@@ -164,7 +164,7 @@ public class DaoMySql implements Dao{
 					intermediateProduct.getProductType().getName()+"', '"+
 					storingSpace+"')");
 
-	//		statement.executeQuery("COMMIT");
+			statement.executeQuery("COMMIT");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -177,7 +177,7 @@ public class DaoMySql implements Dao{
 		try {
 			Statement statement = getConnection().createStatement();
 
-	//		statement.executeQuery("BEGIN TRANSACTION");
+			statement.executeQuery("BEGIN WORK");
 			statement.executeQuery("CALL storeproducttype('"+productType.getName()+"', '"+
 					productType.getProcessLine().getName()+"', '"+
 					productType.getPicture()+"')");			
@@ -203,7 +203,7 @@ public class DaoMySql implements Dao{
 							((SubProcess)process).getTreatmentTime()+")");
 				}
 			}
-	//		statement.executeQuery("COMMIT");
+			statement.executeQuery("COMMIT");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

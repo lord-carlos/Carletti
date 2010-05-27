@@ -192,7 +192,7 @@ public class Service {
 		createIntermediateProduct("024", pteChokoKaramelMoerk, 100);
 		createIntermediateProduct("025", pteChokoKaramelLys, 140);
 
-
+/*
 		for (int i = 0; i < 5; i++) {
 			getAllIntermediateProducts().get(i).sendToNextProcess(null);
 			getAllIntermediateProducts().get(i).sendToNextProcess(depot1.getStoringSpaces().get(i));
@@ -204,7 +204,7 @@ public class Service {
 			getAllIntermediateProducts().get(i).sendToNextProcess(depot2.getStoringSpaces().get(i-5));
 			StoreIntermediateProduct(getAllIntermediateProducts().get(i));
 		}
-		
+		*/
 
 	}
 
