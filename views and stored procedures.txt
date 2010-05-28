@@ -1,3 +1,8 @@
+#Når de stored procedures skal indlæses i en mysql, gennem for eksempel phpmyadmin, 
+#så skal dette gøres et af gangen og man skal huske at ændre adskilleren (DELIMTEREN) til noget andet end ;
+#som for eksempel til //
+ 
+
 CREATE VIEW getdepots
 AS
 SELECT * FROM Depot;
@@ -29,7 +34,6 @@ SELECT PLOG.startTime, PLOG.endTime, PLOG.storingSpace, PLOG.intermediateProduct
 CREATE VIEW getdepotdryingassociation
 AS
 SELECT D.depot, P.processStep, P.processLine FROM depotdryingassociation D left join process P on D.drying=P.id;
-
 
 CREATE PROCEDURE storedepot 
 (depotname VARCHAR(255), depotdescription TEXT, depotmaxx INT(11), depotmaxy INT(11))
